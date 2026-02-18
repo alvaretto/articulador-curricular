@@ -1,7 +1,7 @@
 {
   "name": "Articulador Curricular",
-  "short_name": "ICFES Saber",
-  "description": "Articulador curricular alineado a pruebas Saber ICFES. EBC, DBA, ICFES articulados. Funciona 100% offline.",
+  "short_name": "Articulador",
+  "description": "Articulador curricular colombiano. EBC, DBA e ICFES articulados. Progresión vertical, planes de periodo y simulacros Saber. 100% offline.",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#0e1018",
