@@ -1882,6 +1882,451 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 .icfes-justificacion summary {
   font-weight: 500;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   SIMULACRO ICFES
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Grid de tarjetas de seleccion */
+.simulacro-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--sp-4);
+  margin-top: var(--sp-4);
+}
+
+.simulacro-card {
+  cursor: pointer;
+  transition: all var(--dur-normal) var(--ease-out);
+}
+
+.simulacro-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md), var(--shadow-glow);
+  transform: translateY(-2px);
+}
+
+.simulacro-card-disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.simulacro-card-disabled:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--border-subtle);
+}
+
+.simulacro-card-icon {
+  font-size: 32px;
+  margin-bottom: var(--sp-3);
+}
+
+.simulacro-card-area {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--sp-1);
+}
+
+.simulacro-card-prueba {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--sp-3);
+}
+
+.simulacro-card-meta {
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.simulacro-unavail {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: var(--leading-loose);
+  margin-top: var(--sp-3);
+  font-style: italic;
+}
+
+/* Barra superior del simulacro activo */
+.simulacro-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-5);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  flex-wrap: wrap;
+}
+
+.simulacro-header-info {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.simulacro-header-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.simulacro-num {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Temporizador */
+.simulacro-timer {
+  font-family: var(--font-mono);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  background: var(--bg-overlay);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: var(--sp-1) var(--sp-3);
+  letter-spacing: 0.05em;
+  transition: color var(--dur-fast), background var(--dur-fast), border-color var(--dur-fast);
+}
+
+.simulacro-timer.urgente {
+  color: var(--danger);
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  animation: timer-pulse 1s ease-in-out infinite;
+}
+
+@keyframes timer-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.7; }
+}
+
+/* Barra de progreso */
+.simulacro-progress {
+  height: 4px;
+  background: var(--bg-overlay);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.simulacro-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-glow));
+  border-radius: 2px;
+  transition: width var(--dur-normal) var(--ease-out);
+}
+
+/* Tarjeta de pregunta */
+.simulacro-pregunta {
+  margin-top: 0;
+}
+
+.simulacro-enunciado {
+  font-size: var(--text-base);
+  line-height: var(--leading-loose);
+  color: var(--text-primary);
+  margin-bottom: var(--sp-5);
+  white-space: pre-line;
+}
+
+/* Opciones de respuesta */
+.simulacro-opciones {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.simulacro-opcion {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--bg-base);
+  border: 2px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease-out);
+  user-select: none;
+}
+
+.simulacro-opcion:hover {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.simulacro-opcion.selected {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.simulacro-opcion-letra {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bg-overlay);
+  border: 1px solid var(--border-default);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: all var(--dur-fast);
+}
+
+.simulacro-opcion.selected .simulacro-opcion-letra {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+.simulacro-opcion-texto {
+  font-size: var(--text-sm);
+  line-height: var(--leading-loose);
+  color: var(--text-secondary);
+}
+
+.simulacro-opcion.selected .simulacro-opcion-texto {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* Controles de navegacion */
+.simulacro-nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--sp-3);
+  padding-top: var(--sp-2);
+}
+
+/* Pantalla de resultados */
+.simulacro-resultados {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.simulacro-score-panel {
+  border-left: 4px solid var(--accent);
+}
+
+.simulacro-score-center {
+  text-align: center;
+  padding: var(--sp-4) 0;
+}
+
+.simulacro-score {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  font-weight: 800;
+  letter-spacing: var(--tracking-tight);
+  line-height: 1;
+  margin-bottom: var(--sp-2);
+}
+
+.simulacro-score-pct {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  margin-bottom: var(--sp-2);
+}
+
+.simulacro-score-meta {
+  margin-top: var(--sp-2);
+}
+
+/* Desglose por competencia */
+.simulacro-competencias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--sp-4);
+}
+
+.simulacro-comp-item {
+  padding: var(--sp-3);
+  background: var(--bg-base);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+}
+
+.simulacro-comp-nombre {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--sp-2);
+  text-transform: capitalize;
+}
+
+.simulacro-comp-barra-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-1);
+}
+
+.simulacro-comp-barra {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-overlay);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.simulacro-comp-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width var(--dur-slow) var(--ease-out);
+}
+
+.simulacro-comp-pct {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  min-width: 2.5em;
+  text-align: right;
+}
+
+/* Detalle por pregunta */
+.simulacro-detalle-item {
+  border-bottom: 1px solid var(--border-subtle);
+  padding: var(--sp-4) var(--sp-5);
+  transition: background var(--dur-fast);
+}
+
+.simulacro-detalle-item:last-child {
+  border-bottom: none;
+}
+
+.simulacro-detalle-item.simulacro-correcta {
+  border-left: 3px solid var(--success);
+}
+
+.simulacro-detalle-item.simulacro-incorrecta {
+  border-left: 3px solid var(--danger);
+}
+
+.simulacro-detalle-header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.simulacro-detalle-num {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--text-muted);
+  min-width: 1.5em;
+  margin-top: 2px;
+}
+
+.simulacro-mark {
+  font-size: var(--text-base);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.simulacro-detalle-item.simulacro-correcta .simulacro-mark {
+  color: var(--success);
+}
+
+.simulacro-detalle-item.simulacro-incorrecta .simulacro-mark {
+  color: var(--danger);
+}
+
+.simulacro-detalle-enunciado {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: var(--leading-normal);
+  flex: 1;
+  min-width: 0;
+}
+
+.simulacro-detalle-respuestas {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  padding: var(--sp-2) 0;
+  flex-wrap: wrap;
+}
+
+.simulacro-resp-incorrecta {
+  color: var(--danger);
+  background: rgba(239, 68, 68, 0.1);
+  padding: 2px var(--sp-2);
+  border-radius: var(--radius-full);
+}
+
+.simulacro-resp-correcta {
+  color: var(--success);
+  background: rgba(16, 185, 129, 0.1);
+  padding: 2px var(--sp-2);
+  border-radius: var(--radius-full);
+}
+
+.simulacro-justificacion summary {
+  font-weight: 500;
+}
+
+.simulacro-justif-texto {
+  line-height: var(--leading-loose);
+  padding: var(--sp-3) var(--sp-5) var(--sp-4);
+  border-top: 1px dashed var(--border-subtle);
+  margin-top: var(--sp-2);
+}
+
+/* Responsive simulacro */
+@media (max-width: 768px) {
+  .simulacro-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .simulacro-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .simulacro-header-controls {
+    justify-content: space-between;
+  }
+
+  .simulacro-score {
+    font-size: 3rem;
+  }
+
+  .simulacro-competencias-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .simulacro-detalle-header {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .simulacro-detalle-header .ml-auto {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .simulacro-timer {
+    font-size: var(--text-lg);
+  }
+
+  .simulacro-score {
+    font-size: 2.5rem;
+  }
+}
   </style>
 </head>
 <body data-area="matematicas">
@@ -7155,6 +7600,1170 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = { ICFES_LECTURA_CRITICA }
 }
 /**
+ * Marco de Referencia ICFES Saber - Ciencias Naturales
+ * Instituto Colombiano para la Evaluación de la Educación (ICFES)
+ *
+ * Fuente oficial: Matrices de Referencia y Especificaciones de Prueba
+ * Saber 3°, 5°, 9° y Saber 11° - ICFES Colombia
+ * Disponible en: https://www.icfes.gov.co/evaluaciones/pruebas-saber/marcos-de-referencia
+ *
+ * Estructura:
+ * - 3 competencias transversales a todas las pruebas
+ * - 3 componentes temáticos (Entorno Vivo, Entorno Físico, CTS)
+ * - 4 pruebas: Saber 3°, Saber 5°, Saber 9°, Saber 11°
+ * - Cada prueba incluye aprendizajes con evidencias y niveles de desempeño
+ */
+
+const ICFES_NATURALES = {
+  area: 'naturales',
+  nombre: 'Ciencias Naturales',
+
+  // Las 3 competencias evaluadas por ICFES en Ciencias Naturales
+  competencias: [
+    {
+      id: 'uso-conocimiento',
+      nombre: 'Uso comprensivo del conocimiento científico',
+      descripcion: 'Capacidad para comprender y usar conceptos, teorías y modelos de las ciencias naturales en la solución de problemas. Implica reconocer y diferenciar fenómenos, representaciones y preguntas propias de las ciencias naturales.',
+    },
+    {
+      id: 'explicacion',
+      nombre: 'Explicación de fenómenos',
+      descripcion: 'Capacidad para construir explicaciones y comprender argumentos y modelos que den razón de fenómenos naturales. Implica relacionar conceptos y conocimientos adquiridos con fenómenos que se observan con frecuencia.',
+    },
+    {
+      id: 'indagacion',
+      nombre: 'Indagación',
+      descripcion: 'Capacidad para plantear preguntas y procedimientos adecuados para buscar, seleccionar, organizar e interpretar información relevante para dar respuesta a esas preguntas. Incluye formular hipótesis, diseñar experimentos y analizar resultados.',
+    },
+  ],
+
+  // Los 3 componentes evaluados
+  componentes: [
+    {
+      id: 'entorno-vivo',
+      nombre: 'Entorno vivo',
+      descripcion: 'Abarca el estudio de los seres vivos: su organización celular, funciones vitales (nutrición, reproducción, excreción), relaciones ecológicas, biodiversidad, herencia y evolución. Incluye la comprensión de ecosistemas y las interacciones entre los organismos y su ambiente.',
+    },
+    {
+      id: 'entorno-fisico',
+      nombre: 'Entorno físico',
+      descripcion: 'Abarca fenómenos físicos y químicos: propiedades de la materia, mezclas y sustancias puras, reacciones químicas, transformación y conservación de la energía, movimiento, fuerza, ondas, electricidad y magnetismo. Incluye también el conocimiento del universo y la Tierra.',
+    },
+    {
+      id: 'cts',
+      nombre: 'Ciencia, tecnología y sociedad',
+      descripcion: 'Abarca las relaciones entre el conocimiento científico, el desarrollo tecnológico y sus implicaciones sociales y ambientales. Incluye la reflexión sobre el papel de la ciencia en la sociedad, la ética en la investigación y el uso responsable de los recursos naturales.',
+    },
+  ],
+
+  // Pruebas por nivel
+  pruebas: {
+
+    // =========================================================
+    // SABER 3°
+    // =========================================================
+    'saber-3': {
+      nombre: 'Saber 3°',
+      grados: ['3'],
+
+      aprendizajes: [
+        {
+          id: 'nat-s3-01',
+          enunciado: 'Reconoce características de los seres vivos y los diferencia de los objetos sin vida usando criterios observables.',
+          competencia: 'uso-conocimiento',
+          componente: 'entorno-vivo',
+          evidencias: [
+            { id: 'nat-s3-01-e1', enunciado: 'Identifica características de los seres vivos: crecer, reproducirse, alimentarse y responder al entorno.' },
+            { id: 'nat-s3-01-e2', enunciado: 'Clasifica objetos y organismos usando criterios como vivo o no vivo, con o sin movimiento propio.' },
+            { id: 'nat-s3-01-e3', enunciado: 'Describe cambios que experimentan los seres vivos a lo largo de su ciclo de vida.' },
+          ],
+        },
+        {
+          id: 'nat-s3-02',
+          enunciado: 'Describe las funciones básicas de los seres vivos (nutrición, reproducción, relación) en animales y plantas del entorno.',
+          competencia: 'explicacion',
+          componente: 'entorno-vivo',
+          evidencias: [
+            { id: 'nat-s3-02-e1', enunciado: 'Explica cómo se alimentan y reproducen algunos animales de su entorno.' },
+            { id: 'nat-s3-02-e2', enunciado: 'Describe la función de las partes de una planta (raíz, tallo, hojas, flor, fruto).' },
+          ],
+        },
+        {
+          id: 'nat-s3-03',
+          enunciado: 'Identifica propiedades de los materiales (dureza, color, textura, flexibilidad) y los agrupa según sus características.',
+          competencia: 'uso-conocimiento',
+          componente: 'entorno-fisico',
+          evidencias: [
+            { id: 'nat-s3-03-e1', enunciado: 'Observa y describe propiedades de materiales del entorno cotidiano.' },
+            { id: 'nat-s3-03-e2', enunciado: 'Agrupa materiales según propiedades comunes y justifica el criterio de clasificación.' },
+          ],
+        },
+        {
+          id: 'nat-s3-04',
+          enunciado: 'Describe cambios observables en los materiales cuando se mezclan, calientan o enfrían.',
+          competencia: 'explicacion',
+          componente: 'entorno-fisico',
+          evidencias: [
+            { id: 'nat-s3-04-e1', enunciado: 'Observa y describe qué sucede cuando se mezclan agua con sal o agua con aceite.' },
+            { id: 'nat-s3-04-e2', enunciado: 'Reconoce cambios de estado (sólido, líquido, gaseoso) en situaciones cotidianas.' },
+          ],
+        },
+        {
+          id: 'nat-s3-05',
+          enunciado: 'Formula preguntas sobre fenómenos naturales observables y propone formas sencillas de explorarlos.',
+          competencia: 'indagacion',
+          componente: 'cts',
+          evidencias: [
+            { id: 'nat-s3-05-e1', enunciado: 'Plantea preguntas que pueden responderse mediante observación o experimentación simple.' },
+            { id: 'nat-s3-05-e2', enunciado: 'Propone pasos sencillos para responder una pregunta sobre el mundo natural.' },
+          ],
+        },
+        {
+          id: 'nat-s3-06',
+          enunciado: 'Reconoce prácticas cotidianas que protegen o deterioran el ambiente y los seres vivos del entorno cercano.',
+          competencia: 'uso-conocimiento',
+          componente: 'cts',
+          evidencias: [
+            { id: 'nat-s3-06-e1', enunciado: 'Identifica acciones humanas que contaminan el agua, el suelo o el aire.' },
+            { id: 'nat-s3-06-e2', enunciado: 'Propone acciones concretas para cuidar los recursos naturales de su entorno.' },
+          ],
+        },
+      ],
+
+      niveles: [
+        {
+          nombre: 'Insuficiente',
+          rango: [100, 226],
+          color: '#ef4444',
+          descripcion: 'El estudiante no supera las preguntas de menor complejidad. No diferencia seres vivos de objetos inertes ni identifica propiedades básicas de los materiales.',
+          aprendizajesEsperados: [],
+        },
+        {
+          nombre: 'Mínimo',
+          rango: [226, 295],
+          color: '#f59e0b',
+          descripcion: 'El estudiante reconoce características de los seres vivos, identifica propiedades observables de los materiales y distingue entre prácticas que cuidan o deterioran el ambiente.',
+          aprendizajesEsperados: ['nat-s3-01', 'nat-s3-03', 'nat-s3-06'],
+        },
+        {
+          nombre: 'Satisfactorio',
+          rango: [295, 380],
+          color: '#22c55e',
+          descripcion: 'El estudiante describe funciones de los seres vivos, explica cambios en los materiales y formula preguntas simples sobre fenómenos naturales.',
+          aprendizajesEsperados: ['nat-s3-01', 'nat-s3-02', 'nat-s3-03', 'nat-s3-04', 'nat-s3-06'],
+        },
+        {
+          nombre: 'Avanzado',
+          rango: [380, 500],
+          color: '#3b82f6',
+          descripcion: 'El estudiante clasifica organismos y materiales usando múltiples criterios, explica cambios de estado, propone formas de explorar preguntas científicas y argumenta sobre el cuidado del ambiente.',
+          aprendizajesEsperados: ['nat-s3-01', 'nat-s3-02', 'nat-s3-03', 'nat-s3-04', 'nat-s3-05', 'nat-s3-06'],
+        },
+      ],
+    },
+
+    // =========================================================
+    // SABER 5°
+    // =========================================================
+    'saber-5': {
+      nombre: 'Saber 5°',
+      grados: ['5'],
+
+      aprendizajes: [
+        {
+          id: 'nat-s5-01',
+          enunciado: 'Explica las funciones de los sistemas del cuerpo humano (digestivo, respiratorio, circulatorio, excretor) y las relaciones entre ellos.',
+          competencia: 'uso-conocimiento',
+          componente: 'entorno-vivo',
+          evidencias: [
+            { id: 'nat-s5-01-e1', enunciado: 'Describe el recorrido de los alimentos en el sistema digestivo e identifica los órganos involucrados.' },
+            { id: 'nat-s5-01-e2', enunciado: 'Explica cómo el sistema circulatorio transporta nutrientes y oxígeno a las células.' },
+            { id: 'nat-s5-01-e3', enunciado: 'Establece relaciones entre los sistemas del cuerpo para mantener el equilibrio interno.' },
+          ],
+        },
+        {
+          id: 'nat-s5-02',
+          enunciado: 'Describe las relaciones entre los seres vivos en un ecosistema (cadenas y redes tróficas, depredación, simbiosis) y las relaciona con el equilibrio ecológico.',
+          competencia: 'explicacion',
+          componente: 'entorno-vivo',
+          evidencias: [
+            { id: 'nat-s5-02-e1', enunciado: 'Construye cadenas alimentarias identificando productores, consumidores y descomponedores.' },
+            { id: 'nat-s5-02-e2', enunciado: 'Explica qué sucede en un ecosistema cuando desaparece uno de sus organismos.' },
+          ],
+        },
+        {
+          id: 'nat-s5-03',
+          enunciado: 'Identifica y clasifica mezclas y sustancias puras, y describe métodos para separar mezclas.',
+          competencia: 'uso-conocimiento',
+          componente: 'entorno-fisico',
+          evidencias: [
+            { id: 'nat-s5-03-e1', enunciado: 'Diferencia entre mezclas homogéneas y heterogéneas con ejemplos del entorno.' },
+            { id: 'nat-s5-03-e2', enunciado: 'Selecciona el método de separación adecuado (filtración, decantación, evaporación) según el tipo de mezcla.' },
+            { id: 'nat-s5-03-e3', enunciado: 'Relaciona las propiedades de los materiales con los métodos usados para separarlos.' },
+          ],
+        },
+        {
+          id: 'nat-s5-04',
+          enunciado: 'Describe las transformaciones de la energía en sistemas cotidianos y reconoce que la energía se conserva aunque cambie de forma.',
+          competencia: 'explicacion',
+          componente: 'entorno-fisico',
+          evidencias: [
+            { id: 'nat-s5-04-e1', enunciado: 'Identifica transformaciones de energía en dispositivos cotidianos (bombilla, estufa, bicicleta).' },
+            { id: 'nat-s5-04-e2', enunciado: 'Explica que la energía no se crea ni se destruye, sino que se transforma.' },
+          ],
+        },
+        {
+          id: 'nat-s5-05',
+          enunciado: 'Describe el movimiento de los cuerpos usando conceptos de velocidad, dirección y trayectoria.',
+          competencia: 'uso-conocimiento',
+          componente: 'entorno-fisico',
+          evidencias: [
+            { id: 'nat-s5-05-e1', enunciado: 'Describe el movimiento de un objeto indicando su velocidad y dirección.' },
+            { id: 'nat-s5-05-e2', enunciado: 'Compara movimientos de diferentes cuerpos y los clasifica como rápidos o lentos, rectilíneos o curvos.' },
+          ],
+        },
+        {
+          id: 'nat-s5-06',
+          enunciado: 'Diseña y realiza observaciones sistemáticas y experimentos sencillos para responder preguntas sobre fenómenos naturales.',
+          competencia: 'indagacion',
+          componente: 'cts',
+          evidencias: [
+            { id: 'nat-s5-06-e1', enunciado: 'Formula una hipótesis comprobable sobre un fenómeno natural observado.' },
+            { id: 'nat-s5-06-e2', enunciado: 'Registra datos de una observación o experimento usando tablas sencillas.' },
+            { id: 'nat-s5-06-e3', enunciado: 'Saca conclusiones a partir de los datos recolectados y las compara con su hipótesis.' },
+          ],
+        },
+        {
+          id: 'nat-s5-07',
+          enunciado: 'Analiza el impacto de las actividades humanas en los ecosistemas y propone acciones para reducirlo.',
+          competencia: 'indagacion',
+          componente: 'cts',
+          evidencias: [
+            { id: 'nat-s5-07-e1', enunciado: 'Identifica consecuencias de la deforestación, la contaminación del agua y la caza indiscriminada.' },
+            { id: 'nat-s5-07-e2', enunciado: 'Propone medidas concretas para mitigar el impacto ambiental de las actividades humanas.' },
+          ],
+        },
+        {
+          id: 'nat-s5-08',
+          enunciado: 'Reconoce la importancia de los avances científicos y tecnológicos en el mejoramiento de la calidad de vida y sus posibles efectos negativos.',
+          competencia: 'uso-conocimiento',
+          componente: 'cts',
+          evidencias: [
+            { id: 'nat-s5-08-e1', enunciado: 'Identifica inventos o descubrimientos científicos que han mejorado la salud o la alimentación humana.' },
+            { id: 'nat-s5-08-e2', enunciado: 'Reconoce efectos negativos de algunas tecnologías sobre el medio ambiente.' },
+          ],
+        },
+      ],
+
+      niveles: [
+        {
+          nombre: 'Insuficiente',
+          rango: [100, 226],
+          color: '#ef4444',
+          descripcion: 'El estudiante no supera las preguntas de menor complejidad. No identifica los órganos del cuerpo humano ni clasifica mezclas por sus propiedades.',
+          aprendizajesEsperados: [],
+        },
+        {
+          nombre: 'Mínimo',
+          rango: [226, 295],
+          color: '#f59e0b',
+          descripcion: 'El estudiante describe funciones básicas de los sistemas del cuerpo, construye cadenas alimentarias sencillas y diferencia mezclas homogéneas de heterogéneas.',
+          aprendizajesEsperados: ['nat-s5-01', 'nat-s5-02', 'nat-s5-03'],
+        },
+        {
+          nombre: 'Satisfactorio',
+          rango: [295, 380],
+          color: '#22c55e',
+          descripcion: 'El estudiante explica relaciones entre sistemas del cuerpo humano, identifica transformaciones de energía, selecciona métodos de separación de mezclas y formula hipótesis simples.',
+          aprendizajesEsperados: ['nat-s5-01', 'nat-s5-02', 'nat-s5-03', 'nat-s5-04', 'nat-s5-06', 'nat-s5-07'],
+        },
+        {
+          nombre: 'Avanzado',
+          rango: [380, 500],
+          color: '#3b82f6',
+          descripcion: 'El estudiante explica el equilibrio ecosistémico, describe transformaciones de energía, diseña experimentos para comprobar hipótesis y analiza críticamente el impacto de la tecnología en el ambiente.',
+          aprendizajesEsperados: ['nat-s5-01', 'nat-s5-02', 'nat-s5-03', 'nat-s5-04', 'nat-s5-05', 'nat-s5-06', 'nat-s5-07', 'nat-s5-08'],
+        },
+      ],
+    },
+
+    // =========================================================
+    // SABER 9°
+    // =========================================================
+    'saber-9': {
+      nombre: 'Saber 9°',
+      grados: ['6', '7', '8', '9'],
+
+      aprendizajes: [
+        {
+          id: 'nat-s9-01',
+          enunciado: 'Analiza la estructura y función de los niveles de organización biológica, desde la célula hasta el ecosistema.',
+          competencia: 'uso-conocimiento',
+          componente: 'entorno-vivo',
+          evidencias: [
+            { id: 'nat-s9-01-e1', enunciado: 'Describe las funciones de los organelos celulares y los relaciona con las funciones vitales de la célula.' },
+            { id: 'nat-s9-01-e2', enunciado: 'Establece diferencias entre células procariotas y eucariotas, y entre células animales y vegetales.' },
+            { id: 'nat-s9-01-e3', enunciado: 'Explica cómo se integran célula, tejido, órgano, sistema y organismo en la organización de los seres vivos.' },
+          ],
+        },
+        {
+          id: 'nat-s9-02',
+          enunciado: 'Explica los mecanismos de herencia genética y los relaciona con la variabilidad de los seres vivos.',
+          competencia: 'explicacion',
+          componente: 'entorno-vivo',
+          evidencias: [
+            { id: 'nat-s9-02-e1', enunciado: 'Describe el papel del ADN como portador de la información genética.' },
+            { id: 'nat-s9-02-e2', enunciado: 'Aplica las leyes de Mendel para predecir la probabilidad de que un rasgo aparezca en la descendencia.' },
+            { id: 'nat-s9-02-e3', enunciado: 'Diferencia entre mutación, variabilidad genética y adaptación en el contexto de la evolución.' },
+          ],
+        },
+        {
+          id: 'nat-s9-03',
+          enunciado: 'Describe y compara los procesos de fotosíntesis y respiración celular como transformaciones de energía en los seres vivos.',
+          competencia: 'uso-conocimiento',
+          componente: 'entorno-vivo',
+          evidencias: [
+            { id: 'nat-s9-03-e1', enunciado: 'Explica la fotosíntesis como proceso de captación de energía solar y producción de materia orgánica.' },
+            { id: 'nat-s9-03-e2', enunciado: 'Describe la respiración celular como proceso de obtención de energía a partir de la glucosa.' },
+          ],
+        },
+        {
+          id: 'nat-s9-04',
+          enunciado: 'Explica fenómenos relacionados con la transformación y conservación de la energía en sistemas físicos.',
+          competencia: 'explicacion',
+          componente: 'entorno-fisico',
+          evidencias: [
+            { id: 'nat-s9-04-e1', enunciado: 'Aplica la ley de conservación de la energía a situaciones cotidianas (caída libre, resortes, circuitos eléctricos).' },
+            { id: 'nat-s9-04-e2', enunciado: 'Diferencia entre energía cinética y energía potencial e identifica conversiones entre ellas.' },
+            { id: 'nat-s9-04-e3', enunciado: 'Explica el papel del calor como forma de transferencia de energía entre sistemas.' },
+          ],
+        },
+        {
+          id: 'nat-s9-05',
+          enunciado: 'Describe las propiedades de las ondas y explica fenómenos cotidianos de luz y sonido.',
+          competencia: 'uso-conocimiento',
+          componente: 'entorno-fisico',
+          evidencias: [
+            { id: 'nat-s9-05-e1', enunciado: 'Identifica las características de las ondas: amplitud, frecuencia, longitud de onda y velocidad.' },
+            { id: 'nat-s9-05-e2', enunciado: 'Explica fenómenos como la reflexión, la refracción y la difracción de la luz con ejemplos del entorno.' },
+          ],
+        },
+        {
+          id: 'nat-s9-06',
+          enunciado: 'Explica la estructura de la materia usando modelos atómicos y describe los tipos de enlace químico.',
+          competencia: 'uso-conocimiento',
+          componente: 'entorno-fisico',
+          evidencias: [
+            { id: 'nat-s9-06-e1', enunciado: 'Describe la evolución de los modelos atómicos y sus aportes al conocimiento de la materia.' },
+            { id: 'nat-s9-06-e2', enunciado: 'Diferencia compuestos iónicos y covalentes por sus propiedades y tipos de enlace.' },
+            { id: 'nat-s9-06-e3', enunciado: 'Usa la tabla periódica para clasificar elementos y predecir propiedades de compuestos simples.' },
+          ],
+        },
+        {
+          id: 'nat-s9-07',
+          enunciado: 'Reconoce y describe reacciones químicas identificando reactivos, productos, tipos de reacción y factores que afectan la velocidad.',
+          competencia: 'explicacion',
+          componente: 'entorno-fisico',
+          evidencias: [
+            { id: 'nat-s9-07-e1', enunciado: 'Identifica reactivos y productos en ecuaciones químicas sencillas y las balancea por tanteo.' },
+            { id: 'nat-s9-07-e2', enunciado: 'Clasifica reacciones químicas (síntesis, descomposición, sustitución, doble sustitución) con ejemplos.' },
+          ],
+        },
+        {
+          id: 'nat-s9-08',
+          enunciado: 'Diseña experimentos para verificar hipótesis sobre fenómenos naturales, controla variables y analiza resultados.',
+          competencia: 'indagacion',
+          componente: 'cts',
+          evidencias: [
+            { id: 'nat-s9-08-e1', enunciado: 'Formula hipótesis verificables e identifica las variables independiente, dependiente y de control.' },
+            { id: 'nat-s9-08-e2', enunciado: 'Diseña un procedimiento experimental coherente para probar una hipótesis.' },
+            { id: 'nat-s9-08-e3', enunciado: 'Analiza datos experimentales, saca conclusiones y evalúa si la hipótesis fue confirmada o refutada.' },
+          ],
+        },
+        {
+          id: 'nat-s9-09',
+          enunciado: 'Evalúa el impacto de los avances científicos y tecnológicos en el ambiente, la salud y la sociedad, reconociendo dilemas éticos.',
+          competencia: 'indagacion',
+          componente: 'cts',
+          evidencias: [
+            { id: 'nat-s9-09-e1', enunciado: 'Analiza ventajas y desventajas de aplicaciones tecnológicas como los transgénicos, las energías alternativas o los antibióticos.' },
+            { id: 'nat-s9-09-e2', enunciado: 'Reconoce dilemas éticos en la investigación científica y los argumenta desde diferentes perspectivas.' },
+          ],
+        },
+        {
+          id: 'nat-s9-10',
+          enunciado: 'Analiza problemas ambientales globales (cambio climático, pérdida de biodiversidad, contaminación) y propone soluciones fundamentadas.',
+          competencia: 'indagacion',
+          componente: 'cts',
+          evidencias: [
+            { id: 'nat-s9-10-e1', enunciado: 'Explica las causas y consecuencias del cambio climático usando conceptos científicos.' },
+            { id: 'nat-s9-10-e2', enunciado: 'Propone acciones individuales y colectivas para mitigar problemas ambientales globales y las sustenta con evidencia.' },
+          ],
+        },
+      ],
+
+      niveles: [
+        {
+          nombre: 'Insuficiente',
+          rango: [100, 226],
+          color: '#ef4444',
+          descripcion: 'El estudiante no supera las preguntas de menor complejidad. No describe la función de los organelos celulares ni identifica los reactivos y productos en una reacción química simple.',
+          aprendizajesEsperados: [],
+        },
+        {
+          nombre: 'Mínimo',
+          rango: [226, 295],
+          color: '#f59e0b',
+          descripcion: 'El estudiante describe la organización celular, diferencia fotosíntesis y respiración, identifica transformaciones de energía en situaciones simples y clasifica reacciones químicas básicas.',
+          aprendizajesEsperados: ['nat-s9-01', 'nat-s9-03', 'nat-s9-04', 'nat-s9-07'],
+        },
+        {
+          nombre: 'Satisfactorio',
+          rango: [295, 380],
+          color: '#22c55e',
+          descripcion: 'El estudiante aplica las leyes de Mendel, explica fenómenos de luz y sonido, describe la estructura atómica, diseña experimentos controlados y analiza el impacto de la tecnología en la sociedad.',
+          aprendizajesEsperados: ['nat-s9-01', 'nat-s9-02', 'nat-s9-03', 'nat-s9-04', 'nat-s9-05', 'nat-s9-07', 'nat-s9-08', 'nat-s9-09'],
+        },
+        {
+          nombre: 'Avanzado',
+          rango: [380, 500],
+          color: '#3b82f6',
+          descripcion: 'El estudiante explica mecanismos de herencia y evolución, usa la tabla periódica para predecir propiedades, balancea ecuaciones químicas, evalúa críticamente dilemas éticos científicos y propone soluciones argumentadas a problemas ambientales globales.',
+          aprendizajesEsperados: ['nat-s9-01', 'nat-s9-02', 'nat-s9-03', 'nat-s9-04', 'nat-s9-05', 'nat-s9-06', 'nat-s9-07', 'nat-s9-08', 'nat-s9-09', 'nat-s9-10'],
+        },
+      ],
+    },
+
+    // =========================================================
+    // SABER 11°
+    // =========================================================
+    'saber-11': {
+      nombre: 'Saber 11°',
+      grados: ['10', '11'],
+
+      aprendizajes: [
+        {
+          id: 'nat-s11-01',
+          enunciado: 'Explica los mecanismos de regulación génica y su relación con la expresión del fenotipo en condiciones normales y patológicas.',
+          competencia: 'uso-conocimiento',
+          componente: 'entorno-vivo',
+          evidencias: [
+            { id: 'nat-s11-01-e1', enunciado: 'Describe el proceso de transcripción y traducción del ADN y su relación con la síntesis de proteínas.' },
+            { id: 'nat-s11-01-e2', enunciado: 'Explica cómo las mutaciones génicas pueden causar enfermedades hereditarias.' },
+            { id: 'nat-s11-01-e3', enunciado: 'Relaciona la regulación génica con procesos de diferenciación celular y desarrollo embrionario.' },
+          ],
+        },
+        {
+          id: 'nat-s11-02',
+          enunciado: 'Analiza los mecanismos evolutivos (selección natural, deriva génica, flujo génico) y los usa para explicar la biodiversidad actual.',
+          competencia: 'explicacion',
+          componente: 'entorno-vivo',
+          evidencias: [
+            { id: 'nat-s11-02-e1', enunciado: 'Explica cómo la selección natural actúa sobre la variación genética en una población.' },
+            { id: 'nat-s11-02-e2', enunciado: 'Interpreta árboles filogenéticos para establecer relaciones evolutivas entre organismos.' },
+          ],
+        },
+        {
+          id: 'nat-s11-03',
+          enunciado: 'Aplica los principios de la termodinámica para analizar transformaciones de energía en sistemas biológicos y físicos.',
+          competencia: 'uso-conocimiento',
+          componente: 'entorno-fisico',
+          evidencias: [
+            { id: 'nat-s11-03-e1', enunciado: 'Aplica el primer principio de la termodinámica (conservación de energía) en situaciones concretas.' },
+            { id: 'nat-s11-03-e2', enunciado: 'Explica el segundo principio de la termodinámica en términos de entropía y dirección de los procesos espontáneos.' },
+            { id: 'nat-s11-03-e3', enunciado: 'Calcula trabajo y calor en ciclos termodinámicos sencillos.' },
+          ],
+        },
+        {
+          id: 'nat-s11-04',
+          enunciado: 'Explica fenómenos eléctricos y magnéticos usando los conceptos de campo eléctrico, campo magnético y fuerza electromagnética.',
+          competencia: 'explicacion',
+          componente: 'entorno-fisico',
+          evidencias: [
+            { id: 'nat-s11-04-e1', enunciado: 'Describe el campo eléctrico generado por cargas eléctricas y calcula la fuerza entre ellas usando la ley de Coulomb.' },
+            { id: 'nat-s11-04-e2', enunciado: 'Explica el electromagnetismo y sus aplicaciones (motores, generadores, transformadores).' },
+          ],
+        },
+        {
+          id: 'nat-s11-05',
+          enunciado: 'Describe los equilibrios químicos y los factores que los modifican, y los relaciona con procesos industriales y biológicos.',
+          competencia: 'uso-conocimiento',
+          componente: 'entorno-fisico',
+          evidencias: [
+            { id: 'nat-s11-05-e1', enunciado: 'Aplica el principio de Le Chatelier para predecir el efecto de cambios en concentración, temperatura o presión sobre un equilibrio.' },
+            { id: 'nat-s11-05-e2', enunciado: 'Relaciona conceptos de pH, ácidos, bases y soluciones tampón con procesos biológicos (digestión, respiración).' },
+            { id: 'nat-s11-05-e3', enunciado: 'Describe procesos industriales que usan el equilibrio químico, como la síntesis del amoníaco (proceso Haber).' },
+          ],
+        },
+        {
+          id: 'nat-s11-06',
+          enunciado: 'Diseña y evalúa investigaciones científicas, identificando fuentes de error y limitaciones metodológicas.',
+          competencia: 'indagacion',
+          componente: 'cts',
+          evidencias: [
+            { id: 'nat-s11-06-e1', enunciado: 'Formula preguntas de investigación y diseña metodologías que permitan responderlas con rigor.' },
+            { id: 'nat-s11-06-e2', enunciado: 'Identifica fuentes de error sistemático y aleatorio en un experimento y propone correcciones.' },
+            { id: 'nat-s11-06-e3', enunciado: 'Evalúa la validez y confiabilidad de resultados experimentales y discute sus limitaciones.' },
+          ],
+        },
+        {
+          id: 'nat-s11-07',
+          enunciado: 'Analiza críticamente la relación entre ciencia, tecnología, sociedad y ambiente en el contexto de problemas globales contemporáneos.',
+          competencia: 'indagacion',
+          componente: 'cts',
+          evidencias: [
+            { id: 'nat-s11-07-e1', enunciado: 'Evalúa las implicaciones éticas, sociales y ambientales de tecnologías emergentes (biotecnología, nanotecnología, energía nuclear).' },
+            { id: 'nat-s11-07-e2', enunciado: 'Argumenta posiciones sobre problemas científico-ambientales globales usando evidencia y múltiples perspectivas.' },
+          ],
+        },
+        {
+          id: 'nat-s11-08',
+          enunciado: 'Interpreta datos experimentales usando herramientas estadísticas y matemáticas, y construye modelos que expliquen fenómenos naturales.',
+          competencia: 'indagacion',
+          componente: 'cts',
+          evidencias: [
+            { id: 'nat-s11-08-e1', enunciado: 'Representa e interpreta datos experimentales usando gráficas, tablas y medidas estadísticas.' },
+            { id: 'nat-s11-08-e2', enunciado: 'Construye modelos matemáticos o conceptuales para explicar y predecir fenómenos naturales.' },
+          ],
+        },
+        {
+          id: 'nat-s11-09',
+          enunciado: 'Explica la estructura y evolución del universo, el sistema solar y los fenómenos geológicos de la Tierra.',
+          competencia: 'uso-conocimiento',
+          componente: 'entorno-fisico',
+          evidencias: [
+            { id: 'nat-s11-09-e1', enunciado: 'Describe las etapas de formación y evolución del universo desde el Big Bang hasta la actualidad.' },
+            { id: 'nat-s11-09-e2', enunciado: 'Explica fenómenos geológicos (tectónica de placas, terremotos, vulcanismo) usando modelos científicos.' },
+          ],
+        },
+        {
+          id: 'nat-s11-10',
+          enunciado: 'Analiza las interacciones entre los ciclos biogeoquímicos (carbono, nitrógeno, agua) y los efectos del cambio climático sobre los ecosistemas.',
+          competencia: 'explicacion',
+          componente: 'entorno-vivo',
+          evidencias: [
+            { id: 'nat-s11-10-e1', enunciado: 'Describe los ciclos del carbono, nitrógeno y agua, y su importancia para el mantenimiento de los ecosistemas.' },
+            { id: 'nat-s11-10-e2', enunciado: 'Explica cómo la alteración de los ciclos biogeoquímicos por actividades humanas contribuye al cambio climático.' },
+          ],
+        },
+      ],
+
+      niveles: [
+        {
+          nombre: 'Insuficiente',
+          rango: [0, 35],
+          color: '#ef4444',
+          descripcion: 'El estudiante no supera las preguntas de menor complejidad. No describe la síntesis de proteínas ni identifica transformaciones de energía en sistemas termodinámicos simples.',
+          aprendizajesEsperados: [],
+        },
+        {
+          nombre: 'Mínimo',
+          rango: [36, 50],
+          color: '#f59e0b',
+          descripcion: 'El estudiante describe procesos de transcripción y traducción, aplica la conservación de energía en situaciones directas y reconoce factores que afectan los equilibrios químicos.',
+          aprendizajesEsperados: ['nat-s11-01', 'nat-s11-03', 'nat-s11-05'],
+        },
+        {
+          nombre: 'Satisfactorio',
+          rango: [51, 70],
+          color: '#22c55e',
+          descripcion: 'El estudiante explica mecanismos evolutivos, aplica principios termodinámicos, describe fenómenos electromagnéticos, diseña investigaciones científicas y analiza implicaciones éticas de la tecnología.',
+          aprendizajesEsperados: ['nat-s11-01', 'nat-s11-02', 'nat-s11-03', 'nat-s11-04', 'nat-s11-05', 'nat-s11-06', 'nat-s11-07'],
+        },
+        {
+          nombre: 'Avanzado',
+          rango: [71, 100],
+          color: '#3b82f6',
+          descripcion: 'El estudiante integra conceptos de genética, evolución, termodinámica y química para explicar sistemas complejos. Interpreta datos con herramientas estadísticas, explica la evolución del universo y analiza críticamente los efectos del cambio climático sobre los ciclos biogeoquímicos.',
+          aprendizajesEsperados: ['nat-s11-01', 'nat-s11-02', 'nat-s11-03', 'nat-s11-04', 'nat-s11-05', 'nat-s11-06', 'nat-s11-07', 'nat-s11-08', 'nat-s11-09', 'nat-s11-10'],
+        },
+      ],
+    },
+  },
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { ICFES_NATURALES }
+}
+/**
+ * Marco de Referencia ICFES Saber - Ciencias Sociales y Competencias Ciudadanas
+ * Instituto Colombiano para la Evaluación de la Educación (ICFES)
+ *
+ * Fuente oficial: Matrices de Referencia y Especificaciones de Prueba
+ * Saber 3°, 5°, 9° y Saber 11° - ICFES Colombia
+ * Disponible en: https://www.icfes.gov.co/evaluaciones/pruebas-saber/marcos-de-referencia
+ *
+ * Estructura:
+ * - 3 competencias transversales a todas las pruebas
+ * - 3 componentes temáticos (Conocimientos sociales, Argumentación, Multiperspectividad)
+ * - 4 pruebas: Saber 3°, Saber 5°, Saber 9°, Saber 11°
+ * - Cada prueba incluye aprendizajes con evidencias y niveles de desempeño
+ */
+
+const ICFES_SOCIALES = {
+  area: 'sociales',
+  nombre: 'Ciencias Sociales y Competencias Ciudadanas',
+
+  // Las 3 competencias evaluadas por ICFES en Ciencias Sociales
+  competencias: [
+    {
+      id: 'pensamiento-social',
+      nombre: 'Pensamiento social',
+      descripcion: 'Capacidad para reconocer, usar y aplicar conceptos y teorías de las ciencias sociales en el análisis de fenómenos históricos, geográficos, políticos y culturales. Implica comprender las causas y consecuencias de los procesos sociales.',
+    },
+    {
+      id: 'interpretacion',
+      nombre: 'Interpretación y análisis de perspectivas',
+      descripcion: 'Capacidad para interpretar situaciones y problemáticas sociales desde distintos puntos de vista, reconociendo que los actores sociales tienen intereses, creencias y valores que influyen en sus acciones y decisiones.',
+    },
+    {
+      id: 'pensamiento-sistemico',
+      nombre: 'Pensamiento reflexivo y sistémico',
+      descripcion: 'Capacidad para reflexionar sobre las interrelaciones entre los fenómenos sociales, económicos, políticos y ambientales, reconociendo que los sistemas sociales son complejos e interdependientes.',
+    },
+  ],
+
+  // Los 3 componentes evaluados
+  componentes: [
+    {
+      id: 'conocimientos-sociales',
+      nombre: 'Conocimientos sociales',
+      descripcion: 'Abarca el conocimiento de la historia, la geografía, la política, la economía y la democracia. Incluye hechos históricos relevantes, procesos de formación de los Estados, organización del territorio, sistemas políticos y económicos, y participación ciudadana.',
+    },
+    {
+      id: 'argumentacion',
+      nombre: 'Argumentación',
+      descripcion: 'Abarca la capacidad de construir y evaluar argumentos en contextos sociales. Incluye el uso de evidencias históricas y geográficas para sustentar posiciones, la identificación de falacias y la distinción entre hechos y opiniones en discursos sobre temas sociales.',
+    },
+    {
+      id: 'multiperspectividad',
+      nombre: 'Multiperspectividad',
+      descripcion: 'Abarca la capacidad de reconocer y analizar diferentes perspectivas sobre los fenómenos sociales. Incluye la empatía histórica, el reconocimiento de la diversidad cultural, la comprensión de conflictos desde múltiples puntos de vista y el análisis de dilemas éticos ciudadanos.',
+    },
+  ],
+
+  // Pruebas por nivel
+  pruebas: {
+
+    // =========================================================
+    // SABER 3°
+    // =========================================================
+    'saber-3': {
+      nombre: 'Saber 3°',
+      grados: ['3'],
+
+      aprendizajes: [
+        {
+          id: 'soc-s3-01',
+          enunciado: 'Reconoce características del entorno físico (relieve, clima, paisaje) y los relaciona con las actividades humanas de su región.',
+          competencia: 'pensamiento-social',
+          componente: 'conocimientos-sociales',
+          evidencias: [
+            { id: 'soc-s3-01-e1', enunciado: 'Identifica y nombra accidentes geográficos (montañas, ríos, valles, costas) de su entorno.' },
+            { id: 'soc-s3-01-e2', enunciado: 'Relaciona las características del paisaje con las actividades económicas de las personas que lo habitan.' },
+            { id: 'soc-s3-01-e3', enunciado: 'Describe cómo el clima influye en la forma de vida, la vestimenta y la alimentación de las comunidades.' },
+          ],
+        },
+        {
+          id: 'soc-s3-02',
+          enunciado: 'Describe las normas de convivencia en el hogar, la escuela y la comunidad, y comprende la importancia de cumplirlas.',
+          competencia: 'pensamiento-social',
+          componente: 'multiperspectividad',
+          evidencias: [
+            { id: 'soc-s3-02-e1', enunciado: 'Identifica normas de convivencia en espacios cotidianos (hogar, escuela, parque) y explica para qué sirven.' },
+            { id: 'soc-s3-02-e2', enunciado: 'Reconoce que las normas son construidas por las comunidades para favorecer la convivencia y el bienestar común.' },
+          ],
+        },
+        {
+          id: 'soc-s3-03',
+          enunciado: 'Reconoce cambios y permanencias en la historia de su familia y comunidad usando fuentes primarias sencillas.',
+          competencia: 'pensamiento-social',
+          componente: 'conocimientos-sociales',
+          evidencias: [
+            { id: 'soc-s3-03-e1', enunciado: 'Compara aspectos del pasado y el presente de su familia o comunidad (costumbres, medios de transporte, tecnología).' },
+            { id: 'soc-s3-03-e2', enunciado: 'Usa fotos, relatos de familiares u objetos del pasado como fuentes de información histórica.' },
+          ],
+        },
+        {
+          id: 'soc-s3-04',
+          enunciado: 'Reconoce la diversidad cultural, étnica y regional de Colombia y la valora como parte de la identidad nacional.',
+          competencia: 'interpretacion',
+          componente: 'multiperspectividad',
+          evidencias: [
+            { id: 'soc-s3-04-e1', enunciado: 'Identifica grupos étnicos presentes en Colombia (indígenas, afrocolombianos, mestizos, raizales) y reconoce algunas de sus tradiciones.' },
+            { id: 'soc-s3-04-e2', enunciado: 'Argumenta por qué la diversidad cultural enriquece a la sociedad colombiana.' },
+          ],
+        },
+        {
+          id: 'soc-s3-05',
+          enunciado: 'Identifica derechos y deberes fundamentales de niños y niñas y reconoce instituciones que los protegen.',
+          competencia: 'pensamiento-social',
+          componente: 'argumentacion',
+          evidencias: [
+            { id: 'soc-s3-05-e1', enunciado: 'Nombra derechos de los niños establecidos en la Convención sobre los Derechos del Niño.' },
+            { id: 'soc-s3-05-e2', enunciado: 'Identifica instituciones locales y nacionales que protegen los derechos de los niños (ICBF, Defensoría del Pueblo).' },
+          ],
+        },
+        {
+          id: 'soc-s3-06',
+          enunciado: 'Participa en la toma de decisiones colectivas en el aula y reconoce la importancia del voto y el consenso.',
+          competencia: 'pensamiento-sistemico',
+          componente: 'multiperspectividad',
+          evidencias: [
+            { id: 'soc-s3-06-e1', enunciado: 'Participa en votaciones del aula y comprende por qué se respeta la decisión de la mayoría.' },
+            { id: 'soc-s3-06-e2', enunciado: 'Reconoce formas de participación democrática en la escuela (gobierno escolar, personero).' },
+          ],
+        },
+      ],
+
+      niveles: [
+        {
+          nombre: 'Insuficiente',
+          rango: [100, 226],
+          color: '#ef4444',
+          descripcion: 'El estudiante no supera las preguntas de menor complejidad. No identifica accidentes geográficos del entorno ni reconoce derechos básicos de los niños.',
+          aprendizajesEsperados: [],
+        },
+        {
+          nombre: 'Mínimo',
+          rango: [226, 295],
+          color: '#f59e0b',
+          descripcion: 'El estudiante reconoce características del entorno geográfico, identifica normas básicas de convivencia y nombra derechos fundamentales de los niños.',
+          aprendizajesEsperados: ['soc-s3-01', 'soc-s3-02', 'soc-s3-05'],
+        },
+        {
+          nombre: 'Satisfactorio',
+          rango: [295, 380],
+          color: '#22c55e',
+          descripcion: 'El estudiante relaciona el entorno físico con las actividades humanas, compara el pasado y el presente de su comunidad, reconoce la diversidad cultural colombiana y participa en decisiones colectivas.',
+          aprendizajesEsperados: ['soc-s3-01', 'soc-s3-02', 'soc-s3-03', 'soc-s3-04', 'soc-s3-05'],
+        },
+        {
+          nombre: 'Avanzado',
+          rango: [380, 500],
+          color: '#3b82f6',
+          descripcion: 'El estudiante usa fuentes primarias para reconstruir la historia de su comunidad, argumenta el valor de la diversidad cultural, identifica mecanismos de participación democrática y comprende la interrelación entre el entorno físico, las normas y la vida social.',
+          aprendizajesEsperados: ['soc-s3-01', 'soc-s3-02', 'soc-s3-03', 'soc-s3-04', 'soc-s3-05', 'soc-s3-06'],
+        },
+      ],
+    },
+
+    // =========================================================
+    // SABER 5°
+    // =========================================================
+    'saber-5': {
+      nombre: 'Saber 5°',
+      grados: ['5'],
+
+      aprendizajes: [
+        {
+          id: 'soc-s5-01',
+          enunciado: 'Describe la organización político-administrativa de Colombia (municipios, departamentos, nación) y sus funciones.',
+          competencia: 'pensamiento-social',
+          componente: 'conocimientos-sociales',
+          evidencias: [
+            { id: 'soc-s5-01-e1', enunciado: 'Ubica su municipio y departamento en el mapa de Colombia e identifica las principales regiones geográficas.' },
+            { id: 'soc-s5-01-e2', enunciado: 'Describe las funciones del alcalde, el gobernador y el presidente como representantes de los distintos niveles de gobierno.' },
+            { id: 'soc-s5-01-e3', enunciado: 'Explica cómo el Estado colombiano garantiza derechos y presta servicios a los ciudadanos.' },
+          ],
+        },
+        {
+          id: 'soc-s5-02',
+          enunciado: 'Analiza procesos históricos relevantes de América Latina en los siglos XIX y XX identificando causas, consecuencias y actores.',
+          competencia: 'pensamiento-social',
+          componente: 'conocimientos-sociales',
+          evidencias: [
+            { id: 'soc-s5-02-e1', enunciado: 'Describe las causas y consecuencias de las guerras de independencia en América Latina.' },
+            { id: 'soc-s5-02-e2', enunciado: 'Identifica actores clave (Bolívar, Miranda, San Martín) y sus roles en los procesos de independencia.' },
+          ],
+        },
+        {
+          id: 'soc-s5-03',
+          enunciado: 'Describe las principales características de las regiones naturales de Colombia y las relaciona con la biodiversidad y las actividades humanas.',
+          competencia: 'pensamiento-sistemico',
+          componente: 'conocimientos-sociales',
+          evidencias: [
+            { id: 'soc-s5-03-e1', enunciado: 'Caracteriza las regiones naturales de Colombia (Andina, Caribe, Pacífica, Orinoquía, Amazonia, insular) por su clima y relieve.' },
+            { id: 'soc-s5-03-e2', enunciado: 'Relaciona la biodiversidad de cada región con las actividades económicas predominantes.' },
+          ],
+        },
+        {
+          id: 'soc-s5-04',
+          enunciado: 'Reconoce mecanismos de participación ciudadana en Colombia y su importancia para la democracia.',
+          competencia: 'pensamiento-social',
+          componente: 'argumentacion',
+          evidencias: [
+            { id: 'soc-s5-04-e1', enunciado: 'Identifica mecanismos de participación ciudadana: voto, plebiscito, referendo, consulta popular, cabildo abierto.' },
+            { id: 'soc-s5-04-e2', enunciado: 'Argumenta por qué la participación ciudadana es fundamental para el funcionamiento de la democracia.' },
+          ],
+        },
+        {
+          id: 'soc-s5-05',
+          enunciado: 'Analiza situaciones de conflicto social y propone alternativas de solución pacífica basadas en el diálogo y el respeto.',
+          competencia: 'interpretacion',
+          componente: 'multiperspectividad',
+          evidencias: [
+            { id: 'soc-s5-05-e1', enunciado: 'Identifica las causas de un conflicto social desde las perspectivas de los diferentes actores involucrados.' },
+            { id: 'soc-s5-05-e2', enunciado: 'Propone estrategias de mediación y conciliación para resolver conflictos de manera pacífica.' },
+          ],
+        },
+        {
+          id: 'soc-s5-06',
+          enunciado: 'Interpreta mapas temáticos y usa coordenadas geográficas para ubicar lugares en el espacio terrestre.',
+          competencia: 'pensamiento-social',
+          componente: 'conocimientos-sociales',
+          evidencias: [
+            { id: 'soc-s5-06-e1', enunciado: 'Usa latitud y longitud para ubicar puntos en un mapa o globo terráqueo.' },
+            { id: 'soc-s5-06-e2', enunciado: 'Interpreta mapas temáticos (población, clima, relieve, uso del suelo) para extraer información relevante.' },
+          ],
+        },
+        {
+          id: 'soc-s5-07',
+          enunciado: 'Comprende el concepto de derechos humanos y reconoce situaciones en que son vulnerados o protegidos.',
+          competencia: 'interpretacion',
+          componente: 'multiperspectividad',
+          evidencias: [
+            { id: 'soc-s5-07-e1', enunciado: 'Identifica derechos humanos fundamentales consagrados en la Declaración Universal de los Derechos Humanos.' },
+            { id: 'soc-s5-07-e2', enunciado: 'Analiza situaciones concretas para determinar si se respetan o violan los derechos humanos.' },
+          ],
+        },
+        {
+          id: 'soc-s5-08',
+          enunciado: 'Analiza el papel de las migraciones en la configuración cultural y social de Colombia y América Latina.',
+          competencia: 'pensamiento-sistemico',
+          componente: 'multiperspectividad',
+          evidencias: [
+            { id: 'soc-s5-08-e1', enunciado: 'Describe causas y consecuencias de los procesos migratorios en Colombia y América Latina.' },
+            { id: 'soc-s5-08-e2', enunciado: 'Reconoce aportes de los grupos migrantes (españoles, africanos, indígenas) a la cultura colombiana.' },
+          ],
+        },
+      ],
+
+      niveles: [
+        {
+          nombre: 'Insuficiente',
+          rango: [100, 226],
+          color: '#ef4444',
+          descripcion: 'El estudiante no supera las preguntas de menor complejidad. No describe la organización política de Colombia ni ubica las regiones naturales en el mapa.',
+          aprendizajesEsperados: [],
+        },
+        {
+          nombre: 'Mínimo',
+          rango: [226, 295],
+          color: '#f59e0b',
+          descripcion: 'El estudiante describe la organización político-administrativa de Colombia, ubica las regiones naturales y reconoce mecanismos básicos de participación ciudadana.',
+          aprendizajesEsperados: ['soc-s5-01', 'soc-s5-03', 'soc-s5-04'],
+        },
+        {
+          nombre: 'Satisfactorio',
+          rango: [295, 380],
+          color: '#22c55e',
+          descripcion: 'El estudiante analiza procesos históricos de independencia, interpreta mapas temáticos, comprende derechos humanos y propone soluciones pacíficas a conflictos sociales.',
+          aprendizajesEsperados: ['soc-s5-01', 'soc-s5-02', 'soc-s5-03', 'soc-s5-04', 'soc-s5-05', 'soc-s5-06', 'soc-s5-07'],
+        },
+        {
+          nombre: 'Avanzado',
+          rango: [380, 500],
+          color: '#3b82f6',
+          descripcion: 'El estudiante relaciona la geografía con la biodiversidad y las actividades económicas, analiza múltiples perspectivas en conflictos sociales, comprende el impacto de las migraciones en la cultura colombiana y argumenta sobre la importancia de los derechos humanos.',
+          aprendizajesEsperados: ['soc-s5-01', 'soc-s5-02', 'soc-s5-03', 'soc-s5-04', 'soc-s5-05', 'soc-s5-06', 'soc-s5-07', 'soc-s5-08'],
+        },
+      ],
+    },
+
+    // =========================================================
+    // SABER 9°
+    // =========================================================
+    'saber-9': {
+      nombre: 'Saber 9°',
+      grados: ['6', '7', '8', '9'],
+
+      aprendizajes: [
+        {
+          id: 'soc-s9-01',
+          enunciado: 'Analiza procesos históricos mundiales (colonialismo, Revolución Industrial, guerras mundiales) identificando causas, consecuencias y relaciones con el presente.',
+          competencia: 'pensamiento-social',
+          componente: 'conocimientos-sociales',
+          evidencias: [
+            { id: 'soc-s9-01-e1', enunciado: 'Explica las causas y consecuencias del colonialismo europeo en América, África y Asia.' },
+            { id: 'soc-s9-01-e2', enunciado: 'Establece relaciones entre la Revolución Industrial, el capitalismo y las desigualdades sociales actuales.' },
+            { id: 'soc-s9-01-e3', enunciado: 'Analiza las causas de las guerras mundiales y sus consecuencias para el orden internacional.' },
+          ],
+        },
+        {
+          id: 'soc-s9-02',
+          enunciado: 'Comprende la estructura y el funcionamiento del Estado colombiano a partir de la Constitución Política de 1991.',
+          competencia: 'pensamiento-social',
+          componente: 'conocimientos-sociales',
+          evidencias: [
+            { id: 'soc-s9-02-e1', enunciado: 'Describe los principios fundamentales de la Constitución de 1991 (Estado social de derecho, soberanía popular, pluralismo).' },
+            { id: 'soc-s9-02-e2', enunciado: 'Explica la separación de poderes (legislativo, ejecutivo, judicial) y los mecanismos de control entre ellos.' },
+            { id: 'soc-s9-02-e3', enunciado: 'Identifica acciones de tutela, derechos de petición y otros mecanismos constitucionales de protección de derechos.' },
+          ],
+        },
+        {
+          id: 'soc-s9-03',
+          enunciado: 'Analiza la distribución desigual de la población y los recursos en el mundo, relacionándola con procesos históricos y factores geográficos.',
+          competencia: 'pensamiento-sistemico',
+          componente: 'conocimientos-sociales',
+          evidencias: [
+            { id: 'soc-s9-03-e1', enunciado: 'Interpreta mapas de densidad poblacional y los relaciona con el acceso a recursos y servicios.' },
+            { id: 'soc-s9-03-e2', enunciado: 'Explica cómo factores históricos (colonialismo, esclavitud) contribuyen a las desigualdades globales actuales.' },
+          ],
+        },
+        {
+          id: 'soc-s9-04',
+          enunciado: 'Evalúa críticamente los sistemas económicos (capitalismo, socialismo, economía mixta) y sus implicaciones sociales y ambientales.',
+          competencia: 'pensamiento-sistemico',
+          componente: 'argumentacion',
+          evidencias: [
+            { id: 'soc-s9-04-e1', enunciado: 'Compara las características principales del capitalismo y el socialismo, identificando ventajas y limitaciones de cada sistema.' },
+            { id: 'soc-s9-04-e2', enunciado: 'Analiza cómo los sistemas económicos impactan la distribución del ingreso y el acceso a bienes y servicios.' },
+          ],
+        },
+        {
+          id: 'soc-s9-05',
+          enunciado: 'Analiza conflictos históricos y contemporáneos desde múltiples perspectivas, reconociendo los intereses y valores en juego.',
+          competencia: 'interpretacion',
+          componente: 'multiperspectividad',
+          evidencias: [
+            { id: 'soc-s9-05-e1', enunciado: 'Describe un conflicto histórico (guerra, colonización, revolución) desde las perspectivas de distintos actores sociales.' },
+            { id: 'soc-s9-05-e2', enunciado: 'Evalúa cómo los intereses económicos, políticos y culturales condicionan las posiciones de los actores en un conflicto.' },
+          ],
+        },
+        {
+          id: 'soc-s9-06',
+          enunciado: 'Comprende el proceso de construcción de paz en Colombia, sus avances, obstáculos y los retos para la reconciliación.',
+          competencia: 'interpretacion',
+          componente: 'multiperspectividad',
+          evidencias: [
+            { id: 'soc-s9-06-e1', enunciado: 'Describe el conflicto armado colombiano, sus causas históricas, actores y consecuencias humanitarias.' },
+            { id: 'soc-s9-06-e2', enunciado: 'Analiza los acuerdos de paz y los retos de la implementación desde las perspectivas de diferentes sectores de la sociedad.' },
+          ],
+        },
+        {
+          id: 'soc-s9-07',
+          enunciado: 'Construye y evalúa argumentos sobre problemas sociales usando evidencia histórica, estadística y fuentes diversas.',
+          competencia: 'pensamiento-sistemico',
+          componente: 'argumentacion',
+          evidencias: [
+            { id: 'soc-s9-07-e1', enunciado: 'Elabora argumentos sustentados en evidencia (datos estadísticos, fuentes históricas, testimonios) sobre un problema social.' },
+            { id: 'soc-s9-07-e2', enunciado: 'Identifica falacias y generalizaciones indebidas en discursos sobre problemas sociales y políticos.' },
+          ],
+        },
+        {
+          id: 'soc-s9-08',
+          enunciado: 'Analiza la globalización como proceso económico, cultural y político, reconociendo sus beneficios y sus efectos desiguales.',
+          competencia: 'pensamiento-sistemico',
+          componente: 'conocimientos-sociales',
+          evidencias: [
+            { id: 'soc-s9-08-e1', enunciado: 'Describe características de la globalización: integración de mercados, flujo de información y movilidad cultural.' },
+            { id: 'soc-s9-08-e2', enunciado: 'Evalúa los efectos desiguales de la globalización en países desarrollados y en vías de desarrollo.' },
+          ],
+        },
+        {
+          id: 'soc-s9-09',
+          enunciado: 'Reconoce y analiza formas de discriminación (racial, de género, étnica, socioeconómica) y propone acciones para combatirlas.',
+          competencia: 'interpretacion',
+          componente: 'multiperspectividad',
+          evidencias: [
+            { id: 'soc-s9-09-e1', enunciado: 'Identifica situaciones de discriminación y las relaciona con estructuras históricas y sociales que las perpetúan.' },
+            { id: 'soc-s9-09-e2', enunciado: 'Propone acciones concretas para promover la igualdad y combatir la discriminación en su entorno.' },
+          ],
+        },
+        {
+          id: 'soc-s9-10',
+          enunciado: 'Comprende el concepto de ciudadanía global y la importancia de la participación en organismos internacionales para la resolución de problemas comunes.',
+          competencia: 'pensamiento-social',
+          componente: 'argumentacion',
+          evidencias: [
+            { id: 'soc-s9-10-e1', enunciado: 'Describe el papel de organismos internacionales (ONU, OEA, Corte Penal Internacional) en la protección de los derechos humanos.' },
+            { id: 'soc-s9-10-e2', enunciado: 'Argumenta por qué los problemas globales (cambio climático, migración, pobreza) requieren soluciones cooperativas entre naciones.' },
+          ],
+        },
+      ],
+
+      niveles: [
+        {
+          nombre: 'Insuficiente',
+          rango: [100, 226],
+          color: '#ef4444',
+          descripcion: 'El estudiante no supera las preguntas de menor complejidad. No identifica causas básicas de procesos históricos mundiales ni reconoce los principios fundamentales de la Constitución de 1991.',
+          aprendizajesEsperados: [],
+        },
+        {
+          nombre: 'Mínimo',
+          rango: [226, 295],
+          color: '#f59e0b',
+          descripcion: 'El estudiante describe procesos históricos básicos, identifica los principios de la Constitución de 1991, interpreta mapas de distribución poblacional y reconoce características de los sistemas económicos.',
+          aprendizajesEsperados: ['soc-s9-01', 'soc-s9-02', 'soc-s9-03', 'soc-s9-04'],
+        },
+        {
+          nombre: 'Satisfactorio',
+          rango: [295, 380],
+          color: '#22c55e',
+          descripcion: 'El estudiante analiza conflictos históricos desde múltiples perspectivas, evalúa los efectos de la globalización, construye argumentos con evidencia y comprende el proceso de construcción de paz en Colombia.',
+          aprendizajesEsperados: ['soc-s9-01', 'soc-s9-02', 'soc-s9-03', 'soc-s9-04', 'soc-s9-05', 'soc-s9-06', 'soc-s9-07', 'soc-s9-08'],
+        },
+        {
+          nombre: 'Avanzado',
+          rango: [380, 500],
+          color: '#3b82f6',
+          descripcion: 'El estudiante analiza críticamente formas de discriminación y sus causas estructurales, evalúa falacias en discursos sociales, comprende la ciudadanía global y argumenta sobre la necesidad de cooperación internacional para resolver problemas comunes.',
+          aprendizajesEsperados: ['soc-s9-01', 'soc-s9-02', 'soc-s9-03', 'soc-s9-04', 'soc-s9-05', 'soc-s9-06', 'soc-s9-07', 'soc-s9-08', 'soc-s9-09', 'soc-s9-10'],
+        },
+      ],
+    },
+
+    // =========================================================
+    // SABER 11°
+    // =========================================================
+    'saber-11': {
+      nombre: 'Saber 11°',
+      grados: ['10', '11'],
+
+      aprendizajes: [
+        {
+          id: 'soc-s11-01',
+          enunciado: 'Analiza los procesos de formación del mundo contemporáneo (Guerra Fría, descolonización, caída del muro de Berlín) y sus efectos en el orden internacional actual.',
+          competencia: 'pensamiento-social',
+          componente: 'conocimientos-sociales',
+          evidencias: [
+            { id: 'soc-s11-01-e1', enunciado: 'Explica las causas y consecuencias de la Guerra Fría y su influencia en los conflictos regionales del siglo XX.' },
+            { id: 'soc-s11-01-e2', enunciado: 'Analiza el proceso de descolonización en África y Asia y sus efectos en la configuración del orden mundial actual.' },
+            { id: 'soc-s11-01-e3', enunciado: 'Relaciona la caída del muro de Berlín y la disolución de la URSS con la reorganización del sistema internacional.' },
+          ],
+        },
+        {
+          id: 'soc-s11-02',
+          enunciado: 'Evalúa el sistema político colombiano, sus fortalezas, debilidades e instituciones desde la perspectiva de la democracia constitucional.',
+          competencia: 'pensamiento-social',
+          componente: 'conocimientos-sociales',
+          evidencias: [
+            { id: 'soc-s11-02-e1', enunciado: 'Analiza los mecanismos de control del poder en Colombia (Contraloría, Procuraduría, Defensoría) y evalúa su efectividad.' },
+            { id: 'soc-s11-02-e2', enunciado: 'Evalúa la participación política en Colombia: electoral, comunitaria y en movimientos sociales.' },
+          ],
+        },
+        {
+          id: 'soc-s11-03',
+          enunciado: 'Analiza los modelos de desarrollo económico y sus implicaciones sociales, ambientales y geopolíticas en el contexto global.',
+          competencia: 'pensamiento-sistemico',
+          componente: 'conocimientos-sociales',
+          evidencias: [
+            { id: 'soc-s11-03-e1', enunciado: 'Compara modelos de desarrollo económico (neoliberalismo, economía social, desarrollo sostenible) identificando sus supuestos y consecuencias.' },
+            { id: 'soc-s11-03-e2', enunciado: 'Analiza indicadores de desarrollo humano (IDH, Gini, pobreza multidimensional) para comparar países y regiones.' },
+          ],
+        },
+        {
+          id: 'soc-s11-04',
+          enunciado: 'Construye y evalúa argumentos sobre problemas políticos y sociales contemporáneos usando fuentes diversas y reconociendo sesgos.',
+          competencia: 'pensamiento-sistemico',
+          componente: 'argumentacion',
+          evidencias: [
+            { id: 'soc-s11-04-e1', enunciado: 'Evalúa la credibilidad y el sesgo de fuentes de información política y social (prensa, redes sociales, informes institucionales).' },
+            { id: 'soc-s11-04-e2', enunciado: 'Construye un argumento estructurado sobre un problema político usando evidencia diversa y reconociendo contraargumentos.' },
+          ],
+        },
+        {
+          id: 'soc-s11-05',
+          enunciado: 'Analiza conflictos internacionales contemporáneos (guerras, disputas territoriales, conflictos étnicos) desde múltiples perspectivas.',
+          competencia: 'interpretacion',
+          componente: 'multiperspectividad',
+          evidencias: [
+            { id: 'soc-s11-05-e1', enunciado: 'Describe un conflicto internacional actual identificando los actores, sus intereses y las causas históricas del conflicto.' },
+            { id: 'soc-s11-05-e2', enunciado: 'Evalúa propuestas de resolución de conflictos internacionales desde perspectivas jurídicas, humanitarias y geopolíticas.' },
+          ],
+        },
+        {
+          id: 'soc-s11-06',
+          enunciado: 'Comprende los fundamentos filosóficos de la ética y los aplica al análisis de dilemas morales en contextos sociales y políticos.',
+          competencia: 'interpretacion',
+          componente: 'multiperspectividad',
+          evidencias: [
+            { id: 'soc-s11-06-e1', enunciado: 'Aplica principios éticos (utilitarismo, deontología, ética del cuidado) al análisis de dilemas morales contemporáneos.' },
+            { id: 'soc-s11-06-e2', enunciado: 'Evalúa decisiones políticas y sociales desde criterios de justicia, equidad y bienestar colectivo.' },
+          ],
+        },
+        {
+          id: 'soc-s11-07',
+          enunciado: 'Analiza los movimientos sociales del siglo XX y XXI (feminismo, ambientalismo, movimientos de derechos civiles) y su impacto en la transformación social.',
+          competencia: 'pensamiento-sistemico',
+          componente: 'multiperspectividad',
+          evidencias: [
+            { id: 'soc-s11-07-e1', enunciado: 'Describe los orígenes, demandas y logros de movimientos sociales relevantes (sufragismo, movimiento por los derechos civiles, ambientalismo).' },
+            { id: 'soc-s11-07-e2', enunciado: 'Evalúa el papel de la sociedad civil organizada como agente de cambio social frente al Estado y al mercado.' },
+          ],
+        },
+        {
+          id: 'soc-s11-08',
+          enunciado: 'Analiza la geopolítica global contemporánea: bloques de poder, organismos multilaterales y relaciones entre naciones.',
+          competencia: 'pensamiento-social',
+          componente: 'conocimientos-sociales',
+          evidencias: [
+            { id: 'soc-s11-08-e1', enunciado: 'Describe la configuración del sistema multipolar actual y el papel de potencias emergentes (China, India, Brasil).' },
+            { id: 'soc-s11-08-e2', enunciado: 'Analiza el papel de organismos multilaterales (ONU, OMC, FMI) en la regulación de las relaciones internacionales.' },
+          ],
+        },
+        {
+          id: 'soc-s11-09',
+          enunciado: 'Evalúa el papel de la memoria histórica y los derechos humanos en la construcción de sociedades más justas y democráticas.',
+          competencia: 'interpretacion',
+          componente: 'multiperspectividad',
+          evidencias: [
+            { id: 'soc-s11-09-e1', enunciado: 'Analiza el papel de la memoria histórica en la reparación a víctimas y la no repetición de violaciones a los derechos humanos.' },
+            { id: 'soc-s11-09-e2', enunciado: 'Evalúa mecanismos de justicia transicional (comisiones de la verdad, reparación, garantías de no repetición) desde la perspectiva de las víctimas y la sociedad.' },
+          ],
+        },
+        {
+          id: 'soc-s11-10',
+          enunciado: 'Analiza los retos del desarrollo sostenible en América Latina: desigualdad, gobernanza ambiental y modelos de desarrollo alternativo.',
+          competencia: 'pensamiento-sistemico',
+          componente: 'argumentacion',
+          evidencias: [
+            { id: 'soc-s11-10-e1', enunciado: 'Evalúa las tensiones entre el crecimiento económico, la equidad social y la sostenibilidad ambiental en América Latina.' },
+            { id: 'soc-s11-10-e2', enunciado: 'Analiza modelos de desarrollo alternativo (buen vivir, economía solidaria, desarrollo humano) y los compara con el modelo convencional.' },
+          ],
+        },
+      ],
+
+      niveles: [
+        {
+          nombre: 'Insuficiente',
+          rango: [0, 35],
+          color: '#ef4444',
+          descripcion: 'El estudiante no supera las preguntas de menor complejidad. No describe los procesos del mundo contemporáneo ni analiza el sistema político colombiano en sus aspectos básicos.',
+          aprendizajesEsperados: [],
+        },
+        {
+          nombre: 'Mínimo',
+          rango: [36, 50],
+          color: '#f59e0b',
+          descripcion: 'El estudiante describe procesos históricos del siglo XX, identifica características del sistema político colombiano y reconoce modelos de desarrollo económico.',
+          aprendizajesEsperados: ['soc-s11-01', 'soc-s11-02', 'soc-s11-03'],
+        },
+        {
+          nombre: 'Satisfactorio',
+          rango: [51, 70],
+          color: '#22c55e',
+          descripcion: 'El estudiante construye argumentos con fuentes diversas, analiza conflictos internacionales desde múltiples perspectivas, aplica principios éticos a dilemas sociales y evalúa el impacto de movimientos sociales.',
+          aprendizajesEsperados: ['soc-s11-01', 'soc-s11-02', 'soc-s11-03', 'soc-s11-04', 'soc-s11-05', 'soc-s11-06', 'soc-s11-07'],
+        },
+        {
+          nombre: 'Avanzado',
+          rango: [71, 100],
+          color: '#3b82f6',
+          descripcion: 'El estudiante analiza la geopolítica global contemporánea, evalúa mecanismos de justicia transicional desde múltiples perspectivas, reconoce sesgos en fuentes de información y argumenta sobre los retos del desarrollo sostenible en América Latina.',
+          aprendizajesEsperados: ['soc-s11-01', 'soc-s11-02', 'soc-s11-03', 'soc-s11-04', 'soc-s11-05', 'soc-s11-06', 'soc-s11-07', 'soc-s11-08', 'soc-s11-09', 'soc-s11-10'],
+        },
+      ],
+    },
+  },
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { ICFES_SOCIALES }
+}
+/**
  * Banco de Preguntas tipo ICFES - Uso Offline
  * Instituto Colombiano para la Evaluación de la Educación (ICFES)
  *
@@ -7349,6 +8958,362 @@ const PREGUNTAS_ICFES = {
         justificacion: 'Si la primera bola extraída fue azul, quedan en la urna 4 rojas y 5 azules (9 en total). La probabilidad de que la segunda sea azul dado que la primera lo fue es P(2.ª azul | 1.ª azul) = 5/9. La opción A usa el total inicial sin actualizar; la opción C divide incorrectamente; la opción D usa numerador incorrecto de 6 sin descontar la bola ya extraída.',
         competencia: 'resolucion',
         componente: 'aleatorio',
+      },
+    ],
+  },
+
+  // ===========================================================
+  // CIENCIAS NATURALES
+  // ===========================================================
+  naturales: {
+
+    // ---------------------------------------------------------
+    // SABER 9°
+    // ---------------------------------------------------------
+    'saber-9': [
+
+      // 1. Entorno vivo + uso-conocimiento
+      {
+        id: 'nat-p-s9-01',
+        enunciado: 'Un estudiante observa que en su jardín hay plantas que crecen a la sombra de un árbol grande. Estas plantas tienen hojas más grandes y de color verde más oscuro que las plantas expuestas al sol. ¿Cuál es la explicación más adecuada para esta adaptación?',
+        opciones: [
+          { letra: 'A', texto: 'Las plantas de sombra tienen hojas más grandes porque reciben más lluvia que las plantas del sol.' },
+          { letra: 'B', texto: 'Las plantas de sombra tienen hojas más grandes y con más cloroplastos para captar mayor cantidad de luz disponible y realizar la fotosíntesis.' },
+          { letra: 'C', texto: 'Las plantas de sombra son de especies diferentes y por eso sus hojas tienen características distintas, independientemente de la luz.' },
+          { letra: 'D', texto: 'Las plantas de sombra no realizan fotosíntesis; obtienen sus nutrientes directamente del suelo.' },
+        ],
+        clave: 'B',
+        justificacion: 'Las plantas que viven a la sombra han desarrollado adaptaciones para maximizar la captación de luz: hojas más grandes aumentan el área de absorción y el color verde oscuro indica mayor concentración de cloroplastos, que son los organelos donde ocurre la fotosíntesis. La opción A confunde un factor climático (lluvia) con uno lumínico. La opción C ignora que el ambiente moldea las adaptaciones fisiológicas. La opción D es incorrecta: todas las plantas con cloroplastos realizan fotosíntesis.',
+        competencia: 'uso-conocimiento',
+        componente: 'entorno-vivo',
+      },
+
+      // 2. Entorno vivo + explicacion
+      {
+        id: 'nat-p-s9-02',
+        enunciado: 'En un cruce entre una planta de flores rojas (RR) y una planta de flores blancas (rr), todos los descendientes de la primera generación (F1) tienen flores rosas (Rr). Si dos plantas de la F1 se cruzan entre sí, ¿qué proporción de plantas de flores blancas se espera en la segunda generación (F2)?',
+        opciones: [
+          { letra: 'A', texto: '1/4 (25%)' },
+          { letra: 'B', texto: '1/2 (50%)' },
+          { letra: 'C', texto: '3/4 (75%)' },
+          { letra: 'D', texto: '0% porque el blanco desapareció en la F1.' },
+        ],
+        clave: 'A',
+        justificacion: 'Al cruzar dos plantas Rr, se obtiene la proporción mendeliana 1 RR : 2 Rr : 1 rr. Solo las plantas rr tendrán flores blancas, lo que equivale a 1/4 (25%) de la descendencia. La opción B sería correcta si se buscara la proporción de heterocigotos (Rr). La opción C corresponde a la proporción de plantas que tienen al menos un alelo R (RR + Rr). La opción D es incorrecta: el alelo r estaba presente en las plantas F1 de manera recesiva y puede reaparecer en F2.',
+        competencia: 'explicacion',
+        componente: 'entorno-vivo',
+      },
+
+      // 3. Entorno físico + explicacion
+      {
+        id: 'nat-p-s9-03',
+        enunciado: 'Una pelota de 2 kg se lanza verticalmente hacia arriba desde el suelo con una velocidad inicial de 10 m/s. Ignorando la fricción del aire, ¿cuál de las afirmaciones sobre la energía de la pelota es CORRECTA mientras sube?',
+        opciones: [
+          { letra: 'A', texto: 'La energía cinética aumenta y la energía potencial disminuye.' },
+          { letra: 'B', texto: 'La energía cinética disminuye y la energía potencial aumenta, pero la energía mecánica total permanece constante.' },
+          { letra: 'C', texto: 'Tanto la energía cinética como la potencial disminuyen porque la pelota pierde energía al subir.' },
+          { letra: 'D', texto: 'La energía mecánica total aumenta porque la pelota gana altura.' },
+        ],
+        clave: 'B',
+        justificacion: 'Al subir, la pelota desacelera: su energía cinética (Ec = ½mv²) disminuye. Al mismo tiempo, aumenta su altura y por tanto su energía potencial gravitacional (Ep = mgh). Como no hay fricción, la energía mecánica total (Ec + Ep) se conserva, según el principio de conservación de la energía. La opción A invierte correctamente la relación. Las opciones C y D violan el principio de conservación de la energía.',
+        competencia: 'explicacion',
+        componente: 'entorno-fisico',
+      },
+
+      // 4. CTS + indagacion
+      {
+        id: 'nat-p-s9-04',
+        enunciado: 'Una investigadora quiere determinar si la temperatura afecta la velocidad de germinación de semillas de frijol. Diseña el siguiente experimento: coloca 20 semillas en tres grupos de 20 semillas cada uno, con las mismas condiciones de humedad y luz, pero a diferentes temperaturas (15°C, 25°C y 35°C). ¿Cuál es la variable independiente en este experimento?',
+        opciones: [
+          { letra: 'A', texto: 'La velocidad de germinación de las semillas.' },
+          { letra: 'B', texto: 'La cantidad de humedad suministrada a cada grupo.' },
+          { letra: 'C', texto: 'La temperatura a la que se expone cada grupo de semillas.' },
+          { letra: 'D', texto: 'El número de semillas usadas en cada grupo.' },
+        ],
+        clave: 'C',
+        justificacion: 'La variable independiente es la que la investigadora manipula deliberadamente para observar su efecto: en este caso, la temperatura (15°C, 25°C y 35°C). La opción A (velocidad de germinación) es la variable dependiente, pues es lo que se mide como resultado. La humedad (opción B) y el número de semillas (opción D) son variables de control, que se mantienen iguales para que no afecten los resultados.',
+        competencia: 'indagacion',
+        componente: 'cts',
+      },
+
+      // 5. Entorno físico + uso-conocimiento
+      {
+        id: 'nat-p-s9-05',
+        enunciado: 'Un químico mezcla ácido clorhídrico (HCl) con hidróxido de sodio (NaOH) en proporciones iguales y obtiene cloruro de sodio (NaCl) y agua (H₂O). ¿Qué tipo de reacción química ocurrió?',
+        opciones: [
+          { letra: 'A', texto: 'Reacción de síntesis, porque se forman dos nuevas sustancias.' },
+          { letra: 'B', texto: 'Reacción de descomposición, porque el ácido se separa en sus componentes.' },
+          { letra: 'C', texto: 'Reacción de neutralización (doble sustitución), porque un ácido reacciona con una base para formar una sal y agua.' },
+          { letra: 'D', texto: 'Reacción de combustión, porque se libera energía en forma de calor.' },
+        ],
+        clave: 'C',
+        justificacion: 'La reacción entre un ácido (HCl) y una base (NaOH) para producir una sal (NaCl) y agua (H₂O) es una reacción de neutralización ácido-base, clasificada como doble sustitución. No es síntesis (opción A), que implica formar una sola sustancia desde dos simples. No es descomposición (opción B), que parte de una sola sustancia. No es combustión (opción D), que requiere oxígeno y produce CO₂ y H₂O al quemar un material orgánico.',
+        competencia: 'uso-conocimiento',
+        componente: 'entorno-fisico',
+      },
+    ],
+
+    // ---------------------------------------------------------
+    // SABER 11°
+    // ---------------------------------------------------------
+    'saber-11': [
+
+      // 1. Entorno vivo + uso-conocimiento (genética molecular)
+      {
+        id: 'nat-p-s11-01',
+        enunciado: 'Durante el proceso de traducción, el ARN mensajero (ARNm) es leído por los ribosomas en grupos de tres nucleótidos llamados codones. El codón AUG codifica para la metionina y es el codón de inicio. Si una mutación cambia el codón AUG por AUA (que codifica para isoleucina), ¿cuál sería el efecto más probable sobre la proteína resultante?',
+        opciones: [
+          { letra: 'A', texto: 'La proteína no se verá afectada porque AUA codifica para un aminoácido diferente pero igualmente válido.' },
+          { letra: 'B', texto: 'La síntesis de la proteína no se iniciará correctamente, porque AUG es el único codón de inicio reconocido por los ribosomas.' },
+          { letra: 'C', texto: 'La proteína será más larga de lo normal porque la mutación crea un nuevo codón de inicio.' },
+          { letra: 'D', texto: 'La mutación no tiene ningún efecto porque el código genético es redundante.' },
+        ],
+        clave: 'B',
+        justificacion: 'El codón AUG tiene una función dual: codifica para la metionina y sirve como señal de inicio de la traducción. Si se muta a AUA, los ribosomas no reconocerán el sitio de inicio y la síntesis de la proteína se verá comprometida. La opción A es incorrecta porque no solo importa el aminoácido, sino la señal de inicio. La opción C es incorrecta: la mutación elimina el codón de inicio, no crea uno nuevo. La opción D es incorrecta: la redundancia del código genético se refiere a que varios codones pueden codificar el mismo aminoácido, no al codón de inicio.',
+        competencia: 'uso-conocimiento',
+        componente: 'entorno-vivo',
+      },
+
+      // 2. Entorno físico + explicacion (termodinámica)
+      {
+        id: 'nat-p-s11-02',
+        enunciado: 'Una máquina térmica absorbe 1.000 J de calor de un foco caliente y realiza 400 J de trabajo útil, cediendo el calor restante a un foco frío. ¿Cuál es la eficiencia de esta máquina y cuánto calor cede al foco frío?',
+        opciones: [
+          { letra: 'A', texto: 'Eficiencia = 60%; calor cedido = 600 J.' },
+          { letra: 'B', texto: 'Eficiencia = 40%; calor cedido = 600 J.' },
+          { letra: 'C', texto: 'Eficiencia = 40%; calor cedido = 400 J.' },
+          { letra: 'D', texto: 'Eficiencia = 100%; calor cedido = 0 J porque toda la energía se convierte en trabajo.' },
+        ],
+        clave: 'B',
+        justificacion: 'La eficiencia de una máquina térmica es η = W / Qc = 400 J / 1000 J = 0,40 = 40%. Por conservación de la energía (primer principio): el calor cedido al foco frío = Qc − W = 1000 − 400 = 600 J. La opción A tiene invertidos el trabajo y el calor cedido. La opción C usa el trabajo absorbido en lugar del calor total para calcular el cedido. La opción D viola el segundo principio de la termodinámica: ninguna máquina real puede tener eficiencia del 100%.',
+        competencia: 'explicacion',
+        componente: 'entorno-fisico',
+      },
+
+      // 3. CTS + indagacion (evaluación de investigación)
+      {
+        id: 'nat-p-s11-03',
+        enunciado: 'Un grupo de investigadores publicó un estudio que concluye que consumir un suplemento X reduce el colesterol en un 30%. El estudio evaluó a 50 personas durante 2 semanas, sin grupo de control. ¿Cuál es la principal debilidad metodológica de este estudio?',
+        opciones: [
+          { letra: 'A', texto: 'El estudio duró muy poco tiempo y careció de grupo de control, lo que impide atribuir los cambios al suplemento y no a otros factores.' },
+          { letra: 'B', texto: 'La muestra de 50 personas es adecuada, pero el estudio debió durar al menos 6 meses para ser válido.' },
+          { letra: 'C', texto: 'El estudio es válido porque el porcentaje de reducción (30%) es estadísticamente significativo.' },
+          { letra: 'D', texto: 'La ausencia de grupo de control no es un problema si todos los participantes tomaron el suplemento.' },
+        ],
+        clave: 'A',
+        justificacion: 'Las dos debilidades principales son: (1) la falta de grupo de control impide determinar si los cambios se deben al suplemento o a factores externos (dieta, ejercicio, placebo); (2) dos semanas es un tiempo muy corto para evaluar cambios en el colesterol. La opción B solo menciona el tiempo y no la ausencia de grupo control, que es igualmente crítica. La opción C es incorrecta: la significancia estadística requiere un diseño experimental adecuado, que aquí no existe. La opción D es incorrecta: el grupo de control es esencial precisamente para comparar con quienes no toman el suplemento.',
+        competencia: 'indagacion',
+        componente: 'cts',
+      },
+
+      // 4. Entorno físico + uso-conocimiento (equilibrio químico)
+      {
+        id: 'nat-p-s11-04',
+        enunciado: 'En la síntesis industrial del amoníaco (N₂ + 3H₂ ⇌ 2NH₃), la reacción es exotérmica. Según el principio de Le Chatelier, ¿qué condición favorecería la producción de amoníaco?',
+        opciones: [
+          { letra: 'A', texto: 'Aumentar la temperatura para acelerar la reacción.' },
+          { letra: 'B', texto: 'Disminuir la presión para dar más espacio a los reactivos.' },
+          { letra: 'C', texto: 'Aumentar la presión y disminuir la temperatura del sistema.' },
+          { letra: 'D', texto: 'Extraer el nitrógeno del sistema para desplazar el equilibrio hacia los productos.' },
+        ],
+        clave: 'C',
+        justificacion: 'Por el principio de Le Chatelier: (1) Aumentar la presión favorece el lado con menor número de moles de gas: 4 moles de reactivos (1 N₂ + 3 H₂) → 2 moles de producto (2 NH₃), por lo que la presión alta desplaza el equilibrio hacia la derecha (más NH₃). (2) Como la reacción es exotérmica, disminuir la temperatura favorece la formación de productos. La opción A favorecería los reactivos (equilibrio hacia la izquierda). La opción B favorecería también a los reactivos. La opción D es incorrecta: extraer N₂ (reactivo) desplazaría el equilibrio hacia los reactivos, no hacia los productos.',
+        competencia: 'uso-conocimiento',
+        componente: 'entorno-fisico',
+      },
+
+      // 5. Entorno vivo + explicacion (evolución)
+      {
+        id: 'nat-p-s11-05',
+        enunciado: 'En las Islas Galápagos, los pinzones de Darwin muestran una gran variedad en la forma y tamaño de sus picos, adaptados a distintos tipos de alimento. Este proceso, en el que una especie ancestral da origen a múltiples especies con diferentes adaptaciones, se denomina:',
+        opciones: [
+          { letra: 'A', texto: 'Convergencia evolutiva, porque los picos se adaptaron de manera similar en distintas islas.' },
+          { letra: 'B', texto: 'Radiación adaptativa, porque a partir de un ancestro común se originaron múltiples especies que ocupan distintos nichos ecológicos.' },
+          { letra: 'C', texto: 'Deriva génica, porque el aislamiento geográfico de las islas redujo al azar la diversidad genética de los pinzones.' },
+          { letra: 'D', texto: 'Mutación dirigida, porque el ambiente de cada isla indujo cambios específicos en los genes del pico.' },
+        ],
+        clave: 'B',
+        justificacion: 'La radiación adaptativa es el proceso por el cual un grupo de organismos de un ancestro común se diversifica rápidamente para ocupar distintos nichos ecológicos. Los pinzones de Darwin son el ejemplo clásico: a partir de un ancestro llegado al continente, evolucionaron en distintas islas hacia especies con picos adaptados a semillas, insectos o flores. La convergencia evolutiva (opción A) ocurre cuando especies no relacionadas desarrollan características similares. La deriva génica (opción C) es un cambio aleatorio en las frecuencias génicas, no dirigido por la selección natural. La mutación dirigida (opción D) no existe: las mutaciones son aleatorias.',
+        competencia: 'explicacion',
+        componente: 'entorno-vivo',
+      },
+    ],
+  },
+
+  // ===========================================================
+  // CIENCIAS SOCIALES
+  // ===========================================================
+  sociales: {
+
+    // ---------------------------------------------------------
+    // SABER 9°
+    // ---------------------------------------------------------
+    'saber-9': [
+
+      // 1. Conocimientos sociales + pensamiento-social
+      {
+        id: 'soc-p-s9-01',
+        enunciado: 'La Constitución Política de Colombia de 1991 establece en su artículo 1° que Colombia es un "Estado social de derecho". ¿Cuál de las siguientes afirmaciones describe mejor el significado de este principio?',
+        opciones: [
+          { letra: 'A', texto: 'El Estado colombiano se organiza exclusivamente con base en las leyes, sin consideración de las necesidades sociales de la población.' },
+          { letra: 'B', texto: 'El Estado tiene la obligación de garantizar no solo el cumplimiento de las leyes, sino también condiciones de vida digna, igualdad y justicia social para todos los ciudadanos.' },
+          { letra: 'C', texto: 'El Estado colombiano es un estado social porque la mayoría de sus ciudadanos pertenece a la clase media.' },
+          { letra: 'D', texto: 'El Estado social de derecho implica que todos los ciudadanos tienen los mismos ingresos económicos garantizados por la Constitución.' },
+        ],
+        clave: 'B',
+        justificacion: 'El Estado social de derecho implica que el Estado no se limita a garantizar el orden jurídico formal, sino que asume la responsabilidad de promover condiciones de vida digna, equidad y justicia social. En Colombia, esto se refleja en derechos como la educación, la salud y la vivienda. La opción A describe un Estado de derecho formal (sin el componente social). Las opciones C y D son incorrectas: el término no se refiere a la composición socioeconómica ni a la igualdad de ingresos.',
+        competencia: 'pensamiento-social',
+        componente: 'conocimientos-sociales',
+      },
+
+      // 2. Multiperspectividad + interpretacion
+      {
+        id: 'soc-p-s9-02',
+        enunciado: 'Durante la conquista española de América en el siglo XVI, los cronistas europeos describieron a los pueblos indígenas como "salvajes" que necesitaban ser "civilizados". Los pueblos indígenas, por su parte, experimentaron la conquista como una invasión y destrucción de su cultura y territorio. ¿Qué concepto histórico ilustra mejor la coexistencia de estas dos visiones?',
+        opciones: [
+          { letra: 'A', texto: 'La objetividad histórica, porque los cronistas registraron los hechos tal como ocurrieron.' },
+          { letra: 'B', texto: 'La multiperspectividad, porque un mismo evento histórico puede ser interpretado de maneras diferentes según los actores involucrados.' },
+          { letra: 'C', texto: 'La relatividad cultural, porque ninguna de las dos culturas es superior a la otra.' },
+          { letra: 'D', texto: 'El etnocentrismo indígena, porque los pueblos originarios también juzgaban a los europeos desde su propia cultura.' },
+        ],
+        clave: 'B',
+        justificacion: 'La multiperspectividad es la capacidad de analizar un evento histórico desde los puntos de vista de los diferentes actores involucrados. La conquista fue vivida de manera radicalmente diferente por los conquistadores y por los pueblos indígenas, y ambas perspectivas son válidas para comprender el proceso histórico en su complejidad. La opción A es incorrecta: las crónicas europeas no son objetivas, están marcadas por una visión eurocéntrica. La opción C describe la relatividad cultural, que es un concepto relacionado pero distinto. La opción D es incorrecta: la pregunta ilustra el etnocentrismo europeo, no el indígena.',
+        competencia: 'interpretacion',
+        componente: 'multiperspectividad',
+      },
+
+      // 3. Argumentacion + pensamiento-sistemico
+      {
+        id: 'soc-p-s9-03',
+        enunciado: 'Lee el siguiente argumento:\n\n"Colombia debería prohibir todas las exportaciones de carbón porque contamina el ambiente. Si continuamos exportando carbón, en 20 años el planeta será inhabitable."\n\n¿Cuál es la principal debilidad de este argumento?',
+        opciones: [
+          { letra: 'A', texto: 'El argumento no tiene debilidades: la contaminación del carbón es un hecho científico comprobado.' },
+          { letra: 'B', texto: 'El argumento usa una proyección catastrófica sin evidencia que la sustente ("en 20 años el planeta será inhabitable") y no considera los impactos económicos y sociales de la prohibición.' },
+          { letra: 'C', texto: 'El argumento es débil porque Colombia no exporta carbón.' },
+          { letra: 'D', texto: 'El argumento es correcto en su conclusión pero usa un lenguaje demasiado técnico que dificulta su comprensión.' },
+        ],
+        clave: 'B',
+        justificacion: 'El argumento incurre en dos debilidades: (1) una generalización catastrófica sin evidencia ("en 20 años el planeta será inhabitable"), que es una exageración que resta credibilidad al argumento; (2) no considera los efectos económicos y sociales de una prohibición total, lo que lo hace simplista. La opción A ignora las debilidades señaladas. La opción C es factualmente incorrecta: Colombia sí exporta carbón. La opción D invierte el problema: el lenguaje del argumento no es técnico, sino impreciso y alarmista.',
+        competencia: 'pensamiento-sistemico',
+        componente: 'argumentacion',
+      },
+
+      // 4. Conocimientos sociales + pensamiento-social
+      {
+        id: 'soc-p-s9-04',
+        enunciado: 'El proceso de globalización ha generado tanto oportunidades como desigualdades. ¿Cuál de las siguientes consecuencias de la globalización es una expresión de sus efectos desiguales?',
+        opciones: [
+          { letra: 'A', texto: 'La difusión de internet ha permitido el acceso igualitario a la información en todos los países del mundo.' },
+          { letra: 'B', texto: 'Los países productores de materias primas tienen menor poder de negociación y reciben menores ingresos que los países que producen bienes manufacturados y tecnología.' },
+          { letra: 'C', texto: 'La globalización ha eliminado las diferencias culturales entre los países, creando una cultura mundial unificada.' },
+          { letra: 'D', texto: 'Los tratados de libre comercio han beneficiado por igual a todos los países firmantes, sin excepción.' },
+        ],
+        clave: 'B',
+        justificacion: 'Una de las críticas más documentadas a la globalización es la asimetría en los términos de intercambio: los países que exportan materias primas (petróleo, carbón, café, flores) reciben menos valor agregado que los que exportan tecnología y bienes manufacturados, lo que perpetúa la dependencia económica. La opción A es incorrecta: la brecha digital es precisamente una de las desigualdades de la globalización. La opción C es incorrecta: la globalización coexiste con la diversidad cultural y, en algunos casos, la amenaza. La opción D es incorrecta: los tratados de libre comercio generan ganadores y perdedores.',
+        competencia: 'pensamiento-social',
+        componente: 'conocimientos-sociales',
+      },
+
+      // 5. Multiperspectividad + interpretacion
+      {
+        id: 'soc-p-s9-05',
+        enunciado: 'En Colombia, el conflicto armado ha afectado especialmente a comunidades indígenas y afrocolombianas. Desde la perspectiva de los derechos humanos, ¿cuál de las siguientes afirmaciones es la más adecuada para analizar esta situación?',
+        opciones: [
+          { letra: 'A', texto: 'El conflicto afecta por igual a toda la población colombiana, por lo que no es necesario hablar de grupos más vulnerables.' },
+          { letra: 'B', texto: 'Las comunidades indígenas y afrocolombianas han sido desproporcionadamente afectadas por el conflicto debido a su ubicación en territorios con recursos estratégicos y a históricos procesos de exclusión social.' },
+          { letra: 'C', texto: 'El conflicto armado es exclusivamente una disputa entre grupos armados y no tiene consecuencias humanitarias para la población civil.' },
+          { letra: 'D', texto: 'Las comunidades afrocolombianas e indígenas son las causantes del conflicto porque se niegan a abandonar sus territorios.' },
+        ],
+        clave: 'B',
+        justificacion: 'Desde el enfoque de derechos humanos y diferencial, se reconoce que ciertas comunidades han sido desproporcionadamente victimizadas por el conflicto armado colombiano. Las comunidades indígenas y afrocolombianas están ubicadas en territorios ricos en recursos naturales disputados por actores armados y han sufrido históricamente procesos de exclusión. La opción A niega la diferenciación necesaria para proteger a poblaciones vulnerables. La opción C desconoce las graves consecuencias humanitarias del conflicto. La opción D invierte la responsabilidad, culpando a las víctimas.',
+        competencia: 'interpretacion',
+        componente: 'multiperspectividad',
+      },
+    ],
+
+    // ---------------------------------------------------------
+    // SABER 11°
+    // ---------------------------------------------------------
+    'saber-11': [
+
+      // 1. Conocimientos sociales + pensamiento-social
+      {
+        id: 'soc-p-s11-01',
+        enunciado: 'Lee el siguiente fragmento:\n\n"La Guerra Fría (1947-1991) fue un conflicto ideológico, político y geopolítico entre los Estados Unidos y la Unión Soviética. Aunque no hubo enfrentamiento militar directo entre las dos superpotencias, la guerra se libró a través de conflictos regionales en Asia, África y América Latina, donde cada bloque apoyó a facciones aliadas."\n\nSegún el texto, ¿cuál fue la principal característica de la Guerra Fría?',
+        opciones: [
+          { letra: 'A', texto: 'Fue un conflicto exclusivamente económico entre los países capitalistas y los socialistas.' },
+          { letra: 'B', texto: 'Fue una guerra directa entre EE.UU. y la URSS que se libró principalmente en Europa.' },
+          { letra: 'C', texto: 'Fue una confrontación ideológica y geopolítica que se manifestó a través de conflictos regionales sin enfrentamiento militar directo entre las superpotencias.' },
+          { letra: 'D', texto: 'Fue un conflicto que solo afectó a los países en desarrollo, sin consecuencias para las grandes potencias.' },
+        ],
+        clave: 'C',
+        justificacion: 'El texto es explícito: la Guerra Fría fue una confrontación ideológica y geopolítica que, aunque no tuvo enfrentamiento directo entre EE.UU. y la URSS, se manifestó en conflictos regionales (guerras en Corea, Vietnam, Angola, Nicaragua) donde cada bloque apoyó a sus aliados. La opción A reduce el conflicto a lo económico, cuando también fue ideológico y militar. La opción B contradice el texto, que afirma que no hubo enfrentamiento directo. La opción D es incorrecta: las consecuencias para las superpotencias fueron enormes (carrera armamentista, influencia global).',
+        competencia: 'pensamiento-social',
+        componente: 'conocimientos-sociales',
+      },
+
+      // 2. Argumentacion + pensamiento-sistemico
+      {
+        id: 'soc-p-s11-02',
+        enunciado: 'Un senador propone una ley para reducir el salario mínimo argumentando: "En los países donde se bajó el salario mínimo, el desempleo cayó. Por lo tanto, si reducimos el salario mínimo en Colombia, el desempleo también caerá." ¿Cuál es la principal falla lógica de este argumento?',
+        opciones: [
+          { letra: 'A', texto: 'El argumento es válido porque está basado en evidencia empírica de otros países.' },
+          { letra: 'B', texto: 'El argumento comete una falacia de generalización apresurada: asume que lo que ocurrió en otros contextos ocurrirá necesariamente en Colombia, sin considerar factores específicos del país.' },
+          { letra: 'C', texto: 'El argumento es incorrecto porque ningún país del mundo ha reducido el salario mínimo.' },
+          { letra: 'D', texto: 'El argumento es correcto en su lógica, pero tiene un error de cálculo en las cifras de desempleo.' },
+        ],
+        clave: 'B',
+        justificacion: 'El argumento incurre en una generalización apresurada (o falacia de analogía débil): extrapola resultados de otros países al contexto colombiano sin considerar que cada economía tiene características específicas (estructura laboral, inflación, productividad, instituciones) que pueden producir resultados distintos. Además, la correlación entre salario mínimo bajo y menor desempleo no implica causalidad. La opción A ignora la falacia. La opción C es factualmente incorrecta. La opción D desvía el problema: la falla es lógica, no aritmética.',
+        competencia: 'pensamiento-sistemico',
+        componente: 'argumentacion',
+      },
+
+      // 3. Multiperspectividad + interpretacion
+      {
+        id: 'soc-p-s11-03',
+        enunciado: 'El Acuerdo de Paz firmado en Colombia en 2016 fue apoyado por organizaciones de víctimas, comunidades rurales y organismos internacionales, pero rechazado por sectores políticos que consideraron que concedía demasiados beneficios a los actores armados. ¿Qué herramienta analítica es más útil para comprender este debate?',
+        opciones: [
+          { letra: 'A', texto: 'La objetividad histórica, que permite determinar quién tiene razón en el debate sobre el acuerdo de paz.' },
+          { letra: 'B', texto: 'El análisis multiperspectivo, que permite comprender las distintas posiciones y los valores que las sustentan sin reducir el debate a una sola verdad.' },
+          { letra: 'C', texto: 'El positivismo jurídico, que establece que lo único relevante es lo que dice el texto del acuerdo, independientemente de las opiniones.' },
+          { letra: 'D', texto: 'La teoría conspirativa, que permite identificar los intereses ocultos detrás de cada posición.' },
+        ],
+        clave: 'B',
+        justificacion: 'El debate sobre el Acuerdo de Paz involucra actores con experiencias, valores e intereses legítimamente distintos: las víctimas buscan reparación y no repetición; los opositores políticos exigen mayor justicia retributiva; las comunidades rurales priorizan la seguridad territorial. El análisis multiperspectivo permite comprender estas posiciones sin descalificar ninguna a priori. La opción A supone equivocadamente que existe una "verdad objetiva" en debates normativos y políticos. La opción C reduce el análisis al texto legal, ignorando las experiencias de las personas. La opción D no es una herramienta analítica válida en las ciencias sociales.',
+        competencia: 'interpretacion',
+        componente: 'multiperspectividad',
+      },
+
+      // 4. Conocimientos sociales + pensamiento-sistemico
+      {
+        id: 'soc-p-s11-04',
+        enunciado: 'El Índice de Desarrollo Humano (IDH) mide el progreso de un país en tres dimensiones: salud (esperanza de vida), educación (años de escolaridad) e ingreso (PIB per cápita). Si un país tiene un PIB per cápita alto pero baja esperanza de vida y pocos años de escolaridad, ¿qué conclusión es más adecuada?',
+        opciones: [
+          { letra: 'A', texto: 'El país tiene un alto desarrollo humano porque su ingreso económico es elevado.' },
+          { letra: 'B', texto: 'El crecimiento económico del país no se ha traducido en mejoras proporcionales en la salud y la educación de la población, lo que indica una distribución desigual del bienestar.' },
+          { letra: 'C', texto: 'El IDH del país será alto porque el PIB per cápita compensa las bajas cifras de salud y educación.' },
+          { letra: 'D', texto: 'El país no necesita mejorar la salud ni la educación si ya tiene un PIB alto.' },
+        ],
+        clave: 'B',
+        justificacion: 'El IDH es un indicador multidimensional que combina salud, educación e ingreso. Un PIB alto con baja esperanza de vida y poca escolaridad indica que el crecimiento económico no beneficia por igual a toda la población, evidenciando desigualdad en la distribución del bienestar. El IDH de ese país será medio o bajo porque las tres dimensiones se combinan. La opción A usa solo una dimensión para concluir el nivel de desarrollo. La opción C es incorrecta: las dimensiones se combinan pero no se compensan proporcionalmente de esa forma. La opción D refleja una visión economicista que el IDH precisamente busca superar.',
+        competencia: 'pensamiento-sistemico',
+        componente: 'conocimientos-sociales',
+      },
+
+      // 5. Multiperspectividad + interpretacion
+      {
+        id: 'soc-p-s11-05',
+        enunciado: 'Lee el siguiente fragmento de un discurso político:\n\n"Los movimientos feministas han destruido la familia colombiana. Antes las mujeres eran felices en el hogar y los hombres podían trabajar tranquilos. Hoy, por culpa del feminismo, tenemos más divorcios, menos hijos y una sociedad en crisis."\n\n¿Cuál de los siguientes análisis es más adecuado para evaluar este discurso desde las ciencias sociales?',
+        opciones: [
+          { letra: 'A', texto: 'El discurso es correcto porque las estadísticas de divorcio en Colombia han aumentado en las últimas décadas.' },
+          { letra: 'B', texto: 'El discurso presenta una relación causal no demostrada entre el feminismo y los cambios familiares, ignora los beneficios del movimiento para las mujeres e invisibiliza las perspectivas de quienes han sido históricamente excluidas.' },
+          { letra: 'C', texto: 'El discurso es un ejemplo de pensamiento científico porque usa datos observables (divorcios, natalidad) para sustentar su argumento.' },
+          { letra: 'D', texto: 'El discurso es neutral porque describe cambios sociales sin tomar partido por ningún grupo.' },
+        ],
+        clave: 'B',
+        justificacion: 'El discurso incurre en varias fallas analíticas: (1) establece una relación causal sin evidencia entre el feminismo y el aumento de divorcios; (2) usa un lenguaje nostálgico ("antes las mujeres eran felices") que invisibiliza las desigualdades históricas; (3) ignora completamente la perspectiva de las mujeres y los beneficios reales del feminismo (derechos laborales, acceso a la educación, protección contra la violencia). La opción A confunde correlación con causalidad. La opción C es incorrecta: observar un dato sin establecer relaciones causales válidas no es pensamiento científico. La opción D es incorrecta: el discurso toma claramente una posición contraria al feminismo.',
+        competencia: 'interpretacion',
+        componente: 'multiperspectividad',
       },
     ],
   },
@@ -8251,7 +10216,12 @@ function getICFESData(area) {
   if (area === 'lenguaje') {
     return typeof ICFES_LECTURA_CRITICA !== 'undefined' ? ICFES_LECTURA_CRITICA : null;
   }
-  // Preparado para expandir: 'ciencias-naturales', 'ciencias-sociales'
+  if (area === 'naturales') {
+    return typeof ICFES_NATURALES !== 'undefined' ? ICFES_NATURALES : null;
+  }
+  if (area === 'sociales') {
+    return typeof ICFES_SOCIALES !== 'undefined' ? ICFES_SOCIALES : null;
+  }
   return null;
 }
 
@@ -8667,10 +10637,11 @@ const App = {
     eje: null,
     grado: null,
     periodo: null,
-    vista: 'home', // home | area | plan | busqueda | config
+    vista: 'home', // home | area | plan | busqueda | config | simulacro | simulacro-activo
     sidebarOpen: false,
     iaPanelOpen: false,
-    searchQuery: ''
+    searchQuery: '',
+    simulacro: null // { area, pruebaId, preguntas, respuestas, actual, tiempoInicio, tiempoLimite, timerInterval, finalizado }
   },
 
   init() {
@@ -8726,6 +10697,22 @@ const App = {
       this.state.searchQuery = decodeURIComponent(parts[1] || '');
     } else if (parts[0] === 'config') {
       this.state.vista = 'config';
+    } else if (parts[0] === 'simulacro' && parts[1] && parts[2]) {
+      // Simulacro activo: #/simulacro/{area}/{pruebaId}
+      // Solo iniciar si no hay simulacro activo ya para ese area+prueba
+      const area = parts[1];
+      const pruebaId = parts[2];
+      if (!this.state.simulacro || this.state.simulacro.area !== area || this.state.simulacro.pruebaId !== pruebaId) {
+        this.startSimulacro(area, pruebaId);
+      }
+      this.state.vista = 'simulacro-activo';
+    } else if (parts[0] === 'simulacro') {
+      // Si había simulacro activo, detener el timer
+      if (this.state.simulacro && this.state.simulacro.timerInterval) {
+        clearInterval(this.state.simulacro.timerInterval);
+        this.state.simulacro.timerInterval = null;
+      }
+      this.state.vista = 'simulacro';
     } else {
       this.state.vista = 'home';
     }
@@ -8784,6 +10771,38 @@ const App = {
         case 'open-config': this.navigate('#/config'); break;
         case 'ia-action': this.handleIAAction(val); break;
         case 'ia-gemini': this.handleIAGemini(val); break;
+        case 'start-simulacro': {
+          const areaEl = document.getElementById('sim-select-area');
+          const pruebaEl = document.getElementById('sim-select-prueba');
+          if (areaEl && pruebaEl) {
+            this.navigate(`#/simulacro/${areaEl.value}/${pruebaEl.value}`);
+          }
+          break;
+        }
+        case 'simulacro-respuesta':
+          if (this.state.simulacro && !this.state.simulacro.finalizado) {
+            const idx = this.state.simulacro.actual;
+            this.state.simulacro.respuestas[idx] = val;
+            // Activar visualmente la opcion seleccionada
+            document.querySelectorAll('.simulacro-opcion').forEach(el => {
+              el.classList.toggle('selected', el.dataset.value === val);
+            });
+            // Habilitar boton siguiente/finalizar
+            const btnNext = document.getElementById('sim-btn-next');
+            if (btnNext) btnNext.disabled = false;
+          }
+          break;
+        case 'simulacro-next':
+          this.nextPregunta();
+          break;
+        case 'simulacro-finalizar':
+          this.finalizarSimulacro();
+          break;
+        case 'simulacro-abandonar':
+          if (confirm('Abandonar el simulacro. Se perderan las respuestas actuales. Continuar?')) {
+            this.finalizarSimulacro(true);
+          }
+          break;
       }
     });
 
@@ -8942,6 +10961,15 @@ const App = {
       case 'plan': main.innerHTML = this.renderPlan(); break;
       case 'busqueda': main.innerHTML = this.renderBusqueda(); break;
       case 'config': main.innerHTML = this.renderConfig(); break;
+      case 'simulacro': main.innerHTML = this.renderSimulacro(); break;
+      case 'simulacro-activo':
+        if (this.state.simulacro && this.state.simulacro.finalizado) {
+          main.innerHTML = this.renderSimulacroResultados();
+        } else {
+          main.innerHTML = this.renderSimulacroActivo();
+          this.startTimer();
+        }
+        break;
     }
 
     this.renderSidebar();
@@ -9239,7 +11267,6 @@ const App = {
     const { pruebaICFES, aprendizajes, competencias, componentes } = articulacion;
     const niveles = getNivelesDesempeno(area, pruebaICFES.id);
 
-    // Mapeo eje EBC → componente ICFES (Matemáticas)
     // Mapeo eje EBC → componente ICFES por área
     const EJE_A_COMPONENTE = {
       // Matemáticas
@@ -9253,7 +11280,16 @@ const App = {
       'literatura': 'semantico',
       'produccion': 'sintactico',
       'medios': 'pragmatico',
-      'etica': 'pragmatico'
+      'etica': 'pragmatico',
+      // Ciencias Naturales
+      'entorno-vivo': 'entorno-vivo',
+      'entorno-fisico': 'entorno-fisico',
+      'cts': 'cts',
+      'aprox-cientifica': 'cts',
+      // Ciencias Sociales
+      'historico-cultural': 'conocimientos-sociales',
+      'espacial-ambiental': 'conocimientos-sociales',
+      'etico-politico': 'multiperspectividad'
     };
     const componenteFiltro = ejeFiltro ? EJE_A_COMPONENTE[ejeFiltro] : null;
     const componentesFiltrados = componenteFiltro
@@ -9939,12 +11975,421 @@ const App = {
         `).join('')}
       </ul>
 
+      <div class="sidebar-label">Herramientas</div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-item ${this.state.vista === 'simulacro' || this.state.vista === 'simulacro-activo' ? 'active' : ''}" data-action="navigate" data-value="#/simulacro">
+          <span class="sidebar-item-icon">📝</span> Simulacro ICFES
+        </li>
+      </ul>
+
       <div class="sidebar-label" style="margin-top:auto">Sistema</div>
       <ul class="sidebar-nav">
         <li class="sidebar-item ${this.state.vista === 'config' ? 'active' : ''}" data-action="navigate" data-value="#/config">
           <span class="sidebar-item-icon">⚙</span> Configuración
         </li>
       </ul>
+    `;
+  },
+
+  // === SIMULACRO ICFES ===
+
+  // Configuracion de areas y pruebas disponibles para simulacro
+  _simulacroAreas() {
+    return [
+      { id: 'matematicas', nombre: 'Matematicas', icon: '📐' },
+      { id: 'lenguaje',    nombre: 'Lectura Critica', icon: '📖' },
+      { id: 'naturales',   nombre: 'Ciencias Naturales', icon: '🔬' },
+      { id: 'sociales',    nombre: 'Sociales y Ciudadanas', icon: '🏛' }
+    ];
+  },
+
+  _simulacroPruebas() {
+    return [
+      { id: 'saber-9',  nombre: 'Saber 9°' },
+      { id: 'saber-11', nombre: 'Saber 11°' }
+    ];
+  },
+
+  // Fisher-Yates shuffle (inmutable: devuelve nuevo array)
+  _shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  },
+
+  // Inicializa el estado del simulacro
+  startSimulacro(area, pruebaId) {
+    // Limpiar timer anterior si existe
+    if (this.state.simulacro && this.state.simulacro.timerInterval) {
+      clearInterval(this.state.simulacro.timerInterval);
+    }
+
+    const preguntas = (typeof PREGUNTAS_ICFES !== 'undefined' && PREGUNTAS_ICFES[area] && PREGUNTAS_ICFES[area][pruebaId])
+      ? this._shuffle(PREGUNTAS_ICFES[area][pruebaId])
+      : [];
+
+    const minutosPorPregunta = 2;
+    const tiempoLimite = preguntas.length * minutosPorPregunta * 60; // en segundos
+
+    this.state.simulacro = {
+      area,
+      pruebaId,
+      preguntas,
+      respuestas: {},
+      actual: 0,
+      tiempoInicio: Date.now(),
+      tiempoLimite,
+      tiempoRestante: tiempoLimite,
+      timerInterval: null,
+      finalizado: false
+    };
+  },
+
+  // Arranca el timer de cuenta regresiva (llamado despues de render)
+  startTimer() {
+    if (!this.state.simulacro || this.state.simulacro.finalizado) return;
+    // Limpiar timer previo
+    if (this.state.simulacro.timerInterval) {
+      clearInterval(this.state.simulacro.timerInterval);
+    }
+
+    this.state.simulacro.timerInterval = setInterval(() => {
+      if (!this.state.simulacro || this.state.simulacro.finalizado) return;
+
+      const elapsed = Math.floor((Date.now() - this.state.simulacro.tiempoInicio) / 1000);
+      const restante = Math.max(0, this.state.simulacro.tiempoLimite - elapsed);
+      this.state.simulacro.tiempoRestante = restante;
+
+      // Actualizar display del timer
+      const timerEl = document.getElementById('sim-timer');
+      if (timerEl) {
+        const mm = String(Math.floor(restante / 60)).padStart(2, '0');
+        const ss = String(restante % 60).padStart(2, '0');
+        timerEl.textContent = `${mm}:${ss}`;
+        timerEl.classList.toggle('urgente', restante < 60);
+      }
+
+      if (restante <= 0) {
+        this.finalizarSimulacro();
+      }
+    }, 1000);
+  },
+
+  // Avanza a la siguiente pregunta o finaliza
+  nextPregunta() {
+    if (!this.state.simulacro) return;
+    const { preguntas, actual } = this.state.simulacro;
+
+    if (actual + 1 >= preguntas.length) {
+      this.finalizarSimulacro();
+      return;
+    }
+
+    this.state.simulacro.actual = actual + 1;
+    const main = document.getElementById('main-content');
+    if (main) {
+      main.innerHTML = this.renderSimulacroActivo();
+      // Restaurar seleccion si existe
+      const resp = this.state.simulacro.respuestas[this.state.simulacro.actual];
+      if (resp) {
+        document.querySelectorAll('.simulacro-opcion').forEach(el => {
+          el.classList.toggle('selected', el.dataset.value === resp);
+        });
+        const btnNext = document.getElementById('sim-btn-next');
+        if (btnNext) btnNext.disabled = false;
+      }
+    }
+  },
+
+  // Finaliza el simulacro y muestra resultados
+  finalizarSimulacro(abandonar) {
+    if (!this.state.simulacro) return;
+
+    if (this.state.simulacro.timerInterval) {
+      clearInterval(this.state.simulacro.timerInterval);
+      this.state.simulacro.timerInterval = null;
+    }
+    this.state.simulacro.finalizado = true;
+    this.state.simulacro.tiempoFin = Date.now();
+
+    const main = document.getElementById('main-content');
+    if (main) {
+      main.innerHTML = this.renderSimulacroResultados(abandonar);
+    }
+  },
+
+  // Vista de seleccion de simulacro
+  renderSimulacro() {
+    const areas = this._simulacroAreas();
+    const pruebas = this._simulacroPruebas();
+
+    const cards = areas.flatMap(area =>
+      pruebas.map(prueba => {
+        const tienePreguntas = (typeof PREGUNTAS_ICFES !== 'undefined')
+          && Array.isArray(PREGUNTAS_ICFES[area.id]?.[prueba.id])
+          && PREGUNTAS_ICFES[area.id][prueba.id].length > 0;
+        const numPreguntas = tienePreguntas ? PREGUNTAS_ICFES[area.id][prueba.id].length : 0;
+        const minutos = numPreguntas * 2;
+
+        return `
+          <div class="simulacro-card card ${tienePreguntas ? '' : 'simulacro-card-disabled'}">
+            <div class="card-body">
+              <div class="simulacro-card-icon">${area.icon}</div>
+              <div class="simulacro-card-area">${area.nombre}</div>
+              <div class="simulacro-card-prueba">${prueba.nombre}</div>
+              ${tienePreguntas ? `
+                <div class="simulacro-card-meta">
+                  <span class="badge badge-muted">${numPreguntas} preguntas</span>
+                  <span class="badge badge-muted">~${minutos} min</span>
+                </div>
+                <button class="btn btn-primary w-full mt-4"
+                        data-action="navigate"
+                        data-value="#/simulacro/${area.id}/${prueba.id}">
+                  Iniciar Simulacro
+                </button>
+              ` : `
+                <p class="simulacro-unavail">No hay preguntas disponibles para esta prueba. Proximamente.</p>
+                <button class="btn btn-secondary w-full mt-4" disabled>Proximamente</button>
+              `}
+            </div>
+          </div>
+        `;
+      })
+    ).join('');
+
+    return `
+      <h1 class="section-title">Simulacro ICFES</h1>
+      <p class="section-description">
+        Practica con preguntas tipo Saber en condiciones de examen. Las preguntas se presentan en orden aleatorio con temporizador.
+        Al finalizar, recibiras tu puntaje, porcentaje de acierto y retroalimentacion por pregunta.
+      </p>
+
+      <div class="simulacro-grid">
+        ${cards}
+      </div>
+    `;
+  },
+
+  // Vista del simulacro en curso
+  renderSimulacroActivo() {
+    const sim = this.state.simulacro;
+    if (!sim || !sim.preguntas.length) {
+      return `
+        <div class="empty-state">
+          <div class="empty-state-icon">📝</div>
+          <div class="empty-state-title">Sin preguntas disponibles</div>
+          <p class="empty-state-text">No hay preguntas para esta combinacion.</p>
+          <button class="btn btn-primary mt-4" data-action="navigate" data-value="#/simulacro">Volver al Simulacro</button>
+        </div>
+      `;
+    }
+
+    const { preguntas, actual, tiempoRestante, respuestas, pruebaId, area } = sim;
+    const pregunta = preguntas[actual];
+    const totalPreguntas = preguntas.length;
+    const progPct = Math.round((actual / totalPreguntas) * 100);
+
+    const mm = String(Math.floor(tiempoRestante / 60)).padStart(2, '0');
+    const ss = String(tiempoRestante % 60).padStart(2, '0');
+    const esUltima = actual + 1 >= totalPreguntas;
+    const respActual = respuestas[actual];
+
+    const areaLabels = { matematicas: 'Matematicas', lenguaje: 'Lectura Critica', naturales: 'Ciencias Naturales', sociales: 'Sociales y Ciudadanas' };
+    const pruebaLabels = { 'saber-9': 'Saber 9°', 'saber-11': 'Saber 11°' };
+
+    return `
+      <!-- Barra superior -->
+      <div class="simulacro-header">
+        <div class="simulacro-header-info">
+          <span class="badge badge-muted">${areaLabels[area] || area}</span>
+          <span class="badge badge-muted">${pruebaLabels[pruebaId] || pruebaId}</span>
+          <span class="simulacro-num">Pregunta ${actual + 1} de ${totalPreguntas}</span>
+        </div>
+        <div class="simulacro-header-controls">
+          <div class="simulacro-timer ${tiempoRestante < 60 ? 'urgente' : ''}" id="sim-timer">
+            ${mm}:${ss}
+          </div>
+          <button class="btn btn-ghost btn-sm" data-action="simulacro-abandonar">Abandonar</button>
+        </div>
+      </div>
+
+      <!-- Barra de progreso -->
+      <div class="simulacro-progress">
+        <div class="simulacro-progress-bar" style="width:${progPct}%"></div>
+      </div>
+
+      <!-- Pregunta actual -->
+      <div class="simulacro-pregunta card">
+        <div class="card-body">
+          <div class="simulacro-enunciado">${pregunta.enunciado.replace(/\n/g, '<br>')}</div>
+
+          <div class="simulacro-opciones">
+            ${pregunta.opciones.map(op => `
+              <div class="simulacro-opcion ${respActual === op.letra ? 'selected' : ''}"
+                   data-action="simulacro-respuesta"
+                   data-value="${op.letra}">
+                <span class="simulacro-opcion-letra">${op.letra}</span>
+                <span class="simulacro-opcion-texto">${op.texto}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+
+      <!-- Controles de navegacion -->
+      <div class="simulacro-nav">
+        ${esUltima
+          ? `<button class="btn btn-primary btn-lg" id="sim-btn-next"
+                     data-action="simulacro-finalizar"
+                     ${!respActual ? 'disabled' : ''}>
+               Finalizar Simulacro
+             </button>`
+          : `<button class="btn btn-primary" id="sim-btn-next"
+                     data-action="simulacro-next"
+                     ${!respActual ? 'disabled' : ''}>
+               Siguiente Pregunta
+             </button>`
+        }
+      </div>
+    `;
+  },
+
+  // Pantalla de resultados
+  renderSimulacroResultados(abandonado) {
+    const sim = this.state.simulacro;
+    if (!sim) {
+      return `<div class="empty-state"><p class="empty-state-text">No hay simulacro activo.</p></div>`;
+    }
+
+    const { preguntas, respuestas, area, pruebaId } = sim;
+    const total = preguntas.length;
+    const respondidas = Object.keys(respuestas).length;
+
+    // Calcular correctas
+    let correctas = 0;
+    const detalles = preguntas.map((p, i) => {
+      const respuesta = respuestas[i];
+      const esCorrecto = respuesta === p.clave;
+      if (esCorrecto) correctas++;
+      return { pregunta: p, respuesta, esCorrecto, indice: i };
+    });
+
+    const porcentaje = total > 0 ? Math.round((correctas / total) * 100) : 0;
+
+    // Desglose por competencia
+    const porCompetencia = {};
+    for (const d of detalles) {
+      const comp = d.pregunta.competencia || 'otro';
+      if (!porCompetencia[comp]) porCompetencia[comp] = { total: 0, correctas: 0 };
+      porCompetencia[comp].total++;
+      if (d.esCorrecto) porCompetencia[comp].correctas++;
+    }
+
+    // Tiempo usado
+    const tiempoUsado = sim.tiempoFin
+      ? Math.floor((sim.tiempoFin - sim.tiempoInicio) / 1000)
+      : sim.tiempoLimite - (sim.tiempoRestante || 0);
+    const mmUsado = String(Math.floor(tiempoUsado / 60)).padStart(2, '0');
+    const ssUsado = String(tiempoUsado % 60).padStart(2, '0');
+
+    const areaLabels = { matematicas: 'Matematicas', lenguaje: 'Lectura Critica', naturales: 'Ciencias Naturales', sociales: 'Sociales y Ciudadanas' };
+    const pruebaLabels = { 'saber-9': 'Saber 9°', 'saber-11': 'Saber 11°' };
+
+    const scoreColor = porcentaje >= 70 ? 'var(--success)' : porcentaje >= 50 ? 'var(--warning)' : 'var(--danger)';
+
+    return `
+      <div class="simulacro-resultados">
+        <!-- Encabezado -->
+        <div class="flex items-center justify-between" style="flex-wrap:wrap; gap:var(--sp-3)">
+          <div>
+            <h1 class="section-title">Resultados del Simulacro</h1>
+            <p class="text-sm text-secondary">${areaLabels[area] || area} · ${pruebaLabels[pruebaId] || pruebaId}</p>
+          </div>
+          <button class="btn btn-secondary" data-action="navigate" data-value="#/simulacro">Nuevo Simulacro</button>
+        </div>
+
+        ${abandonado ? '<div class="badge badge-muted" style="margin-bottom:var(--sp-4)">Simulacro abandonado</div>' : ''}
+
+        <!-- Puntaje principal -->
+        <div class="simulacro-score-panel card">
+          <div class="card-body">
+            <div class="simulacro-score-center">
+              <div class="simulacro-score" style="color:${scoreColor}">${correctas}/${total}</div>
+              <div class="simulacro-score-pct" style="color:${scoreColor}">${porcentaje}% de acierto</div>
+              <div class="simulacro-score-meta text-muted text-sm">
+                Tiempo usado: ${mmUsado}:${ssUsado} &nbsp;·&nbsp; Respondidas: ${respondidas}/${total}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desglose por competencia -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Desglose por Competencia</span>
+          </div>
+          <div class="card-body">
+            <div class="simulacro-competencias-grid">
+              ${Object.entries(porCompetencia).map(([comp, datos]) => {
+                const pct = datos.total > 0 ? Math.round((datos.correctas / datos.total) * 100) : 0;
+                const color = pct >= 70 ? 'var(--success)' : pct >= 50 ? 'var(--warning)' : 'var(--danger)';
+                return `
+                  <div class="simulacro-comp-item">
+                    <div class="simulacro-comp-nombre">${comp}</div>
+                    <div class="simulacro-comp-barra-wrap">
+                      <div class="simulacro-comp-barra">
+                        <div class="simulacro-comp-fill" style="width:${pct}%; background:${color}"></div>
+                      </div>
+                      <span class="simulacro-comp-pct" style="color:${color}">${pct}%</span>
+                    </div>
+                    <div class="text-xs text-muted">${datos.correctas}/${datos.total} correctas</div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        </div>
+
+        <!-- Detalle por pregunta -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Detalle por Pregunta</span>
+            <span class="badge badge-muted">${total} preguntas</span>
+          </div>
+          <div class="card-body" style="padding:0">
+            ${detalles.map((d, i) => `
+              <div class="simulacro-detalle-item ${d.esCorrecto ? 'simulacro-correcta' : 'simulacro-incorrecta'}">
+                <div class="simulacro-detalle-header">
+                  <span class="simulacro-detalle-num">${i + 1}</span>
+                  <span class="simulacro-mark">${d.esCorrecto ? '✓' : '✗'}</span>
+                  <div class="simulacro-detalle-enunciado">${d.pregunta.enunciado.length > 140
+                    ? d.pregunta.enunciado.substring(0, 140) + '...'
+                    : d.pregunta.enunciado}</div>
+                  <div class="flex gap-2 ml-auto">
+                    <span class="badge badge-muted" style="font-size:0.6rem">${d.pregunta.competencia || ''}</span>
+                  </div>
+                </div>
+                <div class="simulacro-detalle-respuestas">
+                  ${!d.respuesta ? '<span class="text-muted text-xs">Sin respuesta</span>' : ''}
+                  ${d.respuesta && !d.esCorrecto ? `
+                    <span class="simulacro-resp-incorrecta">Tu respuesta: ${d.respuesta}</span>
+                  ` : ''}
+                  <span class="simulacro-resp-correcta">Correcta: ${d.pregunta.clave}</span>
+                </div>
+                <details class="simulacro-justificacion">
+                  <summary class="text-xs text-accent" style="cursor:pointer; padding:var(--sp-2) var(--sp-4)">
+                    Ver justificacion
+                  </summary>
+                  <p class="text-sm text-secondary simulacro-justif-texto">${d.pregunta.justificacion}</p>
+                </details>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
     `;
   },
 

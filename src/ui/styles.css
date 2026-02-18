@@ -1873,3 +1873,448 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 .icfes-justificacion summary {
   font-weight: 500;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   SIMULACRO ICFES
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Grid de tarjetas de seleccion */
+.simulacro-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--sp-4);
+  margin-top: var(--sp-4);
+}
+
+.simulacro-card {
+  cursor: pointer;
+  transition: all var(--dur-normal) var(--ease-out);
+}
+
+.simulacro-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md), var(--shadow-glow);
+  transform: translateY(-2px);
+}
+
+.simulacro-card-disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.simulacro-card-disabled:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--border-subtle);
+}
+
+.simulacro-card-icon {
+  font-size: 32px;
+  margin-bottom: var(--sp-3);
+}
+
+.simulacro-card-area {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--sp-1);
+}
+
+.simulacro-card-prueba {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--sp-3);
+}
+
+.simulacro-card-meta {
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.simulacro-unavail {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: var(--leading-loose);
+  margin-top: var(--sp-3);
+  font-style: italic;
+}
+
+/* Barra superior del simulacro activo */
+.simulacro-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-5);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  flex-wrap: wrap;
+}
+
+.simulacro-header-info {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.simulacro-header-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.simulacro-num {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Temporizador */
+.simulacro-timer {
+  font-family: var(--font-mono);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  background: var(--bg-overlay);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: var(--sp-1) var(--sp-3);
+  letter-spacing: 0.05em;
+  transition: color var(--dur-fast), background var(--dur-fast), border-color var(--dur-fast);
+}
+
+.simulacro-timer.urgente {
+  color: var(--danger);
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  animation: timer-pulse 1s ease-in-out infinite;
+}
+
+@keyframes timer-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.7; }
+}
+
+/* Barra de progreso */
+.simulacro-progress {
+  height: 4px;
+  background: var(--bg-overlay);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.simulacro-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-glow));
+  border-radius: 2px;
+  transition: width var(--dur-normal) var(--ease-out);
+}
+
+/* Tarjeta de pregunta */
+.simulacro-pregunta {
+  margin-top: 0;
+}
+
+.simulacro-enunciado {
+  font-size: var(--text-base);
+  line-height: var(--leading-loose);
+  color: var(--text-primary);
+  margin-bottom: var(--sp-5);
+  white-space: pre-line;
+}
+
+/* Opciones de respuesta */
+.simulacro-opciones {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.simulacro-opcion {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--bg-base);
+  border: 2px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease-out);
+  user-select: none;
+}
+
+.simulacro-opcion:hover {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.simulacro-opcion.selected {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.simulacro-opcion-letra {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bg-overlay);
+  border: 1px solid var(--border-default);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: all var(--dur-fast);
+}
+
+.simulacro-opcion.selected .simulacro-opcion-letra {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+.simulacro-opcion-texto {
+  font-size: var(--text-sm);
+  line-height: var(--leading-loose);
+  color: var(--text-secondary);
+}
+
+.simulacro-opcion.selected .simulacro-opcion-texto {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* Controles de navegacion */
+.simulacro-nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--sp-3);
+  padding-top: var(--sp-2);
+}
+
+/* Pantalla de resultados */
+.simulacro-resultados {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.simulacro-score-panel {
+  border-left: 4px solid var(--accent);
+}
+
+.simulacro-score-center {
+  text-align: center;
+  padding: var(--sp-4) 0;
+}
+
+.simulacro-score {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  font-weight: 800;
+  letter-spacing: var(--tracking-tight);
+  line-height: 1;
+  margin-bottom: var(--sp-2);
+}
+
+.simulacro-score-pct {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  margin-bottom: var(--sp-2);
+}
+
+.simulacro-score-meta {
+  margin-top: var(--sp-2);
+}
+
+/* Desglose por competencia */
+.simulacro-competencias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--sp-4);
+}
+
+.simulacro-comp-item {
+  padding: var(--sp-3);
+  background: var(--bg-base);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+}
+
+.simulacro-comp-nombre {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--sp-2);
+  text-transform: capitalize;
+}
+
+.simulacro-comp-barra-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-1);
+}
+
+.simulacro-comp-barra {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-overlay);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.simulacro-comp-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width var(--dur-slow) var(--ease-out);
+}
+
+.simulacro-comp-pct {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  min-width: 2.5em;
+  text-align: right;
+}
+
+/* Detalle por pregunta */
+.simulacro-detalle-item {
+  border-bottom: 1px solid var(--border-subtle);
+  padding: var(--sp-4) var(--sp-5);
+  transition: background var(--dur-fast);
+}
+
+.simulacro-detalle-item:last-child {
+  border-bottom: none;
+}
+
+.simulacro-detalle-item.simulacro-correcta {
+  border-left: 3px solid var(--success);
+}
+
+.simulacro-detalle-item.simulacro-incorrecta {
+  border-left: 3px solid var(--danger);
+}
+
+.simulacro-detalle-header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.simulacro-detalle-num {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--text-muted);
+  min-width: 1.5em;
+  margin-top: 2px;
+}
+
+.simulacro-mark {
+  font-size: var(--text-base);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.simulacro-detalle-item.simulacro-correcta .simulacro-mark {
+  color: var(--success);
+}
+
+.simulacro-detalle-item.simulacro-incorrecta .simulacro-mark {
+  color: var(--danger);
+}
+
+.simulacro-detalle-enunciado {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: var(--leading-normal);
+  flex: 1;
+  min-width: 0;
+}
+
+.simulacro-detalle-respuestas {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  padding: var(--sp-2) 0;
+  flex-wrap: wrap;
+}
+
+.simulacro-resp-incorrecta {
+  color: var(--danger);
+  background: rgba(239, 68, 68, 0.1);
+  padding: 2px var(--sp-2);
+  border-radius: var(--radius-full);
+}
+
+.simulacro-resp-correcta {
+  color: var(--success);
+  background: rgba(16, 185, 129, 0.1);
+  padding: 2px var(--sp-2);
+  border-radius: var(--radius-full);
+}
+
+.simulacro-justificacion summary {
+  font-weight: 500;
+}
+
+.simulacro-justif-texto {
+  line-height: var(--leading-loose);
+  padding: var(--sp-3) var(--sp-5) var(--sp-4);
+  border-top: 1px dashed var(--border-subtle);
+  margin-top: var(--sp-2);
+}
+
+/* Responsive simulacro */
+@media (max-width: 768px) {
+  .simulacro-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .simulacro-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .simulacro-header-controls {
+    justify-content: space-between;
+  }
+
+  .simulacro-score {
+    font-size: 3rem;
+  }
+
+  .simulacro-competencias-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .simulacro-detalle-header {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .simulacro-detalle-header .ml-auto {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .simulacro-timer {
+    font-size: var(--text-lg);
+  }
+
+  .simulacro-score {
+    font-size: 2.5rem;
+  }
+}

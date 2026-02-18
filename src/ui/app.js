@@ -28,10 +28,11 @@ const App = {
     eje: null,
     grado: null,
     periodo: null,
-    vista: 'home', // home | area | plan | busqueda | config
+    vista: 'home', // home | area | plan | busqueda | config | simulacro | simulacro-activo
     sidebarOpen: false,
     iaPanelOpen: false,
-    searchQuery: ''
+    searchQuery: '',
+    simulacro: null // { area, pruebaId, preguntas, respuestas, actual, tiempoInicio, tiempoLimite, timerInterval, finalizado }
   },
 
   init() {
@@ -87,6 +88,22 @@ const App = {
       this.state.searchQuery = decodeURIComponent(parts[1] || '');
     } else if (parts[0] === 'config') {
       this.state.vista = 'config';
+    } else if (parts[0] === 'simulacro' && parts[1] && parts[2]) {
+      // Simulacro activo: #/simulacro/{area}/{pruebaId}
+      // Solo iniciar si no hay simulacro activo ya para ese area+prueba
+      const area = parts[1];
+      const pruebaId = parts[2];
+      if (!this.state.simulacro || this.state.simulacro.area !== area || this.state.simulacro.pruebaId !== pruebaId) {
+        this.startSimulacro(area, pruebaId);
+      }
+      this.state.vista = 'simulacro-activo';
+    } else if (parts[0] === 'simulacro') {
+      // Si había simulacro activo, detener el timer
+      if (this.state.simulacro && this.state.simulacro.timerInterval) {
+        clearInterval(this.state.simulacro.timerInterval);
+        this.state.simulacro.timerInterval = null;
+      }
+      this.state.vista = 'simulacro';
     } else {
       this.state.vista = 'home';
     }
@@ -145,6 +162,38 @@ const App = {
         case 'open-config': this.navigate('#/config'); break;
         case 'ia-action': this.handleIAAction(val); break;
         case 'ia-gemini': this.handleIAGemini(val); break;
+        case 'start-simulacro': {
+          const areaEl = document.getElementById('sim-select-area');
+          const pruebaEl = document.getElementById('sim-select-prueba');
+          if (areaEl && pruebaEl) {
+            this.navigate(`#/simulacro/${areaEl.value}/${pruebaEl.value}`);
+          }
+          break;
+        }
+        case 'simulacro-respuesta':
+          if (this.state.simulacro && !this.state.simulacro.finalizado) {
+            const idx = this.state.simulacro.actual;
+            this.state.simulacro.respuestas[idx] = val;
+            // Activar visualmente la opcion seleccionada
+            document.querySelectorAll('.simulacro-opcion').forEach(el => {
+              el.classList.toggle('selected', el.dataset.value === val);
+            });
+            // Habilitar boton siguiente/finalizar
+            const btnNext = document.getElementById('sim-btn-next');
+            if (btnNext) btnNext.disabled = false;
+          }
+          break;
+        case 'simulacro-next':
+          this.nextPregunta();
+          break;
+        case 'simulacro-finalizar':
+          this.finalizarSimulacro();
+          break;
+        case 'simulacro-abandonar':
+          if (confirm('Abandonar el simulacro. Se perderan las respuestas actuales. Continuar?')) {
+            this.finalizarSimulacro(true);
+          }
+          break;
       }
     });
 
@@ -303,6 +352,15 @@ const App = {
       case 'plan': main.innerHTML = this.renderPlan(); break;
       case 'busqueda': main.innerHTML = this.renderBusqueda(); break;
       case 'config': main.innerHTML = this.renderConfig(); break;
+      case 'simulacro': main.innerHTML = this.renderSimulacro(); break;
+      case 'simulacro-activo':
+        if (this.state.simulacro && this.state.simulacro.finalizado) {
+          main.innerHTML = this.renderSimulacroResultados();
+        } else {
+          main.innerHTML = this.renderSimulacroActivo();
+          this.startTimer();
+        }
+        break;
     }
 
     this.renderSidebar();
@@ -600,7 +658,6 @@ const App = {
     const { pruebaICFES, aprendizajes, competencias, componentes } = articulacion;
     const niveles = getNivelesDesempeno(area, pruebaICFES.id);
 
-    // Mapeo eje EBC → componente ICFES (Matemáticas)
     // Mapeo eje EBC → componente ICFES por área
     const EJE_A_COMPONENTE = {
       // Matemáticas
@@ -614,7 +671,16 @@ const App = {
       'literatura': 'semantico',
       'produccion': 'sintactico',
       'medios': 'pragmatico',
-      'etica': 'pragmatico'
+      'etica': 'pragmatico',
+      // Ciencias Naturales
+      'entorno-vivo': 'entorno-vivo',
+      'entorno-fisico': 'entorno-fisico',
+      'cts': 'cts',
+      'aprox-cientifica': 'cts',
+      // Ciencias Sociales
+      'historico-cultural': 'conocimientos-sociales',
+      'espacial-ambiental': 'conocimientos-sociales',
+      'etico-politico': 'multiperspectividad'
     };
     const componenteFiltro = ejeFiltro ? EJE_A_COMPONENTE[ejeFiltro] : null;
     const componentesFiltrados = componenteFiltro
@@ -1300,12 +1366,421 @@ const App = {
         `).join('')}
       </ul>
 
+      <div class="sidebar-label">Herramientas</div>
+      <ul class="sidebar-nav">
+        <li class="sidebar-item ${this.state.vista === 'simulacro' || this.state.vista === 'simulacro-activo' ? 'active' : ''}" data-action="navigate" data-value="#/simulacro">
+          <span class="sidebar-item-icon">📝</span> Simulacro ICFES
+        </li>
+      </ul>
+
       <div class="sidebar-label" style="margin-top:auto">Sistema</div>
       <ul class="sidebar-nav">
         <li class="sidebar-item ${this.state.vista === 'config' ? 'active' : ''}" data-action="navigate" data-value="#/config">
           <span class="sidebar-item-icon">⚙</span> Configuración
         </li>
       </ul>
+    `;
+  },
+
+  // === SIMULACRO ICFES ===
+
+  // Configuracion de areas y pruebas disponibles para simulacro
+  _simulacroAreas() {
+    return [
+      { id: 'matematicas', nombre: 'Matematicas', icon: '📐' },
+      { id: 'lenguaje',    nombre: 'Lectura Critica', icon: '📖' },
+      { id: 'naturales',   nombre: 'Ciencias Naturales', icon: '🔬' },
+      { id: 'sociales',    nombre: 'Sociales y Ciudadanas', icon: '🏛' }
+    ];
+  },
+
+  _simulacroPruebas() {
+    return [
+      { id: 'saber-9',  nombre: 'Saber 9°' },
+      { id: 'saber-11', nombre: 'Saber 11°' }
+    ];
+  },
+
+  // Fisher-Yates shuffle (inmutable: devuelve nuevo array)
+  _shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  },
+
+  // Inicializa el estado del simulacro
+  startSimulacro(area, pruebaId) {
+    // Limpiar timer anterior si existe
+    if (this.state.simulacro && this.state.simulacro.timerInterval) {
+      clearInterval(this.state.simulacro.timerInterval);
+    }
+
+    const preguntas = (typeof PREGUNTAS_ICFES !== 'undefined' && PREGUNTAS_ICFES[area] && PREGUNTAS_ICFES[area][pruebaId])
+      ? this._shuffle(PREGUNTAS_ICFES[area][pruebaId])
+      : [];
+
+    const minutosPorPregunta = 2;
+    const tiempoLimite = preguntas.length * minutosPorPregunta * 60; // en segundos
+
+    this.state.simulacro = {
+      area,
+      pruebaId,
+      preguntas,
+      respuestas: {},
+      actual: 0,
+      tiempoInicio: Date.now(),
+      tiempoLimite,
+      tiempoRestante: tiempoLimite,
+      timerInterval: null,
+      finalizado: false
+    };
+  },
+
+  // Arranca el timer de cuenta regresiva (llamado despues de render)
+  startTimer() {
+    if (!this.state.simulacro || this.state.simulacro.finalizado) return;
+    // Limpiar timer previo
+    if (this.state.simulacro.timerInterval) {
+      clearInterval(this.state.simulacro.timerInterval);
+    }
+
+    this.state.simulacro.timerInterval = setInterval(() => {
+      if (!this.state.simulacro || this.state.simulacro.finalizado) return;
+
+      const elapsed = Math.floor((Date.now() - this.state.simulacro.tiempoInicio) / 1000);
+      const restante = Math.max(0, this.state.simulacro.tiempoLimite - elapsed);
+      this.state.simulacro.tiempoRestante = restante;
+
+      // Actualizar display del timer
+      const timerEl = document.getElementById('sim-timer');
+      if (timerEl) {
+        const mm = String(Math.floor(restante / 60)).padStart(2, '0');
+        const ss = String(restante % 60).padStart(2, '0');
+        timerEl.textContent = `${mm}:${ss}`;
+        timerEl.classList.toggle('urgente', restante < 60);
+      }
+
+      if (restante <= 0) {
+        this.finalizarSimulacro();
+      }
+    }, 1000);
+  },
+
+  // Avanza a la siguiente pregunta o finaliza
+  nextPregunta() {
+    if (!this.state.simulacro) return;
+    const { preguntas, actual } = this.state.simulacro;
+
+    if (actual + 1 >= preguntas.length) {
+      this.finalizarSimulacro();
+      return;
+    }
+
+    this.state.simulacro.actual = actual + 1;
+    const main = document.getElementById('main-content');
+    if (main) {
+      main.innerHTML = this.renderSimulacroActivo();
+      // Restaurar seleccion si existe
+      const resp = this.state.simulacro.respuestas[this.state.simulacro.actual];
+      if (resp) {
+        document.querySelectorAll('.simulacro-opcion').forEach(el => {
+          el.classList.toggle('selected', el.dataset.value === resp);
+        });
+        const btnNext = document.getElementById('sim-btn-next');
+        if (btnNext) btnNext.disabled = false;
+      }
+    }
+  },
+
+  // Finaliza el simulacro y muestra resultados
+  finalizarSimulacro(abandonar) {
+    if (!this.state.simulacro) return;
+
+    if (this.state.simulacro.timerInterval) {
+      clearInterval(this.state.simulacro.timerInterval);
+      this.state.simulacro.timerInterval = null;
+    }
+    this.state.simulacro.finalizado = true;
+    this.state.simulacro.tiempoFin = Date.now();
+
+    const main = document.getElementById('main-content');
+    if (main) {
+      main.innerHTML = this.renderSimulacroResultados(abandonar);
+    }
+  },
+
+  // Vista de seleccion de simulacro
+  renderSimulacro() {
+    const areas = this._simulacroAreas();
+    const pruebas = this._simulacroPruebas();
+
+    const cards = areas.flatMap(area =>
+      pruebas.map(prueba => {
+        const tienePreguntas = (typeof PREGUNTAS_ICFES !== 'undefined')
+          && Array.isArray(PREGUNTAS_ICFES[area.id]?.[prueba.id])
+          && PREGUNTAS_ICFES[area.id][prueba.id].length > 0;
+        const numPreguntas = tienePreguntas ? PREGUNTAS_ICFES[area.id][prueba.id].length : 0;
+        const minutos = numPreguntas * 2;
+
+        return `
+          <div class="simulacro-card card ${tienePreguntas ? '' : 'simulacro-card-disabled'}">
+            <div class="card-body">
+              <div class="simulacro-card-icon">${area.icon}</div>
+              <div class="simulacro-card-area">${area.nombre}</div>
+              <div class="simulacro-card-prueba">${prueba.nombre}</div>
+              ${tienePreguntas ? `
+                <div class="simulacro-card-meta">
+                  <span class="badge badge-muted">${numPreguntas} preguntas</span>
+                  <span class="badge badge-muted">~${minutos} min</span>
+                </div>
+                <button class="btn btn-primary w-full mt-4"
+                        data-action="navigate"
+                        data-value="#/simulacro/${area.id}/${prueba.id}">
+                  Iniciar Simulacro
+                </button>
+              ` : `
+                <p class="simulacro-unavail">No hay preguntas disponibles para esta prueba. Proximamente.</p>
+                <button class="btn btn-secondary w-full mt-4" disabled>Proximamente</button>
+              `}
+            </div>
+          </div>
+        `;
+      })
+    ).join('');
+
+    return `
+      <h1 class="section-title">Simulacro ICFES</h1>
+      <p class="section-description">
+        Practica con preguntas tipo Saber en condiciones de examen. Las preguntas se presentan en orden aleatorio con temporizador.
+        Al finalizar, recibiras tu puntaje, porcentaje de acierto y retroalimentacion por pregunta.
+      </p>
+
+      <div class="simulacro-grid">
+        ${cards}
+      </div>
+    `;
+  },
+
+  // Vista del simulacro en curso
+  renderSimulacroActivo() {
+    const sim = this.state.simulacro;
+    if (!sim || !sim.preguntas.length) {
+      return `
+        <div class="empty-state">
+          <div class="empty-state-icon">📝</div>
+          <div class="empty-state-title">Sin preguntas disponibles</div>
+          <p class="empty-state-text">No hay preguntas para esta combinacion.</p>
+          <button class="btn btn-primary mt-4" data-action="navigate" data-value="#/simulacro">Volver al Simulacro</button>
+        </div>
+      `;
+    }
+
+    const { preguntas, actual, tiempoRestante, respuestas, pruebaId, area } = sim;
+    const pregunta = preguntas[actual];
+    const totalPreguntas = preguntas.length;
+    const progPct = Math.round((actual / totalPreguntas) * 100);
+
+    const mm = String(Math.floor(tiempoRestante / 60)).padStart(2, '0');
+    const ss = String(tiempoRestante % 60).padStart(2, '0');
+    const esUltima = actual + 1 >= totalPreguntas;
+    const respActual = respuestas[actual];
+
+    const areaLabels = { matematicas: 'Matematicas', lenguaje: 'Lectura Critica', naturales: 'Ciencias Naturales', sociales: 'Sociales y Ciudadanas' };
+    const pruebaLabels = { 'saber-9': 'Saber 9°', 'saber-11': 'Saber 11°' };
+
+    return `
+      <!-- Barra superior -->
+      <div class="simulacro-header">
+        <div class="simulacro-header-info">
+          <span class="badge badge-muted">${areaLabels[area] || area}</span>
+          <span class="badge badge-muted">${pruebaLabels[pruebaId] || pruebaId}</span>
+          <span class="simulacro-num">Pregunta ${actual + 1} de ${totalPreguntas}</span>
+        </div>
+        <div class="simulacro-header-controls">
+          <div class="simulacro-timer ${tiempoRestante < 60 ? 'urgente' : ''}" id="sim-timer">
+            ${mm}:${ss}
+          </div>
+          <button class="btn btn-ghost btn-sm" data-action="simulacro-abandonar">Abandonar</button>
+        </div>
+      </div>
+
+      <!-- Barra de progreso -->
+      <div class="simulacro-progress">
+        <div class="simulacro-progress-bar" style="width:${progPct}%"></div>
+      </div>
+
+      <!-- Pregunta actual -->
+      <div class="simulacro-pregunta card">
+        <div class="card-body">
+          <div class="simulacro-enunciado">${pregunta.enunciado.replace(/\n/g, '<br>')}</div>
+
+          <div class="simulacro-opciones">
+            ${pregunta.opciones.map(op => `
+              <div class="simulacro-opcion ${respActual === op.letra ? 'selected' : ''}"
+                   data-action="simulacro-respuesta"
+                   data-value="${op.letra}">
+                <span class="simulacro-opcion-letra">${op.letra}</span>
+                <span class="simulacro-opcion-texto">${op.texto}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+
+      <!-- Controles de navegacion -->
+      <div class="simulacro-nav">
+        ${esUltima
+          ? `<button class="btn btn-primary btn-lg" id="sim-btn-next"
+                     data-action="simulacro-finalizar"
+                     ${!respActual ? 'disabled' : ''}>
+               Finalizar Simulacro
+             </button>`
+          : `<button class="btn btn-primary" id="sim-btn-next"
+                     data-action="simulacro-next"
+                     ${!respActual ? 'disabled' : ''}>
+               Siguiente Pregunta
+             </button>`
+        }
+      </div>
+    `;
+  },
+
+  // Pantalla de resultados
+  renderSimulacroResultados(abandonado) {
+    const sim = this.state.simulacro;
+    if (!sim) {
+      return `<div class="empty-state"><p class="empty-state-text">No hay simulacro activo.</p></div>`;
+    }
+
+    const { preguntas, respuestas, area, pruebaId } = sim;
+    const total = preguntas.length;
+    const respondidas = Object.keys(respuestas).length;
+
+    // Calcular correctas
+    let correctas = 0;
+    const detalles = preguntas.map((p, i) => {
+      const respuesta = respuestas[i];
+      const esCorrecto = respuesta === p.clave;
+      if (esCorrecto) correctas++;
+      return { pregunta: p, respuesta, esCorrecto, indice: i };
+    });
+
+    const porcentaje = total > 0 ? Math.round((correctas / total) * 100) : 0;
+
+    // Desglose por competencia
+    const porCompetencia = {};
+    for (const d of detalles) {
+      const comp = d.pregunta.competencia || 'otro';
+      if (!porCompetencia[comp]) porCompetencia[comp] = { total: 0, correctas: 0 };
+      porCompetencia[comp].total++;
+      if (d.esCorrecto) porCompetencia[comp].correctas++;
+    }
+
+    // Tiempo usado
+    const tiempoUsado = sim.tiempoFin
+      ? Math.floor((sim.tiempoFin - sim.tiempoInicio) / 1000)
+      : sim.tiempoLimite - (sim.tiempoRestante || 0);
+    const mmUsado = String(Math.floor(tiempoUsado / 60)).padStart(2, '0');
+    const ssUsado = String(tiempoUsado % 60).padStart(2, '0');
+
+    const areaLabels = { matematicas: 'Matematicas', lenguaje: 'Lectura Critica', naturales: 'Ciencias Naturales', sociales: 'Sociales y Ciudadanas' };
+    const pruebaLabels = { 'saber-9': 'Saber 9°', 'saber-11': 'Saber 11°' };
+
+    const scoreColor = porcentaje >= 70 ? 'var(--success)' : porcentaje >= 50 ? 'var(--warning)' : 'var(--danger)';
+
+    return `
+      <div class="simulacro-resultados">
+        <!-- Encabezado -->
+        <div class="flex items-center justify-between" style="flex-wrap:wrap; gap:var(--sp-3)">
+          <div>
+            <h1 class="section-title">Resultados del Simulacro</h1>
+            <p class="text-sm text-secondary">${areaLabels[area] || area} · ${pruebaLabels[pruebaId] || pruebaId}</p>
+          </div>
+          <button class="btn btn-secondary" data-action="navigate" data-value="#/simulacro">Nuevo Simulacro</button>
+        </div>
+
+        ${abandonado ? '<div class="badge badge-muted" style="margin-bottom:var(--sp-4)">Simulacro abandonado</div>' : ''}
+
+        <!-- Puntaje principal -->
+        <div class="simulacro-score-panel card">
+          <div class="card-body">
+            <div class="simulacro-score-center">
+              <div class="simulacro-score" style="color:${scoreColor}">${correctas}/${total}</div>
+              <div class="simulacro-score-pct" style="color:${scoreColor}">${porcentaje}% de acierto</div>
+              <div class="simulacro-score-meta text-muted text-sm">
+                Tiempo usado: ${mmUsado}:${ssUsado} &nbsp;·&nbsp; Respondidas: ${respondidas}/${total}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desglose por competencia -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Desglose por Competencia</span>
+          </div>
+          <div class="card-body">
+            <div class="simulacro-competencias-grid">
+              ${Object.entries(porCompetencia).map(([comp, datos]) => {
+                const pct = datos.total > 0 ? Math.round((datos.correctas / datos.total) * 100) : 0;
+                const color = pct >= 70 ? 'var(--success)' : pct >= 50 ? 'var(--warning)' : 'var(--danger)';
+                return `
+                  <div class="simulacro-comp-item">
+                    <div class="simulacro-comp-nombre">${comp}</div>
+                    <div class="simulacro-comp-barra-wrap">
+                      <div class="simulacro-comp-barra">
+                        <div class="simulacro-comp-fill" style="width:${pct}%; background:${color}"></div>
+                      </div>
+                      <span class="simulacro-comp-pct" style="color:${color}">${pct}%</span>
+                    </div>
+                    <div class="text-xs text-muted">${datos.correctas}/${datos.total} correctas</div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        </div>
+
+        <!-- Detalle por pregunta -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Detalle por Pregunta</span>
+            <span class="badge badge-muted">${total} preguntas</span>
+          </div>
+          <div class="card-body" style="padding:0">
+            ${detalles.map((d, i) => `
+              <div class="simulacro-detalle-item ${d.esCorrecto ? 'simulacro-correcta' : 'simulacro-incorrecta'}">
+                <div class="simulacro-detalle-header">
+                  <span class="simulacro-detalle-num">${i + 1}</span>
+                  <span class="simulacro-mark">${d.esCorrecto ? '✓' : '✗'}</span>
+                  <div class="simulacro-detalle-enunciado">${d.pregunta.enunciado.length > 140
+                    ? d.pregunta.enunciado.substring(0, 140) + '...'
+                    : d.pregunta.enunciado}</div>
+                  <div class="flex gap-2 ml-auto">
+                    <span class="badge badge-muted" style="font-size:0.6rem">${d.pregunta.competencia || ''}</span>
+                  </div>
+                </div>
+                <div class="simulacro-detalle-respuestas">
+                  ${!d.respuesta ? '<span class="text-muted text-xs">Sin respuesta</span>' : ''}
+                  ${d.respuesta && !d.esCorrecto ? `
+                    <span class="simulacro-resp-incorrecta">Tu respuesta: ${d.respuesta}</span>
+                  ` : ''}
+                  <span class="simulacro-resp-correcta">Correcta: ${d.pregunta.clave}</span>
+                </div>
+                <details class="simulacro-justificacion">
+                  <summary class="text-xs text-accent" style="cursor:pointer; padding:var(--sp-2) var(--sp-4)">
+                    Ver justificacion
+                  </summary>
+                  <p class="text-sm text-secondary simulacro-justif-texto">${d.pregunta.justificacion}</p>
+                </details>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
     `;
   },
 

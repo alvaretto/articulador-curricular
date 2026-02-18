@@ -17,7 +17,12 @@ function getICFESData(area) {
   if (area === 'lenguaje') {
     return typeof ICFES_LECTURA_CRITICA !== 'undefined' ? ICFES_LECTURA_CRITICA : null;
   }
-  // Preparado para expandir: 'ciencias-naturales', 'ciencias-sociales'
+  if (area === 'naturales') {
+    return typeof ICFES_NATURALES !== 'undefined' ? ICFES_NATURALES : null;
+  }
+  if (area === 'sociales') {
+    return typeof ICFES_SOCIALES !== 'undefined' ? ICFES_SOCIALES : null;
+  }
   return null;
 }
 
