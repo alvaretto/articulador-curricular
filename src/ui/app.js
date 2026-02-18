@@ -1257,7 +1257,7 @@ const App = {
 
       <div class="search-container">
         <span class="search-icon">🔍</span>
-        <input class="search-input" id="search-page-input" value="${query}" placeholder="Buscar estándares, DBA, competencias...">
+        <input class="search-input" id="search-page-input" value="${query}" placeholder="Buscar aprendizajes, estándares, DBA, competencias...">
       </div>
 
       ${resultados.length > 0 ? `
@@ -1341,7 +1341,7 @@ const App = {
       <div class="sidebar-section">
         <div class="search-container">
           <span class="search-icon">🔍</span>
-          <input class="search-input" id="search-input" placeholder="Buscar estándares...">
+          <input class="search-input" id="search-input" placeholder="Buscar aprendizajes...">
           <div class="search-results" id="search-results" style="display:none"></div>
         </div>
       </div>
