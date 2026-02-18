@@ -372,9 +372,27 @@ const App = {
   },
 
   // === MAIN RENDER ===
+  // Logo dinámico por área
+  LOGO_POR_AREA: {
+    matematicas: 'src/assets/logo-azul.png',
+    lenguaje: 'src/assets/logo-morado.png',
+    naturales: 'src/assets/logo-verde.png',
+    sociales: 'src/assets/logo-naranja.png',
+    ingles: 'src/assets/logo-rojo.png',
+    _default: 'src/assets/logo-default.png'
+  },
+
+  updateLogo() {
+    const img = document.getElementById('header-logo-img');
+    if (!img) return;
+    const area = this.state.area;
+    img.src = this.LOGO_POR_AREA[area] || this.LOGO_POR_AREA._default;
+  },
+
   render() {
     document.body.setAttribute('data-area', this.state.area || 'matematicas');
     this.updateThemeIcon();
+    this.updateLogo();
 
     const main = document.getElementById('main-content');
     if (!main) return;

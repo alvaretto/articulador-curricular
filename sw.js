@@ -25,7 +25,15 @@ const ASSETS = [
   './src/data/icfes-naturales.js',
   './src/data/icfes-sociales.js',
   './src/data/icfes-ingles.js',
+  './src/data/planes-lenguaje.js',
   './src/data/preguntas-icfes.js',
+  // Assets
+  './src/assets/logo-default.png',
+  './src/assets/logo-azul.png',
+  './src/assets/logo-morado.png',
+  './src/assets/logo-verde.png',
+  './src/assets/logo-naranja.png',
+  './src/assets/logo-rojo.png',
   // Motor
   './src/engine/filtros.js',
   './src/engine/articulacion.js',

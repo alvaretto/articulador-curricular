@@ -33,6 +33,14 @@ IA_JS="$(cat src/ia/connector.js)"$'\n'"$(cat src/ia/templates.js)"
 # Leer JS de UI
 UI_JS=$(cat src/ui/app.js)
 
+# Generar base64 de logos para embeber en standalone
+LOGO_DEFAULT=$(base64 -w0 src/assets/logo-default.png)
+LOGO_AZUL=$(base64 -w0 src/assets/logo-azul.png)
+LOGO_MORADO=$(base64 -w0 src/assets/logo-morado.png)
+LOGO_VERDE=$(base64 -w0 src/assets/logo-verde.png)
+LOGO_NARANJA=$(base64 -w0 src/assets/logo-naranja.png)
+LOGO_ROJO=$(base64 -w0 src/assets/logo-rojo.png)
+
 # Generar HTML standalone
 mkdir -p dist
 cat > dist/articulador-curricular.html << 'HTMLEOF'
@@ -58,7 +66,7 @@ cat >> dist/articulador-curricular.html << 'HTMLEOF'
     <header class="app-header">
       <div class="header-brand">
         <button class="btn btn-icon btn-ghost" id="menu-btn" data-action="toggle-sidebar" style="display:none" aria-label="Menú">☰</button>
-        <div class="header-logo">ICFES</div>
+        <div class="header-logo"><img id="header-logo-img" src="" alt="Logo"></div>
         <div>
           <div class="header-title">Articulador Curricular</div>
           <div class="header-subtitle">Asistente Pedagógico para el Docente Colombiano</div>
@@ -81,6 +89,19 @@ echo "$DATA_JS" >> dist/articulador-curricular.html
 echo "$ENGINE_JS" >> dist/articulador-curricular.html
 echo "$IA_JS" >> dist/articulador-curricular.html
 echo "$UI_JS" >> dist/articulador-curricular.html
+
+# Inyectar logos base64 como override para standalone
+cat >> dist/articulador-curricular.html << LOGOEOF
+  // Override logos para standalone (base64)
+  App.LOGO_POR_AREA = {
+    matematicas: 'data:image/png;base64,${LOGO_AZUL}',
+    lenguaje: 'data:image/png;base64,${LOGO_MORADO}',
+    naturales: 'data:image/png;base64,${LOGO_VERDE}',
+    sociales: 'data:image/png;base64,${LOGO_NARANJA}',
+    ingles: 'data:image/png;base64,${LOGO_ROJO}',
+    _default: 'data:image/png;base64,${LOGO_DEFAULT}'
+  };
+LOGOEOF
 
 cat >> dist/articulador-curricular.html << 'HTMLEOF'
 
