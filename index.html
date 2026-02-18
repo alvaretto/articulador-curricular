@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Articulador Curricular EBC — MEN Colombia</title>
+  <meta name="description" content="Articulador de Estándares Básicos de Competencias del MEN Colombia. Navegue EBC, DBA y genere mallas curriculares articuladas.">
+  <meta name="theme-color" content="#0e1018">
+  <link rel="stylesheet" href="src/ui/styles.css">
+</head>
+<body data-area="matematicas">
+
+  <div class="app-layout">
+
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="header-brand">
+        <button class="btn btn-icon btn-ghost hidden" id="menu-btn" data-action="toggle-sidebar" style="display:none" aria-label="Menú">☰</button>
+        <div class="header-logo">EBC</div>
+        <div>
+          <div class="header-title">Articulador Curricular EBC</div>
+          <div class="header-subtitle">Asistente Pedagógico para el Docente Colombiano</div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span class="header-badge-men">MEN Colombia</span>
+        <button class="theme-toggle" id="theme-toggle" data-action="toggle-theme" title="Cambiar tema" aria-label="Cambiar tema">◐</button>
+      </div>
+    </header>
+
+    <!-- SIDEBAR -->
+    <aside class="app-sidebar" id="sidebar">
+      <nav id="sidebar-nav"></nav>
+    </aside>
+
+    <!-- SIDEBAR BACKDROP (mobile) -->
+    <div class="sidebar-backdrop" data-action="close-sidebar"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="app-main" id="main-content">
+      <!-- Rendered by App.render() -->
+    </main>
+
+  </div>
+
+  <!-- DATA -->
+  <script src="src/data/ebc-matematicas.js"></script>
+  <script src="src/data/ebc-lenguaje.js"></script>
+  <script src="src/data/ebc-naturales.js"></script>
+  <script src="src/data/ebc-sociales.js"></script>
+  <script src="src/data/dba.js"></script>
+  <script src="src/data/planes-matematicas.js"></script>
+  <script src="src/data/progresion-vertical.js"></script>
+
+  <!-- ENGINE -->
+  <script src="src/engine/filtros.js"></script>
+  <script src="src/engine/articulacion.js"></script>
+  <script src="src/engine/busqueda.js"></script>
+  <script src="src/engine/exportacion.js"></script>
+  <script src="src/engine/almacenamiento.js"></script>
+
+  <!-- IA -->
+  <script src="src/ia/connector.js"></script>
+  <script src="src/ia/templates.js"></script>
+
+  <!-- UI -->
+  <script src="src/ui/app.js"></script>
+
+  <!-- Mobile menu button visibility -->
+  <script>
+    (function() {
+      const mq = window.matchMedia('(max-width: 768px)');
+      const btn = document.getElementById('menu-btn');
+      function update(e) { if (btn) btn.style.display = e.matches ? 'grid' : 'none'; }
+      mq.addEventListener('change', update);
+      update(mq);
+    })();
+  </script>
+
+</body>
+</html>
