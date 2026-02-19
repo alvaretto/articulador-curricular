@@ -1,7 +1,7 @@
 // sw.js — Service Worker para Articulador Curricular
 // Estrategia: Network-first con fallback a cache (siempre sirve la versión más reciente)
 
-const CACHE_NAME = 'articulador-curricular-v3';
+const CACHE_NAME = 'articulador-curricular-v4';
 
 const ASSETS = [
   './',
@@ -26,6 +26,9 @@ const ASSETS = [
   './src/data/icfes-sociales.js',
   './src/data/icfes-ingles.js',
   './src/data/planes-lenguaje.js',
+  './src/data/planes-naturales.js',
+  './src/data/planes-sociales.js',
+  './src/data/planes-ingles.js',
   './src/data/preguntas-icfes.js',
   // Assets
   './src/assets/logo-default.png',

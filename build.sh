@@ -17,7 +17,7 @@ CSS=$(cat src/ui/styles.css)
 
 # Leer todos los JS de datos
 DATA_JS=""
-for f in src/data/ebc-matematicas.js src/data/ebc-lenguaje.js src/data/ebc-naturales.js src/data/ebc-sociales.js src/data/ebc-ingles.js src/data/dba.js src/data/planes-matematicas.js src/data/planes-lenguaje.js src/data/progresion-vertical.js src/data/icfes-matematicas.js src/data/icfes-lectura-critica.js src/data/icfes-naturales.js src/data/icfes-sociales.js src/data/icfes-ingles.js src/data/preguntas-icfes.js; do
+for f in src/data/ebc-matematicas.js src/data/ebc-lenguaje.js src/data/ebc-naturales.js src/data/ebc-sociales.js src/data/ebc-ingles.js src/data/dba.js src/data/planes-matematicas.js src/data/planes-lenguaje.js src/data/planes-naturales.js src/data/planes-sociales.js src/data/planes-ingles.js src/data/progresion-vertical.js src/data/icfes-matematicas.js src/data/icfes-lectura-critica.js src/data/icfes-naturales.js src/data/icfes-sociales.js src/data/icfes-ingles.js src/data/preguntas-icfes.js; do
   DATA_JS+="$(cat "$f")"$'\n'
 done
 
@@ -50,7 +50,7 @@ cat > dist/articulador-curricular.html << 'HTMLEOF'
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Articulador Curricular — Continuo Cognitivo</title>
-  <meta name="description" content="Articulador curricular alineado a pruebas Saber ICFES. EBC, DBA e ICFES articulados. Funciona 100% offline.">
+  <meta name="description" content="Articulador curricular colombiano. EBC, DBA e ICFES articulados. Progresión vertical, planes de periodo y simulacros Saber. 100% offline.">
   <meta name="theme-color" content="#0e1018">
   <style>
 HTMLEOF

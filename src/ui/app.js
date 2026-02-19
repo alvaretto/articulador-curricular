@@ -90,6 +90,21 @@ const App = {
       this.state.grado = parts[1];
       this.state.periodo = parseInt(parts[2]) || 1;
       this.state.area = 'lenguaje';
+    } else if (parts[0] === 'plan-naturales' && parts[1]) {
+      this.state.vista = 'plan';
+      this.state.grado = parts[1];
+      this.state.periodo = parseInt(parts[2]) || 1;
+      this.state.area = 'naturales';
+    } else if (parts[0] === 'plan-sociales' && parts[1]) {
+      this.state.vista = 'plan';
+      this.state.grado = parts[1];
+      this.state.periodo = parseInt(parts[2]) || 1;
+      this.state.area = 'sociales';
+    } else if (parts[0] === 'plan-ingles' && parts[1]) {
+      this.state.vista = 'plan';
+      this.state.grado = parts[1];
+      this.state.periodo = parseInt(parts[2]) || 1;
+      this.state.area = 'ingles';
     } else if (parts[0] === 'busqueda') {
       this.state.vista = 'busqueda';
       this.state.searchQuery = decodeURIComponent(parts[1] || '');
@@ -427,7 +442,7 @@ const App = {
         <div class="print-header-subtitle">${inst.nombre || 'Continuo Cognitivo'} · ${new Date().getFullYear()}</div>
       </div>
 
-      <h1 class="section-title">Diseño Curricular Saber ICFES</h1>
+      <h1 class="section-title">Diseño Curricular</h1>
       <p class="section-description">
         Navegue los Estándares Básicos de Competencias, DBA y aprendizajes ICFES alineados a las pruebas Saber.
         Analice la progresión vertical entre grados y genere articulaciones curriculares. Seleccione un área para comenzar.
@@ -517,6 +532,27 @@ const App = {
             ${['8','9','10','11'].map(g => `
               <button class="btn btn-secondary btn-sm" data-action="navigate" data-value="#/plan-lenguaje/${g}/1">
                 Plan Lenguaje ${g}°
+              </button>
+            `).join('')}
+          </div>
+          <div class="flex gap-2 mt-2" style="flex-wrap:wrap">
+            ${['8','9','10','11'].map(g => `
+              <button class="btn btn-secondary btn-sm" data-action="navigate" data-value="#/plan-naturales/${g}/1">
+                Plan Naturales ${g}°
+              </button>
+            `).join('')}
+          </div>
+          <div class="flex gap-2 mt-2" style="flex-wrap:wrap">
+            ${['8','9','10','11'].map(g => `
+              <button class="btn btn-secondary btn-sm" data-action="navigate" data-value="#/plan-sociales/${g}/1">
+                Plan Sociales ${g}°
+              </button>
+            `).join('')}
+          </div>
+          <div class="flex gap-2 mt-2" style="flex-wrap:wrap">
+            ${['8','9','10','11'].map(g => `
+              <button class="btn btn-secondary btn-sm" data-action="navigate" data-value="#/plan-ingles/${g}/1">
+                Plan Inglés ${g}°
               </button>
             `).join('')}
           </div>
@@ -936,15 +972,27 @@ const App = {
     const area = this.state.area || 'matematicas';
 
     // Seleccionar el objeto de planes según el área
-    const planesObj = area === 'lenguaje'
-      ? (typeof PLANES_LENGUAJE !== 'undefined' ? PLANES_LENGUAJE : null)
-      : (typeof PLANES_MATEMATICAS !== 'undefined' ? PLANES_MATEMATICAS : null);
+    const PLANES_MAP = {
+      matematicas: typeof PLANES_MATEMATICAS !== 'undefined' ? PLANES_MATEMATICAS : null,
+      lenguaje: typeof PLANES_LENGUAJE !== 'undefined' ? PLANES_LENGUAJE : null,
+      naturales: typeof PLANES_NATURALES !== 'undefined' ? PLANES_NATURALES : null,
+      sociales: typeof PLANES_SOCIALES !== 'undefined' ? PLANES_SOCIALES : null,
+      ingles: typeof PLANES_INGLES !== 'undefined' ? PLANES_INGLES : null
+    };
+    const AREA_NOMBRES = { matematicas: 'Matemáticas', lenguaje: 'Lenguaje', naturales: 'Ciencias Naturales', sociales: 'Ciencias Sociales', ingles: 'Inglés' };
+    const PLAN_BASES = { matematicas: 'plan', lenguaje: 'plan-lenguaje', naturales: 'plan-naturales', sociales: 'plan-sociales', ingles: 'plan-ingles' };
 
+    const planesObj = PLANES_MAP[area] || null;
     const planGrado = planesObj ? planesObj[grado] : null;
-    const plan = planGrado ? (planGrado.periodos.find(p => p.periodo === periodo) || null) : null;
+    // Soportar periodos como array o como objeto { 1: {...}, 2: {...} }
+    const plan = planGrado
+      ? (Array.isArray(planGrado.periodos)
+          ? (planGrado.periodos.find(p => p.periodo === periodo) || null)
+          : (planGrado.periodos[periodo] || null))
+      : null;
 
-    const areaNombre = area === 'lenguaje' ? 'Lenguaje' : 'Matemáticas';
-    const planBase = area === 'lenguaje' ? 'plan-lenguaje' : 'plan';
+    const areaNombre = AREA_NOMBRES[area] || area;
+    const planBase = PLAN_BASES[area] || 'plan';
 
     if (!planGrado || !plan) {
       return `
@@ -1180,6 +1228,14 @@ const App = {
     const niveles = getNivelesDesempeno(areaICFES, pruebaId);
     const nivelActivo = niveles.find(n => n.nombre === plan.nivelEsperado);
 
+    // Colores semánticos por nombre de nivel (fallback si no hay .color en datos)
+    const NIVEL_COLORES = {
+      'Insuficiente':  '#ef4444',
+      'Mínimo':        '#f59e0b',
+      'Satisfactorio': '#3b82f6',
+      'Avanzado':      '#10b981',
+    };
+
     return `
       <h2 class="section-title mt-4">Articulación ICFES — ${plan.nivelEsperado || ''}</h2>
       <p class="section-description">Aprendizajes y evidencias ICFES vinculados a este periodo. Nivel de desempeño esperado al finalizar.</p>
@@ -1187,11 +1243,17 @@ const App = {
       <!-- Aprendizajes resueltos -->
       <div class="card card-accent mt-3">
         <div class="card-header">
-          <span class="card-title">Aprendizajes del Periodo</span>
+          <span class="card-title">Aprendizajes ICFES Resueltos</span>
           <span class="badge badge-muted">${aprendizajesResueltos.length} aprendizajes</span>
         </div>
         <div class="card-body">
-          ${aprendizajesResueltos.map(a => `
+          ${aprendizajesResueltos.map(a => {
+            const evidencias = (plan.evidenciasICFES || []).length > 0
+              ? (a.evidencias.filter(e => plan.evidenciasICFES.includes(e.id)).length > 0
+                  ? a.evidencias.filter(e => plan.evidenciasICFES.includes(e.id))
+                  : a.evidencias)
+              : a.evidencias;
+            return `
             <details class="icfes-aprendizaje">
               <summary class="estandar-item" style="cursor:pointer; list-style:none">
                 <div class="flex items-center gap-2" style="flex-wrap:wrap">
@@ -1201,49 +1263,41 @@ const App = {
                 </div>
               </summary>
               <div class="icfes-evidencias">
-                ${(plan.evidenciasICFES || []).length > 0
-                  ? a.evidencias.filter(e => plan.evidenciasICFES.includes(e.id)).map(e => `
-                      <div class="icfes-evidencia-item">
-                        <span class="text-muted text-xs">${e.id}</span> ${e.enunciado}
-                      </div>
-                    `).join('') || a.evidencias.map(e => `
-                      <div class="icfes-evidencia-item">
-                        <span class="text-muted text-xs">${e.id}</span> ${e.enunciado}
-                      </div>
-                    `).join('')
-                  : a.evidencias.map(e => `
-                      <div class="icfes-evidencia-item">
-                        <span class="text-muted text-xs">${e.id}</span> ${e.enunciado}
-                      </div>
-                    `).join('')
-                }
+                ${evidencias.map(e => `
+                  <div class="icfes-evidencia-item">
+                    <span class="text-muted text-xs">${e.id}</span> ${e.enunciado}
+                  </div>
+                `).join('')}
               </div>
-            </details>
-          `).join('')}
+            </details>`;
+          }).join('')}
         </div>
       </div>
 
-      <!-- Niveles de desempeño con activo destacado -->
+      <!-- Nivel de Desempeño detallado: todos los niveles, activo destacado -->
       <div class="card mt-3">
         <div class="card-header">
-          <span class="card-title">Nivel de Desempeño Esperado</span>
-          <span class="badge" style="background:${nivelActivo?.color || 'var(--muted)'}; color:white; font-size:0.7rem">${plan.nivelEsperado}</span>
+          <span class="card-title">Nivel de Desempeño Detallado</span>
+          <span class="badge" style="background:${nivelActivo?.color || NIVEL_COLORES[plan.nivelEsperado] || 'var(--accent)'}; color:white; font-size:0.7rem">${plan.nivelEsperado}</span>
         </div>
         <div class="card-body">
-          <div class="icfes-niveles-grid">
-            ${niveles.map(nivel => `
-              <div class="icfes-nivel ${nivel.nombre === plan.nivelEsperado ? 'icfes-nivel-activo' : 'icfes-nivel-inactivo'}" style="border-left: 4px solid ${nivel.color}">
-                <div class="flex items-center gap-2 mb-2">
-                  <span class="icfes-nivel-dot" style="background:${nivel.color}"></span>
-                  <strong>${nivel.nombre}</strong>
-                  <span class="text-muted text-xs">(${nivel.rango[0]}–${nivel.rango[1]})</span>
+          <div class="nivel-cards-grid">
+            ${niveles.map(nivel => {
+              const color = nivel.color || NIVEL_COLORES[nivel.nombre] || '#888';
+              const esActivo = nivel.nombre === plan.nivelEsperado;
+              return `
+              <div class="nivel-card ${esActivo ? 'activo' : 'inactivo'}" style="--nivel-color:${color}">
+                <div class="nivel-card-header">
+                  <div class="flex items-center gap-2">
+                    <span class="nivel-dot" style="background:${color}"></span>
+                    <strong class="nivel-nombre">${nivel.nombre}</strong>
+                    <span class="text-muted text-xs">${nivel.rango[0]}–${nivel.rango[1]}</span>
+                  </div>
+                  ${esActivo ? '<span class="badge" style="background:' + color + '; color:white; font-size:0.6rem">Nivel del periodo</span>' : ''}
                 </div>
-                ${nivel.nombre === plan.nivelEsperado
-                  ? `<p class="text-sm text-secondary" style="line-height:var(--leading-loose)">${nivel.descripcion}</p>`
-                  : ''
-                }
-              </div>
-            `).join('')}
+                <p class="nivel-desc">${nivel.descripcion}</p>
+              </div>`;
+            }).join('')}
           </div>
         </div>
       </div>
@@ -1255,48 +1309,63 @@ const App = {
     if (typeof getLineaProgresion !== 'function') return '';
     if (!plan.tiposPensamiento || !plan.tiposPensamiento.length) return '';
 
-    const TIPO_A_EJE = {
+    const area = this.state.area || 'matematicas';
+
+    const TIPO_A_EJE_MAT = {
       'Numérico': 'numerico', 'Espacial': 'espacial', 'Métrico': 'metrico',
       'Aleatorio': 'aleatorio', 'Variacional': 'variacional'
     };
+    const TIPO_A_EJE_LEN = {
+      'Producción': 'produccion-textual', 'Comprensión': 'comprension',
+      'Literatura': 'literatura', 'Medios': 'medios-comunicacion', 'Ética': 'etica-comunicacion'
+    };
     const GRADO_A_GRUPO = { '8': '8-9', '9': '8-9', '10': '10-11', '11': '10-11' };
 
-    const ejeId = TIPO_A_EJE[plan.tiposPensamiento[0]];
+    const mapaEje = area === 'lenguaje' ? TIPO_A_EJE_LEN : TIPO_A_EJE_MAT;
+    const tipoPrimario = plan.tiposPensamiento[0];
+    const ejeId = mapaEje[tipoPrimario];
     if (!ejeId) return '';
 
     const grupoActual = GRADO_A_GRUPO[String(grado)];
-    const linea = getLineaProgresion('matematicas', ejeId);
+    const linea = getLineaProgresion(area, ejeId);
     if (!linea.length) return '';
 
-    // Filtrar: grupo anterior, actual, siguiente
+    // 3 cards: grupo anterior, actual, siguiente
     const idxActual = linea.findIndex(l => l.grupo === grupoActual);
     if (idxActual < 0) return '';
 
     const contexto = linea.slice(Math.max(0, idxActual - 1), idxActual + 2);
+    const MAX_EBC = 3;
 
     return `
-      <h2 class="section-title mt-4">Progresión Vertical — ${plan.tiposPensamiento[0]}</h2>
+      <h2 class="section-title mt-4">Progresión Vertical — ${tipoPrimario}</h2>
       <p class="section-description">Cómo evoluciona este eje desde el grupo anterior hacia el siguiente.</p>
 
-      <div class="flex gap-3 mt-3" style="flex-wrap:wrap">
-        ${contexto.map(item => `
-          <div class="card ${item.grupo === grupoActual ? 'card-accent' : ''}" style="flex:1; min-width:200px">
-            <div class="card-header">
-              <span class="card-title">Grados ${item.grupo}</span>
-              ${item.grupo === grupoActual ? '<span class="badge badge-accent">Actual</span>' : ''}
+      <div class="progresion-compact mt-3">
+        ${contexto.map(item => {
+          const esActual = item.grupo === grupoActual;
+          const ebs = item.estandares || [];
+          const mostrados = ebs.slice(0, MAX_EBC);
+          const hayMas = ebs.length > MAX_EBC;
+          return `
+          <div class="progresion-card ${esActual ? 'actual' : ''}">
+            <div class="progresion-card-header">
+              <span class="progresion-card-title">Grados ${item.grupo}</span>
+              ${esActual ? '<span class="badge badge-accent" style="font-size:0.6rem">Actual</span>' : ''}
             </div>
-            <div class="card-body">
-              ${item.estandares.length > 0
-                ? item.estandares.map(e => `<p class="text-sm text-secondary mb-2" style="line-height:var(--leading-loose)">· ${e}</p>`).join('')
+            <div class="progresion-card-body">
+              ${mostrados.length > 0
+                ? mostrados.map(e => `<p class="text-sm text-secondary mb-2" style="line-height:var(--leading-loose)">· ${e}</p>`).join('')
+                  + (hayMas ? `<p class="text-muted text-xs">... y ${ebs.length - MAX_EBC} más</p>` : '')
                 : '<p class="text-muted text-sm">Sin datos</p>'
               }
             </div>
-          </div>
-        `).join('')}
+          </div>`;
+        }).join('')}
       </div>
 
       <div class="flex justify-center mt-3">
-        <a href="#/area/matematicas/${grupoActual}/${ejeId}" class="btn btn-secondary btn-sm">Ver progresión completa K-11 →</a>
+        <a href="#/area/${area}/${grupoActual}/${ejeId}" class="btn btn-secondary btn-sm">Ver progresión completa K-11 →</a>
       </div>
     `;
   },
@@ -1501,6 +1570,33 @@ const App = {
         ${['8','9','10','11'].map(g => `
           <li class="sidebar-item ${this.state.grado === g && this.state.area === 'lenguaje' && this.state.vista === 'plan' ? 'active' : ''}" data-action="navigate" data-value="#/plan-lenguaje/${g}/1">
             <span class="sidebar-item-icon">📖</span> Lenguaje ${g}°
+          </li>
+        `).join('')}
+      </ul>
+
+      <div class="sidebar-label">Planes de Periodo — C. Naturales</div>
+      <ul class="sidebar-nav">
+        ${['8','9','10','11'].map(g => `
+          <li class="sidebar-item ${this.state.grado === g && this.state.area === 'naturales' && this.state.vista === 'plan' ? 'active' : ''}" data-action="navigate" data-value="#/plan-naturales/${g}/1">
+            <span class="sidebar-item-icon">🔬</span> Naturales ${g}°
+          </li>
+        `).join('')}
+      </ul>
+
+      <div class="sidebar-label">Planes de Periodo — C. Sociales</div>
+      <ul class="sidebar-nav">
+        ${['8','9','10','11'].map(g => `
+          <li class="sidebar-item ${this.state.grado === g && this.state.area === 'sociales' && this.state.vista === 'plan' ? 'active' : ''}" data-action="navigate" data-value="#/plan-sociales/${g}/1">
+            <span class="sidebar-item-icon">🏛</span> Sociales ${g}°
+          </li>
+        `).join('')}
+      </ul>
+
+      <div class="sidebar-label">Planes de Periodo — Inglés</div>
+      <ul class="sidebar-nav">
+        ${['8','9','10','11'].map(g => `
+          <li class="sidebar-item ${this.state.grado === g && this.state.area === 'ingles' && this.state.vista === 'plan' ? 'active' : ''}" data-action="navigate" data-value="#/plan-ingles/${g}/1">
+            <span class="sidebar-item-icon">🌐</span> Inglés ${g}°
           </li>
         `).join('')}
       </ul>

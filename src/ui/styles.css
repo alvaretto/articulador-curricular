@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   ARTICULADOR CURRICULAR SABER ICFES — Stylesheet
+   ARTICULADOR CURRICULAR — Stylesheet
    Editorial Academic + Modern Dashboard aesthetic
    Colombian Ministry of Education standards navigator
    ═══════════════════════════════════════════════════════════════ */
@@ -1829,6 +1829,91 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   border-radius: 50%;
   display: inline-block;
   flex-shrink: 0;
+}
+
+/* ─── NIVEL DE DESEMPEÑO DETALLADO ─── */
+.nivel-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--sp-3);
+}
+.nivel-card {
+  padding: var(--sp-4);
+  background: var(--surface-1);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--nivel-color, var(--border-default));
+  transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.nivel-card.activo {
+  background: var(--surface-2);
+  box-shadow: 0 0 0 2px var(--nivel-color, var(--accent)), var(--shadow-md);
+  transform: scale(1.02);
+  opacity: 1;
+}
+.nivel-card.inactivo {
+  opacity: 0.45;
+}
+.nivel-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-2);
+}
+.nivel-nombre {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.nivel-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.nivel-desc {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: var(--leading-loose);
+  margin: 0;
+}
+
+/* ─── PROGRESIÓN VERTICAL COMPACTA ─── */
+.progresion-compact {
+  display: flex;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+.progresion-card {
+  flex: 1;
+  min-width: 200px;
+  background: var(--surface-1);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.progresion-card.actual {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-dim, var(--mat-glow)), var(--shadow-md);
+  transform: scale(1.02);
+}
+.progresion-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.progresion-card-title {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.progresion-card-body {
+  padding: var(--sp-3) var(--sp-4);
 }
 
 /* ─── PREGUNTAS TIPO ICFES ─── */

@@ -213,7 +213,7 @@ function exportarPlanInstitucional(grado, periodo) {
   Generado por Articulador Curricular · Continuo Cognitivo · ${year}
 </div>
 
-<script>window.print();</script>
+<scr` + `ipt>window.print();<\/scr` + `ipt>
 </body>
 </html>`;
 

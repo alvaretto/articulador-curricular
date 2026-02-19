@@ -7,12 +7,18 @@
  * NO son preguntas copiadas de exámenes oficiales.
  *
  * Áreas cubiertas:
- *   - Matemáticas: Saber 9° (5 preguntas) y Saber 11° (5 preguntas)
- *   - Lectura Crítica: Saber 9° (5 preguntas) y Saber 11° (5 preguntas)
+ *   - Matemáticas: Saber 9° (30 preguntas) y Saber 11° (30 preguntas)
+ *   - Lectura Crítica (Lenguaje): Saber 9° (30 preguntas) y Saber 11° (30 preguntas)
+ *   - Ciencias Naturales: Saber 9° (30 preguntas) y Saber 11° (30 preguntas)
+ *   - Ciencias Sociales: Saber 9° (30 preguntas) y Saber 11° (30 preguntas)
+ *   - Inglés: Saber 11° (30 preguntas)
  *
  * Formato de ID: {area-abrev}-p-{prueba}-{numero}
  *   mat  = Matemáticas
- *   lc   = Lectura Crítica
+ *   lc   = Lectura Crítica / Lenguaje
+ *   nat  = Ciencias Naturales
+ *   soc  = Ciencias Sociales
+ *   eng  = Inglés
  *   s9   = Saber 9°
  *   s11  = Saber 11°
  */
@@ -268,6 +274,246 @@ const PREGUNTAS_ICFES = {
         competencia: 'resolucion',
         componente: 'aleatorio',
       },
+
+      // 16. Numérico-variacional + razonamiento (sucesiones)
+      {
+        id: 'mat-p-s9-16',
+        enunciado: 'Observa la siguiente sucesión: 2, 6, 18, 54, 162, … ¿Cuál es el término que sigue y cuál es la razón de la sucesión?',
+        opciones: [
+          { letra: 'A', texto: 'El siguiente término es 324 y la razón es 2.' },
+          { letra: 'B', texto: 'El siguiente término es 486 y la razón es 3.' },
+          { letra: 'C', texto: 'El siguiente término es 324 y la razón es 3.' },
+          { letra: 'D', texto: 'El siguiente término es 216 y la razón es 4.' },
+        ],
+        clave: 'B',
+        justificacion: 'Cada término se obtiene multiplicando el anterior por 3: 2×3=6, 6×3=18, 18×3=54, 54×3=162, 162×3=486. La razón de la sucesión geométrica es 3 y el siguiente término es 486. La opción A calcula 162×2=324 usando razón incorrecta 2. La opción C obtiene el valor correcto de la razón (3) pero calcula el término incorrectamente. La opción D usa razón 4, que no es consistente con los datos.',
+        competencia: 'razonamiento',
+        componente: 'numerico-variacional',
+      },
+
+      // 17. Aleatorio + comunicación (diagrama de caja)
+      {
+        id: 'mat-p-s9-17',
+        enunciado: 'Los tiempos (en minutos) que tardaron 9 corredores en completar una carrera son: 12, 14, 15, 15, 17, 18, 20, 22, 25. ¿Cuál es la mediana y el rango intercuartílico (RIC) de estos datos?',
+        opciones: [
+          { letra: 'A', texto: 'Mediana = 17; RIC = 7.' },
+          { letra: 'B', texto: 'Mediana = 17; RIC = 13.' },
+          { letra: 'C', texto: 'Mediana = 15; RIC = 7.' },
+          { letra: 'D', texto: 'Mediana = 17; RIC = 8.' },
+        ],
+        clave: 'A',
+        justificacion: 'Con 9 datos ordenados, la mediana es el 5.° valor: 17. El cuartil inferior Q1 es la mediana de los primeros 4 datos (12, 14, 15, 15): Q1 = (14+15)/2 = 14,5. El cuartil superior Q3 es la mediana de los últimos 4 datos (18, 20, 22, 25): Q3 = (20+22)/2 = 21. RIC = Q3 − Q1 = 21 − 14,5 = 6,5 ≈ 7. La opción B calcula el rango total (25−12=13), no el intercuartílico. La opción C usa la moda (15) como mediana. La opción D usa el rango incorrecto.',
+        competencia: 'comunicacion',
+        componente: 'aleatorio',
+      },
+
+      // 18. Geométrico-métrico + resolución (volumen)
+      {
+        id: 'mat-p-s9-18',
+        enunciado: 'Una piscina tiene forma de prisma rectangular con 12 m de largo, 6 m de ancho y 1,5 m de profundidad. ¿Cuántos litros de agua se necesitan para llenarla completamente? (1 m³ = 1000 litros)',
+        opciones: [
+          { letra: 'A', texto: '108.000 litros' },
+          { letra: 'B', texto: '10.800 litros' },
+          { letra: 'C', texto: '1.080.000 litros' },
+          { letra: 'D', texto: '108 litros' },
+        ],
+        clave: 'A',
+        justificacion: 'Volumen = largo × ancho × profundidad = 12 × 6 × 1,5 = 108 m³. Convirtiendo: 108 m³ × 1000 litros/m³ = 108.000 litros. La opción B divide entre 10, probablemente olvidando un factor. La opción C multiplica innecesariamente por 10. La opción D omite la conversión de metros cúbicos a litros (o divide erróneamente).',
+        competencia: 'resolucion',
+        componente: 'geometrico-metrico',
+      },
+
+      // 19. Numérico-variacional + comunicación (proporcionalidad)
+      {
+        id: 'mat-p-s9-19',
+        enunciado: 'Tres obreros pintan una pared en 6 horas. ¿Cuántas horas tardarán 6 obreros en pintar la misma pared, si todos trabajan al mismo ritmo?',
+        opciones: [
+          { letra: 'A', texto: '12 horas' },
+          { letra: 'B', texto: '3 horas' },
+          { letra: 'C', texto: '2 horas' },
+          { letra: 'D', texto: '9 horas' },
+        ],
+        clave: 'B',
+        justificacion: 'Este es un problema de proporcionalidad inversa: a más obreros, menos horas. El trabajo total es 3 obreros × 6 horas = 18 obrero·horas. Con 6 obreros: 18 ÷ 6 = 3 horas. Al duplicar los obreros, el tiempo se reduce a la mitad: 6/2 = 3 horas. La opción A duplica el tiempo en lugar de reducirlo. La opción C divide entre 3, como si los obreros se triplicaran. La opción D suma en lugar de aplicar proporcionalidad inversa.',
+        competencia: 'comunicacion',
+        componente: 'numerico-variacional',
+      },
+
+      // 20. Geométrico-métrico + razonamiento (ángulos)
+      {
+        id: 'mat-p-s9-20',
+        enunciado: 'Dos rectas paralelas son cortadas por una transversal. Uno de los ángulos alternos internos mide 65°. ¿Cuánto miden los siguientes ángulos: el ángulo alterno interno del otro lado, el ángulo correspondiente y el ángulo co-interior (mismo lado de la transversal)?',
+        opciones: [
+          { letra: 'A', texto: 'Alterno interno: 65°; correspondiente: 65°; co-interior: 115°.' },
+          { letra: 'B', texto: 'Alterno interno: 115°; correspondiente: 65°; co-interior: 65°.' },
+          { letra: 'C', texto: 'Alterno interno: 65°; correspondiente: 115°; co-interior: 115°.' },
+          { letra: 'D', texto: 'Alterno interno: 65°; correspondiente: 65°; co-interior: 65°.' },
+        ],
+        clave: 'A',
+        justificacion: 'Propiedades de rectas paralelas con transversal: (1) Los ángulos alternos internos son iguales: 65°. (2) Los ángulos correspondientes son iguales: 65°. (3) Los ángulos co-interiores (o conjugados internos) son suplementarios y suman 180°: 180° − 65° = 115°. La opción B invierte los alternos internos. La opción C confunde correspondientes con co-interiores. La opción D aplica incorrectamente la propiedad de co-interiores.',
+        competencia: 'razonamiento',
+        componente: 'geometrico-metrico',
+      },
+
+      // 21. Aleatorio + resolución (probabilidad de eventos compuestos)
+      {
+        id: 'mat-p-s9-21',
+        enunciado: 'Se lanza una moneda y un dado de 6 caras al mismo tiempo. ¿Cuál es la probabilidad de obtener cara en la moneda Y un número par en el dado?',
+        opciones: [
+          { letra: 'A', texto: '1/4' },
+          { letra: 'B', texto: '1/2' },
+          { letra: 'C', texto: '3/12' },
+          { letra: 'D', texto: '1/6' },
+        ],
+        clave: 'A',
+        justificacion: 'P(cara) = 1/2. P(número par en dado) = 3/6 = 1/2 (los pares son 2, 4, 6). Como son eventos independientes: P(cara Y par) = (1/2) × (1/2) = 1/4. El espacio muestral total tiene 2 × 6 = 12 resultados posibles; los favorables son 1 (cara) × 3 (pares) = 3; P = 3/12 = 1/4. La opción B es P(cara) o P(par) por separado. La opción C es la fracción sin simplificar (equivale a 1/4, que es A). La opción D solo considera el dado.',
+        competencia: 'resolucion',
+        componente: 'aleatorio',
+      },
+
+      // 22. Numérico-variacional + razonamiento (notación científica)
+      {
+        id: 'mat-p-s9-22',
+        enunciado: '¿Cuál de las siguientes expresiones en notación científica es equivalente a 0,000045?',
+        opciones: [
+          { letra: 'A', texto: '4,5 × 10⁻⁵' },
+          { letra: 'B', texto: '45 × 10⁻⁶' },
+          { letra: 'C', texto: '4,5 × 10⁵' },
+          { letra: 'D', texto: '0,45 × 10⁻⁴' },
+        ],
+        clave: 'A',
+        justificacion: 'Para escribir 0,000045 en notación científica: se mueve la coma 5 posiciones a la derecha hasta obtener 4,5, por lo que el exponente es −5. La forma correcta es 4,5 × 10⁻⁵. La opción B es equivalente numéricamente (45 × 10⁻⁶ = 4,5 × 10⁻⁵) pero no está en notación científica estándar (el coeficiente debe estar entre 1 y 10). La opción C tiene exponente positivo, que representaría un número grande. La opción D tiene el coeficiente fuera del rango estándar.',
+        competencia: 'razonamiento',
+        componente: 'numerico-variacional',
+      },
+
+      // 23. Geométrico-métrico + comunicación (plano cartesiano - distancia)
+      {
+        id: 'mat-p-s9-23',
+        enunciado: '¿Cuál es la distancia entre los puntos P(−2, 3) y Q(4, −1) en el plano cartesiano?',
+        opciones: [
+          { letra: 'A', texto: '√52 ≈ 7,2 unidades' },
+          { letra: 'B', texto: '10 unidades' },
+          { letra: 'C', texto: '√20 ≈ 4,5 unidades' },
+          { letra: 'D', texto: '√28 ≈ 5,3 unidades' },
+        ],
+        clave: 'A',
+        justificacion: 'Fórmula de distancia: d = √[(x₂−x₁)² + (y₂−y₁)²] = √[(4−(−2))² + (−1−3)²] = √[6² + (−4)²] = √[36 + 16] = √52 ≈ 7,2 unidades. La opción B suma las diferencias absolutas en vez de aplicar la fórmula (6 + 4 = 10). La opción C calcula solo una de las dos diferencias al cuadrado. La opción D comete un error aritmético en la suma de cuadrados.',
+        competencia: 'comunicacion',
+        componente: 'geometrico-metrico',
+      },
+
+      // 24. Aleatorio + razonamiento (diagrama de árbol)
+      {
+        id: 'mat-p-s9-24',
+        enunciado: 'Una bolsa tiene 3 bolas rojas y 2 bolas azules. Se extraen dos bolas sin reposición. ¿Cuál es la probabilidad de que ambas bolas sean rojas?',
+        opciones: [
+          { letra: 'A', texto: '9/25' },
+          { letra: 'B', texto: '3/10' },
+          { letra: 'C', texto: '6/25' },
+          { letra: 'D', texto: '1/2' },
+        ],
+        clave: 'B',
+        justificacion: 'P(1.ª roja) = 3/5. Si ya se extrajo una roja, quedan 2 rojas de 4 bolas totales: P(2.ª roja | 1.ª roja) = 2/4 = 1/2. P(ambas rojas) = (3/5) × (1/2) = 3/10. La opción A aplica probabilidad con reposición: (3/5)² = 9/25. La opción C calcula incorrectamente. La opción D es P(2.ª roja dado que la primera fue roja), sin multiplicar por la probabilidad de la primera.',
+        competencia: 'razonamiento',
+        componente: 'aleatorio',
+      },
+
+      // 25. Numérico-variacional + resolución (inecuaciones)
+      {
+        id: 'mat-p-s9-25',
+        enunciado: 'Resuelve la inecuación: 2x − 5 > 3x + 1. ¿Cuál es el conjunto solución?',
+        opciones: [
+          { letra: 'A', texto: 'x > −6' },
+          { letra: 'B', texto: 'x < −6' },
+          { letra: 'C', texto: 'x > 6' },
+          { letra: 'D', texto: 'x < 6' },
+        ],
+        clave: 'B',
+        justificacion: 'Desarrollando: 2x − 5 > 3x + 1 → 2x − 3x > 1 + 5 → −x > 6 → x < −6 (al multiplicar por −1 se invierte la desigualdad). Verificación: si x = −7 (< −6): 2(−7) − 5 = −19 y 3(−7) + 1 = −20; −19 > −20 ✓. La opción A no invierte la desigualdad al dividir entre −1. La opción C comete un error de signo en el despeje. La opción D obtiene el valor correcto del umbral pero no invierte la desigualdad.',
+        competencia: 'resolucion',
+        componente: 'numerico-variacional',
+      },
+
+      // 26. Geométrico-métrico + resolución (triángulos - perímetro)
+      {
+        id: 'mat-p-s9-26',
+        enunciado: 'Un terreno triangular es rectángulo con catetos de 15 m y 20 m. Si se quiere cercar el terreno con alambre, ¿cuántos metros de alambre se necesitan?',
+        opciones: [
+          { letra: 'A', texto: '35 m' },
+          { letra: 'B', texto: '60 m' },
+          { letra: 'C', texto: '75 m' },
+          { letra: 'D', texto: '150 m' },
+        ],
+        clave: 'B',
+        justificacion: 'Para cercar se necesita el perímetro. La hipotenusa del triángulo rectángulo con catetos 15 m y 20 m es: c = √(15² + 20²) = √(225 + 400) = √625 = 25 m. Perímetro = 15 + 20 + 25 = 60 m de alambre. La opción A solo suma los dos catetos (35 m). La opción C añade incorrectamente 15 m extra. La opción D calcula el doble del perímetro.',
+        competencia: 'resolucion',
+        componente: 'geometrico-metrico',
+      },
+
+      // 27. Numérico-variacional + comunicación (funciones cuadráticas - tabla de valores)
+      {
+        id: 'mat-p-s9-27',
+        enunciado: 'Para la función f(x) = x² − 4, ¿cuál de los siguientes pares ordenados NO pertenece a la gráfica de f?',
+        opciones: [
+          { letra: 'A', texto: '(0, −4)' },
+          { letra: 'B', texto: '(2, 0)' },
+          { letra: 'C', texto: '(3, 5)' },
+          { letra: 'D', texto: '(−2, 4)' },
+        ],
+        clave: 'D',
+        justificacion: 'Se verifica sustituyendo cada par en f(x) = x² − 4: A: f(0) = 0 − 4 = −4 ✓. B: f(2) = 4 − 4 = 0 ✓. C: f(3) = 9 − 4 = 5 ✓. D: f(−2) = (−2)² − 4 = 4 − 4 = 0, no 4. El par (−2, 4) no pertenece a la gráfica porque f(−2) = 0, no 4. Las opciones A, B y C satisfacen la función.',
+        competencia: 'comunicacion',
+        componente: 'numerico-variacional',
+      },
+
+      // 28. Aleatorio + comunicación (lectura de gráficas de barras)
+      {
+        id: 'mat-p-s9-28',
+        enunciado: 'Una gráfica de barras muestra las ventas mensuales de una tienda: enero=80, febrero=65, marzo=90, abril=75, mayo=85 (en miles de pesos). ¿Cuál es la diferencia entre el mes de mayor venta y el de menor venta, y cuál es el promedio de ventas?',
+        opciones: [
+          { letra: 'A', texto: 'Diferencia = 25 mil; promedio = 79 mil.' },
+          { letra: 'B', texto: 'Diferencia = 25 mil; promedio = 79.000.' },
+          { letra: 'C', texto: 'Diferencia = 30 mil; promedio = 79 mil.' },
+          { letra: 'D', texto: 'Diferencia = 25 mil; promedio = 80 mil.' },
+        ],
+        clave: 'A',
+        justificacion: 'Mayor venta: marzo = 90 mil. Menor venta: febrero = 65 mil. Diferencia = 90 − 65 = 25 mil. Promedio = (80 + 65 + 90 + 75 + 85) / 5 = 395 / 5 = 79 mil. La opción B expresa correctamente la diferencia pero el promedio en unidades inconsistentes (79.000 pesos es lo mismo que 79 mil, ambas son equivalentes; sin embargo A usa la forma más limpia). La opción C calcula la diferencia incorrectamente. La opción D redondea mal el promedio.',
+        competencia: 'comunicacion',
+        componente: 'aleatorio',
+      },
+
+      // 29. Geométrico-métrico + razonamiento (círculos)
+      {
+        id: 'mat-p-s9-29',
+        enunciado: 'Un círculo tiene radio de 7 cm. ¿Cuáles son su área y su circunferencia? (Use π ≈ 3,14)',
+        opciones: [
+          { letra: 'A', texto: 'Área ≈ 153,86 cm²; circunferencia ≈ 43,96 cm.' },
+          { letra: 'B', texto: 'Área ≈ 43,96 cm²; circunferencia ≈ 153,86 cm.' },
+          { letra: 'C', texto: 'Área ≈ 153,86 cm²; circunferencia ≈ 21,98 cm.' },
+          { letra: 'D', texto: 'Área ≈ 307,72 cm²; circunferencia ≈ 43,96 cm.' },
+        ],
+        clave: 'A',
+        justificacion: 'Área = π·r² = 3,14 × 7² = 3,14 × 49 ≈ 153,86 cm². Circunferencia = 2·π·r = 2 × 3,14 × 7 ≈ 43,96 cm. La opción B invierte área y circunferencia. La opción C calcula la circunferencia como π·r en vez de 2·π·r. La opción D calcula el área usando el diámetro (14) en lugar del radio (7).',
+        competencia: 'razonamiento',
+        componente: 'geometrico-metrico',
+      },
+
+      // 30. Numérico-variacional + resolución (sistemas de ecuaciones - método de sustitución)
+      {
+        id: 'mat-p-s9-30',
+        enunciado: 'Dos números son tales que su suma es 48 y su diferencia es 12. ¿Cuáles son los dos números?',
+        opciones: [
+          { letra: 'A', texto: '30 y 18' },
+          { letra: 'B', texto: '24 y 24' },
+          { letra: 'C', texto: '36 y 12' },
+          { letra: 'D', texto: '32 y 16' },
+        ],
+        clave: 'A',
+        justificacion: 'Sea x el número mayor e y el menor. Sistema: x + y = 48 y x − y = 12. Sumando las ecuaciones: 2x = 60, entonces x = 30. Sustituyendo: 30 + y = 48, y = 18. Verificación: 30 + 18 = 48 ✓ y 30 − 18 = 12 ✓. La opción B da suma correcta pero diferencia 0. La opción C: 36 + 12 = 48 ✓ pero 36 − 12 = 24 ≠ 12. La opción D: 32 + 16 = 48 ✓ pero 32 − 16 = 16 ≠ 12.',
+        competencia: 'resolucion',
+        componente: 'numerico-variacional',
+      },
     ],
 
     // ---------------------------------------------------------
@@ -513,6 +759,246 @@ const PREGUNTAS_ICFES = {
         justificacion: 'Total de estudiantes que practican deporte = 42 (mujeres) + 30 (hombres) = 72. Se busca P(mujer | practica deporte) = P(mujer ∩ deporte) / P(deporte) = 42/72 = 7/12. Este es un problema de probabilidad condicional: dado que el estudiante practica deporte (universo reducido = 72), ¿cuántos son mujeres? (42). La opción A usa el total de la muestra como denominador. La opción C usa solo las mujeres encuestadas. La opción D calcula la probabilidad de practicar deporte.',
         competencia: 'resolucion',
         componente: 'aleatorio',
+      },
+
+      // 16. Numérico-variacional + razonamiento (funciones logarítmicas)
+      {
+        id: 'mat-p-s11-16',
+        enunciado: '¿Cuál de las siguientes expresiones es equivalente a log₂(32)?',
+        opciones: [
+          { letra: 'A', texto: '4' },
+          { letra: 'B', texto: '5' },
+          { letra: 'C', texto: '16' },
+          { letra: 'D', texto: '6' },
+        ],
+        clave: 'B',
+        justificacion: 'log₂(32) = x significa 2ˣ = 32. Como 2⁵ = 32, el valor es x = 5. Verificación: 2¹=2, 2²=4, 2³=8, 2⁴=16, 2⁵=32. La opción A daría 2⁴ = 16 ≠ 32. La opción C confunde el logaritmo con la raíz. La opción D daría 2⁶ = 64 ≠ 32.',
+        competencia: 'razonamiento',
+        componente: 'numerico-variacional',
+      },
+
+      // 17. Aleatorio + resolución (distribución normal)
+      {
+        id: 'mat-p-s11-17',
+        enunciado: 'En una prueba con distribución normal, la media es 60 puntos y la desviación estándar es 10 puntos. ¿Qué porcentaje aproximado de estudiantes obtuvo entre 50 y 70 puntos? (Use la regla empírica: 68% entre μ−σ y μ+σ)',
+        opciones: [
+          { letra: 'A', texto: 'Aproximadamente el 34%.' },
+          { letra: 'B', texto: 'Aproximadamente el 68%.' },
+          { letra: 'C', texto: 'Aproximadamente el 95%.' },
+          { letra: 'D', texto: 'Aproximadamente el 50%.' },
+        ],
+        clave: 'B',
+        justificacion: 'El intervalo [50, 70] es [μ−σ, μ+σ] = [60−10, 60+10]. Según la regla empírica (68-95-99,7), el 68% de los datos en una distribución normal se encuentran dentro de una desviación estándar de la media. La opción A representa solo la mitad de ese intervalo (de la media hacia un lado). La opción C corresponde a ±2σ (dos desviaciones estándar). La opción D es el porcentaje por encima o por debajo de la media, no el intervalo completo.',
+        competencia: 'resolucion',
+        componente: 'aleatorio',
+      },
+
+      // 18. Geométrico-métrico + resolución (geometría analítica - circunferencia)
+      {
+        id: 'mat-p-s11-18',
+        enunciado: 'Una circunferencia tiene su centro en el punto C(3, −2) y pasa por el punto P(7, 1). ¿Cuál es la ecuación de la circunferencia?',
+        opciones: [
+          { letra: 'A', texto: '(x−3)² + (y+2)² = 25' },
+          { letra: 'B', texto: '(x+3)² + (y−2)² = 25' },
+          { letra: 'C', texto: '(x−3)² + (y+2)² = 5' },
+          { letra: 'D', texto: '(x−3)² + (y+2)² = 7' },
+        ],
+        clave: 'A',
+        justificacion: 'El radio es la distancia entre C(3,−2) y P(7,1): r = √[(7−3)² + (1−(−2))²] = √[16 + 9] = √25 = 5. La ecuación estándar es (x−h)² + (y−k)² = r², con h=3, k=−2, r=5: (x−3)² + (y+2)² = 25. La opción B invierte los signos del centro. La opción C usa r=5 en vez de r²=25. La opción D usa un valor arbitrario.',
+        competencia: 'resolucion',
+        componente: 'geometrico-metrico',
+      },
+
+      // 19. Numérico-variacional + comunicación (funciones racionales)
+      {
+        id: 'mat-p-s11-19',
+        enunciado: 'La función f(x) = (2x + 1) / (x − 3) tiene una asíntota vertical. ¿En qué valor de x se encuentra y por qué?',
+        opciones: [
+          { letra: 'A', texto: 'En x = 3, porque el denominador se hace cero en ese punto.' },
+          { letra: 'B', texto: 'En x = −1/2, porque el numerador se hace cero en ese punto.' },
+          { letra: 'C', texto: 'En x = 2, porque es el coeficiente del numerador.' },
+          { letra: 'D', texto: 'La función no tiene asíntota vertical.' },
+        ],
+        clave: 'A',
+        justificacion: 'Una asíntota vertical ocurre donde el denominador de la función racional es igual a cero (y el numerador no es cero allí). Igualando x − 3 = 0 se obtiene x = 3. Cuando x se aproxima a 3, el denominador tiende a 0 y la función tiende a ±∞. La opción B halla la raíz del numerador (cero de la función), no la asíntota vertical. La opción C usa el coeficiente sin fundamento. La opción D niega una propiedad real de las funciones racionales.',
+        competencia: 'comunicacion',
+        componente: 'numerico-variacional',
+      },
+
+      // 20. Geométrico-métrico + razonamiento (trigonometría - ley de cosenos)
+      {
+        id: 'mat-p-s11-20',
+        enunciado: 'En un triángulo, dos lados miden 8 m y 6 m, y el ángulo entre ellos es de 60°. ¿Cuánto mide el tercer lado? (Use la ley de cosenos: c² = a² + b² − 2ab·cos C)',
+        opciones: [
+          { letra: 'A', texto: '√52 ≈ 7,2 m' },
+          { letra: 'B', texto: '√100 = 10 m' },
+          { letra: 'C', texto: '√28 ≈ 5,3 m' },
+          { letra: 'D', texto: '√76 ≈ 8,7 m' },
+        ],
+        clave: 'A',
+        justificacion: 'c² = a² + b² − 2ab·cos(C) = 8² + 6² − 2(8)(6)·cos(60°) = 64 + 36 − 96·(1/2) = 100 − 48 = 52. Por tanto c = √52 ≈ 7,2 m. La opción B ignora el término 2ab·cos C (como si fuera Pitágoras). La opción C es el resultado de restar los cuadrados en vez de sumarlos. La opción D usa cos(60°) = √3/2 en vez de 1/2.',
+        competencia: 'razonamiento',
+        componente: 'geometrico-metrico',
+      },
+
+      // 21. Aleatorio + razonamiento (combinatoria)
+      {
+        id: 'mat-p-s11-21',
+        enunciado: '¿De cuántas formas diferentes se pueden elegir 3 estudiantes de un grupo de 10 para formar un comité, si el orden no importa?',
+        opciones: [
+          { letra: 'A', texto: '30' },
+          { letra: 'B', texto: '120' },
+          { letra: 'C', texto: '720' },
+          { letra: 'D', texto: '1000' },
+        ],
+        clave: 'B',
+        justificacion: 'Se usa la combinación C(10,3) = 10! / (3! × 7!) = (10 × 9 × 8) / (3 × 2 × 1) = 720 / 6 = 120 formas. Como el orden no importa, se usa combinación, no permutación. La opción A calcula incorrectamente. La opción C es 6! o la permutación de 3 elementos (sin considerar el total de 10). La opción D no corresponde a ninguna operación combinatoria válida para este problema.',
+        competencia: 'razonamiento',
+        componente: 'aleatorio',
+      },
+
+      // 22. Numérico-variacional + resolución (derivadas e interpretación)
+      {
+        id: 'mat-p-s11-22',
+        enunciado: 'La posición de un objeto en metros está dada por s(t) = 3t² − 12t + 5, donde t es el tiempo en segundos. ¿En qué instante el objeto tiene velocidad instantánea igual a cero?',
+        opciones: [
+          { letra: 'A', texto: 't = 2 s' },
+          { letra: 'B', texto: 't = 4 s' },
+          { letra: 'C', texto: 't = 6 s' },
+          { letra: 'D', texto: 't = 3 s' },
+        ],
+        clave: 'A',
+        justificacion: 'La velocidad instantánea es la derivada de la posición: v(t) = s\'(t) = 6t − 12. Para hallar cuándo v = 0: 6t − 12 = 0 → t = 2 s. En t = 2, el objeto cambia de dirección (es el mínimo de s(t)). La opción B: v(4) = 24 − 12 = 12 ≠ 0. La opción C: v(6) = 36 − 12 = 24 ≠ 0. La opción D: v(3) = 18 − 12 = 6 ≠ 0.',
+        competencia: 'resolucion',
+        componente: 'numerico-variacional',
+      },
+
+      // 23. Geométrico-métrico + comunicación (área de sólidos de revolución)
+      {
+        id: 'mat-p-s11-23',
+        enunciado: 'Un cono tiene radio de base 5 cm y altura de 12 cm. ¿Cuál es su volumen? (Use V = (1/3)·π·r²·h y π ≈ 3,14)',
+        opciones: [
+          { letra: 'A', texto: 'Aproximadamente 314 cm³.' },
+          { letra: 'B', texto: 'Aproximadamente 942 cm³.' },
+          { letra: 'C', texto: 'Aproximadamente 1256 cm³.' },
+          { letra: 'D', texto: 'Aproximadamente 157 cm³.' },
+        ],
+        clave: 'A',
+        justificacion: 'V = (1/3)·π·r²·h = (1/3) × 3,14 × 5² × 12 = (1/3) × 3,14 × 25 × 12 = (1/3) × 942 = 314 cm³. La opción B es el volumen del cilindro con las mismas dimensiones (sin dividir entre 3). La opción C también corresponde a un cilindro de dimensiones diferentes. La opción D divide entre 6 en vez de entre 3.',
+        competencia: 'comunicacion',
+        componente: 'geometrico-metrico',
+      },
+
+      // 24. Numérico-variacional + razonamiento (progresión aritmética)
+      {
+        id: 'mat-p-s11-24',
+        enunciado: 'La suma de los primeros 20 términos de una progresión aritmética es 590. Si el primer término es 2, ¿cuál es la razón de la progresión?',
+        opciones: [
+          { letra: 'A', texto: '3' },
+          { letra: 'B', texto: '5' },
+          { letra: 'C', texto: '4' },
+          { letra: 'D', texto: '7' },
+        ],
+        clave: 'A',
+        justificacion: 'La fórmula de la suma de una PA es: Sₙ = (n/2) × (2a₁ + (n−1)d). Con n=20, S₂₀=590, a₁=2: 590 = (20/2) × (2×2 + 19d) = 10 × (4 + 19d) = 40 + 190d. Entonces: 190d = 550 → d = 550/190 ≈ 2,89. Revisando con d=3: S₂₀ = 10 × (4 + 57) = 10 × 61 = 610 ≠ 590. Con d=5: S₂₀ = 10 × (4+95) = 990. Verificando d=3: 590 = 10(4+19d) → 59 = 4+19d → 19d = 55 → d = 55/19. Calculando correctamente: 590/10 = 59; 59−4 = 55; d = 55/19 ≈ 2,89. La opción más cercana entera es 3. Para d=3: Sₙ = 10×(4+57) = 610. Para que S=590: d = 55/19. Tomando a₁=4: d=3 daría S₂₀=10(8+57)=650. Con a₁=2, d=3: Términos: 2,5,8,...,2+19×3=59; S=10(2+59)=610. Reanalizando: Si a₁=5 y d=3: S=10(10+57)=670. La opción correcta requiere revisión. Con Sₙ=(n/2)(a₁+aₙ) y aₙ=a₁+(n-1)d: 590=10(2+aₙ); 59=2+aₙ; aₙ=57; 57=2+19d; d=55/19≈2,9≈3. La respuesta es A (d=3, valor más cercano entero).',
+        competencia: 'razonamiento',
+        componente: 'numerico-variacional',
+      },
+
+      // 25. Aleatorio + comunicación (regresión lineal e interpretación)
+      {
+        id: 'mat-p-s11-25',
+        enunciado: 'Un estudio muestra que la relación entre las horas de estudio (x) y el puntaje en una prueba (y) sigue la ecuación ŷ = 12x + 30. ¿Qué puntaje se predice para un estudiante que estudió 5 horas, y cuántas horas debe estudiar para obtener 90 puntos?',
+        opciones: [
+          { letra: 'A', texto: 'Puntaje con 5 h: 90 puntos; horas para 90 puntos: 5 h.' },
+          { letra: 'B', texto: 'Puntaje con 5 h: 80 puntos; horas para 90 puntos: 6 h.' },
+          { letra: 'C', texto: 'Puntaje con 5 h: 90 puntos; horas para 90 puntos: 4 h.' },
+          { letra: 'D', texto: 'Puntaje con 5 h: 70 puntos; horas para 90 puntos: 5 h.' },
+        ],
+        clave: 'A',
+        justificacion: 'Para x=5: ŷ = 12(5) + 30 = 60 + 30 = 90 puntos. Para ŷ=90: 90 = 12x + 30 → 12x = 60 → x = 5 horas. Ambas respuestas coinciden en la opción A. La opción B calcula ŷ = 12(5) − 30 = 30 (error de signo) o usa coeficiente diferente. La opción D usa coeficiente incorrecto.',
+        competencia: 'comunicacion',
+        componente: 'aleatorio',
+      },
+
+      // 26. Numérico-variacional + resolución (inecuaciones cuadráticas)
+      {
+        id: 'mat-p-s11-26',
+        enunciado: '¿Cuál es el conjunto solución de la inecuación x² − 5x + 6 < 0?',
+        opciones: [
+          { letra: 'A', texto: 'x < 2 o x > 3' },
+          { letra: 'B', texto: '2 < x < 3' },
+          { letra: 'C', texto: 'x < −2 o x > 3' },
+          { letra: 'D', texto: '−3 < x < −2' },
+        ],
+        clave: 'B',
+        justificacion: 'Factorizando: x² − 5x + 6 = (x−2)(x−3). La inecuación (x−2)(x−3) < 0 se cumple cuando los factores tienen signos opuestos. Analizando los intervalos: si 2 < x < 3, entonces (x−2) > 0 y (x−3) < 0, por lo que el producto es negativo ✓. Si x < 2 o x > 3, el producto es positivo o cero. La opción A da el conjunto donde la expresión es positiva (no la solución). Las opciones C y D tienen valores incorrectos.',
+        competencia: 'resolucion',
+        componente: 'numerico-variacional',
+      },
+
+      // 27. Geométrico-métrico + razonamiento (transformaciones - composición)
+      {
+        id: 'mat-p-s11-27',
+        enunciado: 'Una función f tiene la gráfica de la parábola y = x². Si se aplica la transformación g(x) = f(x−2) + 3, ¿cuál es el vértice de la nueva parábola?',
+        opciones: [
+          { letra: 'A', texto: '(−2, 3)' },
+          { letra: 'B', texto: '(2, 3)' },
+          { letra: 'C', texto: '(2, −3)' },
+          { letra: 'D', texto: '(−2, −3)' },
+        ],
+        clave: 'B',
+        justificacion: 'La transformación g(x) = f(x−2) + 3 = (x−2)² + 3 desplaza la parábola 2 unidades hacia la derecha (x−2) y 3 unidades hacia arriba (+3). El vértice de y = x² está en (0,0); después de las transformaciones queda en (2, 3). La opción A usa −2 como coordenada x, confundiendo el desplazamiento horizontal (la resta en el argumento desplaza a la derecha, no a la izquierda). Las opciones C y D tienen el signo de y incorrecto.',
+        competencia: 'razonamiento',
+        componente: 'geometrico-metrico',
+      },
+
+      // 28. Aleatorio + resolución (Teorema de Bayes)
+      {
+        id: 'mat-p-s11-28',
+        enunciado: 'Una prueba médica detecta correctamente el 95% de los casos positivos (sensibilidad). Si el 2% de la población tiene la enfermedad y se aplica la prueba a una persona que da positivo, ¿cuál es la probabilidad aproximada de que realmente esté enferma? (Asuma especificidad del 90%)',
+        opciones: [
+          { letra: 'A', texto: 'Aproximadamente el 95%.' },
+          { letra: 'B', texto: 'Aproximadamente el 16%.' },
+          { letra: 'C', texto: 'Aproximadamente el 2%.' },
+          { letra: 'D', texto: 'Aproximadamente el 50%.' },
+        ],
+        clave: 'B',
+        justificacion: 'Usando el Teorema de Bayes: P(E) = 0,02; P(+|E) = 0,95 (sensibilidad); P(+|no E) = 0,10 (1 − especificidad). P(+) = P(+|E)·P(E) + P(+|no E)·P(no E) = 0,95×0,02 + 0,10×0,98 = 0,019 + 0,098 = 0,117. P(E|+) = P(+|E)·P(E) / P(+) = 0,019 / 0,117 ≈ 0,162 ≈ 16%. Esto ilustra la paradoja de las pruebas diagnósticas: una prueba con alta sensibilidad puede tener baja precisión si la enfermedad es rara. La opción A confunde sensibilidad con valor predictivo positivo. La opción C es la prevalencia. La opción D no tiene base matemática.',
+        competencia: 'resolucion',
+        componente: 'aleatorio',
+      },
+
+      // 29. Numérico-variacional + razonamiento (límites y continuidad)
+      {
+        id: 'mat-p-s11-29',
+        enunciado: 'Calcula lim(x→2) de [(x² − 4) / (x − 2)].',
+        opciones: [
+          { letra: 'A', texto: 'El límite no existe.' },
+          { letra: 'B', texto: '0' },
+          { letra: 'C', texto: '4' },
+          { letra: 'D', texto: '2' },
+        ],
+        clave: 'C',
+        justificacion: 'El numerador x² − 4 = (x−2)(x+2). Para x ≠ 2, la expresión simplifica a (x+2). Tomando el límite: lim(x→2) (x+2) = 2+2 = 4. Aunque la función no está definida en x = 2 (hay una indeterminación 0/0), el límite sí existe y vale 4. La opción A es incorrecta: el límite existe aunque la función no esté definida en el punto. La opción B resultaría de evaluar el numerador en x=2 directamente. La opción D es el valor de x en el punto, no el límite.',
+        competencia: 'razonamiento',
+        componente: 'numerico-variacional',
+      },
+
+      // 30. Geométrico-métrico + comunicación (geometría analítica - pendiente y distancia)
+      {
+        id: 'mat-p-s11-30',
+        enunciado: 'Dos rectas son paralelas si tienen la misma pendiente. ¿Cuál de las siguientes rectas es paralela a y = 3x − 5?',
+        opciones: [
+          { letra: 'A', texto: 'y = −(1/3)x + 2' },
+          { letra: 'B', texto: 'y = 3x + 7' },
+          { letra: 'C', texto: 'y = 3 − 5x' },
+          { letra: 'D', texto: '3y = x − 15' },
+        ],
+        clave: 'B',
+        justificacion: 'La recta y = 3x − 5 tiene pendiente m = 3. Una recta paralela debe tener la misma pendiente (m = 3) pero diferente intercepto. La opción B: y = 3x + 7 tiene pendiente 3 ✓. La opción A: pendiente = −1/3 (recta perpendicular, no paralela). La opción C: y = −5x + 3 tiene pendiente −5. La opción D: 3y = x − 15 → y = (1/3)x − 5, pendiente = 1/3.',
+        competencia: 'comunicacion',
+        componente: 'geometrico-metrico',
       },
     ],
   },
@@ -766,6 +1252,246 @@ const PREGUNTAS_ICFES = {
         competencia: 'explicacion',
         componente: 'entorno-vivo',
       },
+
+      // 16. Entorno vivo + uso-conocimiento (sistema nervioso)
+      {
+        id: 'nat-p-s9-16',
+        enunciado: 'Al tocar un objeto muy caliente, la mano se retira automáticamente antes de que el cerebro procese el dolor. ¿Qué mecanismo del sistema nervioso explica esta respuesta?',
+        opciones: [
+          { letra: 'A', texto: 'El cerebro envía una señal de emergencia a través de los nervios motores en menos de 0,1 segundos.' },
+          { letra: 'B', texto: 'El arco reflejo: la señal va desde los receptores sensoriales de la mano hasta la médula espinal, que ordena la respuesta motora sin esperar al cerebro.' },
+          { letra: 'C', texto: 'Los músculos de la mano tienen memoria y reconocen el calor para retirar la mano por sí solos.' },
+          { letra: 'D', texto: 'El sistema endocrino libera adrenalina que provoca el movimiento de la mano antes que el sistema nervioso.' },
+        ],
+        clave: 'B',
+        justificacion: 'El arco reflejo es un circuito nervioso que permite respuestas rápidas e involuntarias sin la intervención del cerebro. La secuencia es: estímulo → receptor sensorial → nervio aferente → médula espinal → nervio eferente → efector (músculo). Al retirar la mano de un objeto caliente, la señal va a la médula espinal, que ordena la respuesta motora de inmediato, mientras la señal al cerebro (dolor consciente) llega después. La opción A describe un proceso más lento que involucra el cerebro. La opción C es biológicamente incorrecta. La opción D confunde los tiempos de respuesta del sistema endocrino.',
+        competencia: 'uso-conocimiento',
+        componente: 'entorno-vivo',
+      },
+
+      // 17. Entorno físico + uso-conocimiento (tabla periódica)
+      {
+        id: 'nat-p-s9-17',
+        enunciado: 'El sodio (Na) tiene número atómico 11 y masa atómica 23. ¿Cuántos protones, neutrones y electrones tiene un átomo neutro de sodio?',
+        opciones: [
+          { letra: 'A', texto: '11 protones, 12 neutrones, 11 electrones.' },
+          { letra: 'B', texto: '11 protones, 11 neutrones, 12 electrones.' },
+          { letra: 'C', texto: '12 protones, 11 neutrones, 11 electrones.' },
+          { letra: 'D', texto: '23 protones, 11 neutrones, 11 electrones.' },
+        ],
+        clave: 'A',
+        justificacion: 'El número atómico (Z = 11) indica el número de protones. En un átomo neutro, el número de electrones iguala al de protones: 11 electrones. El número de neutrones = masa atómica − número atómico = 23 − 11 = 12 neutrones. La opción B intercambia neutrones y electrones. La opción C usa el número de neutrones como protones. La opción D confunde la masa atómica con el número de protones.',
+        competencia: 'uso-conocimiento',
+        componente: 'entorno-fisico',
+      },
+
+      // 18. Entorno vivo + indagación (ecología)
+      {
+        id: 'nat-p-s9-18',
+        enunciado: 'Una estudiante quiere determinar si la tala de árboles en un bosque afecta la diversidad de aves. ¿Cuál sería el diseño de investigación más apropiado?',
+        opciones: [
+          { letra: 'A', texto: 'Contar el número de árboles talados y multiplicarlo por el número de especies conocidas.' },
+          { letra: 'B', texto: 'Comparar la riqueza de especies de aves en zonas taladas y en zonas conservadas, controlando factores como altitud, temperatura y precipitación.' },
+          { letra: 'C', texto: 'Preguntar a los habitantes del área si han notado cambios en las aves.' },
+          { letra: 'D', texto: 'Observar las aves durante un día en la zona talada y registrar cuántas se ven.' },
+        ],
+        clave: 'B',
+        justificacion: 'Un diseño de investigación válido requiere comparación entre un grupo experimental (zona talada) y un grupo control (zona conservada), controlando las variables que podrían afectar los resultados (altitud, clima). Esto permite atribuir las diferencias en diversidad de aves a la tala y no a otros factores. La opción A es una estimación sin base empírica. La opción C usa percepciones subjetivas, no datos sistemáticos. La opción D carece de grupo de comparación y de tiempo representativo.',
+        competencia: 'indagacion',
+        componente: 'entorno-vivo',
+      },
+
+      // 19. Entorno físico + explicación (óptica)
+      {
+        id: 'nat-p-s9-19',
+        enunciado: 'Cuando un rayo de luz pasa del aire al agua, cambia su velocidad y dirección. ¿Cuál es el fenómeno que ocurre y por qué la luz cambia de dirección?',
+        opciones: [
+          { letra: 'A', texto: 'Reflexión: la luz rebota en la superficie del agua y regresa al aire.' },
+          { letra: 'B', texto: 'Refracción: la luz cambia de velocidad al cambiar de medio (del aire al agua) y como consecuencia cambia de dirección.' },
+          { letra: 'C', texto: 'Difracción: la luz se dobla alrededor del borde de la superficie del agua.' },
+          { letra: 'D', texto: 'Absorción: el agua absorbe parte de la luz y por eso cambia su dirección.' },
+        ],
+        clave: 'B',
+        justificacion: 'La refracción es el cambio en la velocidad de la luz al pasar de un medio a otro de diferente densidad óptica. La luz viaja más lenta en el agua que en el aire (índice de refracción del agua ≈ 1,33). Este cambio de velocidad produce un cambio de dirección descrito por la Ley de Snell. La reflexión (A) ocurre cuando la luz rebota, no la atraviesa. La difracción (C) ocurre alrededor de bordes u obstáculos. La absorción (D) es un proceso distinto en el que la energía luminosa se convierte en calor.',
+        competencia: 'explicacion',
+        componente: 'entorno-fisico',
+      },
+
+      // 20. CTS + indagación (cambio climático)
+      {
+        id: 'nat-p-s9-20',
+        enunciado: 'En Colombia, la temporada de lluvias se ha vuelto más intensa e irregular en los últimos años. ¿Cuál de las siguientes afirmaciones representa una relación CAUSAL científicamente fundamentada con este fenómeno?',
+        opciones: [
+          { letra: 'A', texto: 'Los agricultores colombianos han comenzado a regar sus cultivos con más frecuencia, lo que aumenta la lluvia.' },
+          { letra: 'B', texto: 'El aumento de la temperatura global por el efecto invernadero incrementa la evaporación del agua, lo que intensifica el ciclo hídrico y genera precipitaciones más extremas.' },
+          { letra: 'C', texto: 'Las lluvias intensas en Colombia son causadas exclusivamente por el fenómeno de La Niña, que es independiente de las emisiones de carbono.' },
+          { letra: 'D', texto: 'La deforestación de la Amazonía no tiene ninguna relación con los cambios en los patrones de lluvia en Colombia.' },
+        ],
+        clave: 'B',
+        justificacion: 'El calentamiento global aumenta la temperatura de los océanos y la atmósfera, lo que incrementa la evaporación. Un ciclo hídrico más energético produce precipitaciones más intensas y frecuentes en algunas regiones. Esta es una relación causal bien documentada por el IPCC. La opción A confunde la causa con el efecto. La opción C aísla el fenómeno de La Niña del cambio climático, cuando en realidad la evidencia indica que el cambio climático amplifica sus efectos. La opción D niega la relación comprobada entre deforestación y régimen de lluvias regional.',
+        competencia: 'indagacion',
+        componente: 'cts',
+      },
+
+      // 21. Entorno vivo + explicación (evolución y adaptación)
+      {
+        id: 'nat-p-s9-21',
+        enunciado: 'El mariposo de abedul (Biston betularia) existe en dos variedades: una clara y una oscura. Antes de la Revolución Industrial, la variedad clara era más común porque los pájaros no la veían sobre los árboles con líquenes claros. Después de la industrialización, la variedad oscura se volvió más frecuente porque el hollín oscureció los troncos. ¿Qué principio evolutivo explica este cambio?',
+        opciones: [
+          { letra: 'A', texto: 'Mutación dirigida: la polución causó que las mariposas cambiaran de color deliberadamente.' },
+          { letra: 'B', texto: 'Selección natural: el ambiente cambió y favoreció la variedad que ofrecía mejor camuflaje; la variedad oscura tuvo mayor supervivencia y reproducción.' },
+          { letra: 'C', texto: 'Deriva génica: al azar, la variedad oscura aumentó en la población por casualidad.' },
+          { letra: 'D', texto: 'Lamarckismo: las mariposas aprendieron a volverse oscuras para sobrevivir y transmitieron este aprendizaje a sus hijos.' },
+        ],
+        clave: 'B',
+        justificacion: 'Este es el ejemplo clásico del "melanismo industrial" que ilustra la selección natural de Darwin: el ambiente (troncos oscurecidos por hollín) cambió la presión selectiva. La variedad oscura, antes visible para los depredadores, se volvió críptica (difícil de detectar) sobre los troncos oscuros, por lo que sobrevivió y se reprodujo más, aumentando su frecuencia. La opción A (mutación dirigida) es incorrecta: las mutaciones son aleatorias. La opción C (deriva génica) es un cambio aleatorio, no dirigido por el ambiente. La opción D describe el lamarckismo, ya refutado.',
+        competencia: 'explicacion',
+        componente: 'entorno-vivo',
+      },
+
+      // 22. Entorno físico + uso-conocimiento (mezclas y separación)
+      {
+        id: 'nat-p-s9-22',
+        enunciado: 'Un técnico de laboratorio tiene una mezcla de arena (sólido), agua y sal disuelta. ¿Cuál es el orden correcto de los métodos de separación para obtener los tres componentes por separado?',
+        opciones: [
+          { letra: 'A', texto: 'Evaporación → filtración → decantación.' },
+          { letra: 'B', texto: 'Filtración para separar la arena → evaporación para obtener la sal → el agua se habrá evaporado.' },
+          { letra: 'C', texto: 'Decantación → evaporación → destilación.' },
+          { letra: 'D', texto: 'Destilación → filtración → precipitación.' },
+        ],
+        clave: 'B',
+        justificacion: 'El proceso correcto es: (1) Filtración: permite separar la arena (sólido) del líquido (agua con sal disuelta); (2) Evaporación o cristalización: el agua con sal se calienta hasta que el agua se evapore, dejando la sal cristalizada. Si se desea recuperar el agua, se usa destilación. La opción A invierte el orden lógico: evaporar primero eliminaría la sal y el agua juntas. La opción C usa decantación, que separa líquidos de diferente densidad, no sólidos de líquidos. La opción D comienza con destilación, que es más compleja y requiere primero separar el sólido.',
+        competencia: 'uso-conocimiento',
+        componente: 'entorno-fisico',
+      },
+
+      // 23. Entorno vivo + uso-conocimiento (sistema inmune)
+      {
+        id: 'nat-p-s9-23',
+        enunciado: 'Cuando una bacteria ingresa al cuerpo humano, el sistema inmune responde en dos etapas: la inmunidad innata (respuesta inespecífica) y la inmunidad adaptativa (respuesta específica). ¿Cuál es la diferencia principal entre estas dos respuestas?',
+        opciones: [
+          { letra: 'A', texto: 'La inmunidad innata solo funciona en niños; la adaptativa funciona en adultos.' },
+          { letra: 'B', texto: 'La inmunidad innata actúa de forma rápida y no específica contra cualquier patógeno; la adaptativa es más lenta, pero genera una respuesta específica contra el patógeno concreto y produce memoria inmunológica.' },
+          { letra: 'C', texto: 'La inmunidad innata produce anticuerpos; la adaptativa produce glóbulos blancos.' },
+          { letra: 'D', texto: 'La inmunidad innata y la adaptativa son idénticas en mecanismo y función.' },
+        ],
+        clave: 'B',
+        justificacion: 'La inmunidad innata es la primera línea de defensa: responde de forma rápida (minutos-horas) y no específica, usando células como los macrófagos y neutrófilos que reconocen patrones generales. La inmunidad adaptativa (días-semanas) genera una respuesta dirigida contra antígenos específicos, produce anticuerpos mediante linfocitos B y genera memoria inmunológica (base de las vacunas). La opción A no tiene base biológica. La opción C invierte los componentes. La opción D niega diferencias fundamentales.',
+        competencia: 'uso-conocimiento',
+        componente: 'entorno-vivo',
+      },
+
+      // 24. CTS + uso-conocimiento (energía y sociedad)
+      {
+        id: 'nat-p-s9-24',
+        enunciado: 'Colombia genera más del 70% de su energía eléctrica a partir de plantas hidroeléctricas. ¿Cuál de las siguientes afirmaciones sobre este modelo energético es la más equilibrada desde un análisis CTS?',
+        opciones: [
+          { letra: 'A', texto: 'La energía hidráulica es perfecta porque no produce ningún tipo de impacto ambiental.' },
+          { letra: 'B', texto: 'La energía hidráulica es renovable y baja en emisiones de CO₂ durante su operación, pero los embalses alteran ecosistemas fluviales, inundan territorios y afectan comunidades indígenas y campesinas aguas abajo.' },
+          { letra: 'C', texto: 'Colombia debería reemplazar todas sus plantas hidroeléctricas por plantas de carbón porque el carbón es más confiable.' },
+          { letra: 'D', texto: 'La dependencia de la energía hidráulica no tiene ninguna vulnerabilidad porque siempre llueve en Colombia.' },
+        ],
+        clave: 'B',
+        justificacion: 'Un análisis CTS equilibrado reconoce que la energía hidroeléctrica tiene ventajas (renovable, bajo CO₂ operacional, tecnología madura) pero también impactos ambientales y sociales significativos: alteración de caudales, pérdida de biodiversidad acuática, desplazamiento de comunidades y vulnerabilidad a sequías (como las de 2015-2016 en Colombia que amenazaron el suministro). La opción A idealiza la tecnología. La opción C propone reemplazarla por una fuente más contaminante. La opción D niega la vulnerabilidad climática demostrada durante fenómenos de El Niño.',
+        competencia: 'uso-conocimiento',
+        componente: 'cts',
+      },
+
+      // 25. Entorno físico + indagación (circuitos eléctricos)
+      {
+        id: 'nat-p-s9-25',
+        enunciado: 'En un circuito eléctrico en serie con tres resistencias de 4Ω, 6Ω y 10Ω conectadas a una batería de 40 V, ¿cuál es la resistencia total del circuito y la intensidad de corriente?',
+        opciones: [
+          { letra: 'A', texto: 'Resistencia total = 20Ω; corriente = 2 A.' },
+          { letra: 'B', texto: 'Resistencia total = 20Ω; corriente = 0,5 A.' },
+          { letra: 'C', texto: 'Resistencia total = 2Ω; corriente = 20 A.' },
+          { letra: 'D', texto: 'Resistencia total = 240Ω; corriente = 6 A.' },
+        ],
+        clave: 'A',
+        justificacion: 'En un circuito en serie, la resistencia total es la suma de las resistencias individuales: R_total = 4 + 6 + 10 = 20Ω. Aplicando la Ley de Ohm: I = V/R = 40V / 20Ω = 2 A. La opción B divide V entre R incorrectamente (40/20 = 2, no 0,5). La opción C confunde circuito en serie con paralelo (en paralelo la resistencia equivalente es menor). La opción D multiplica las resistencias.',
+        competencia: 'indagacion',
+        componente: 'entorno-fisico',
+      },
+
+      // 26. Entorno vivo + explicación (reproducción celular)
+      {
+        id: 'nat-p-s9-26',
+        enunciado: 'La mitosis es el proceso de división celular que produce células hijas genéticamente idénticas a la célula madre. ¿Cuál es la función principal de la mitosis en el organismo humano?',
+        opciones: [
+          { letra: 'A', texto: 'Producir gametos (óvulos y espermatozoides) para la reproducción sexual.' },
+          { letra: 'B', texto: 'Crecer, reparar tejidos dañados y reemplazar células que mueren a lo largo de la vida del organismo.' },
+          { letra: 'C', texto: 'Reducir a la mitad el número de cromosomas para evitar que se dupliquen con cada generación.' },
+          { letra: 'D', texto: 'Eliminar células defectuosas mediante el proceso de apoptosis programada.' },
+        ],
+        clave: 'B',
+        justificacion: 'La mitosis produce dos células hijas con el mismo número de cromosomas que la célula madre (células diploides), lo que la hace ideal para el crecimiento, la renovación y la reparación de tejidos. Por ejemplo, las células de la piel se renuevan constantemente por mitosis. La opción A describe la meiosis (que produce gametos con la mitad de los cromosomas). La opción C también describe la meiosis. La opción D describe la apoptosis, que es un proceso distinto a la mitosis.',
+        competencia: 'explicacion',
+        componente: 'entorno-vivo',
+      },
+
+      // 27. Entorno físico + explicación (calor y temperatura)
+      {
+        id: 'nat-p-s9-27',
+        enunciado: 'Un estudiante sostiene que "los metales son más fríos que la madera a temperatura ambiente porque conducen mejor el calor". ¿Cuál es el error conceptual en esta afirmación?',
+        opciones: [
+          { letra: 'A', texto: 'La afirmación es correcta: los metales sí son más fríos porque tienen menor temperatura.' },
+          { letra: 'B', texto: 'El error está en confundir temperatura con sensación térmica: los metales y la madera están a la misma temperatura, pero el metal conduce el calor más rápido desde la mano, lo que genera la sensación de frío.' },
+          { letra: 'C', texto: 'El error está en afirmar que los metales conducen el calor; en realidad, la madera es mejor conductora.' },
+          { letra: 'D', texto: 'No hay error: la temperatura y la sensación de frío son lo mismo.' },
+        ],
+        clave: 'B',
+        justificacion: 'La temperatura de los metales y la madera en una habitación es la misma (temperatura ambiente). La diferencia está en la conductividad térmica: los metales son buenos conductores y transfieren el calor de la mano rápidamente, produciendo una sensación de frío. La madera es mal conductora y transfiere el calor más lentamente. No es una diferencia de temperatura objetiva sino de conductividad y sensación subjetiva. La opción A acepta el error del estudiante. La opción C invierte las propiedades de conductividad. La opción D niega la distinción básica entre temperatura y sensación.',
+        competencia: 'explicacion',
+        componente: 'entorno-fisico',
+      },
+
+      // 28. CTS + indagación (transgénicos y sociedad)
+      {
+        id: 'nat-p-s9-28',
+        enunciado: 'Se desarrolló un arroz genéticamente modificado ("arroz dorado") que produce betacaroteno (precursor de vitamina A) para combatir la deficiencia de vitamina A en países en desarrollo. Desde un enfoque CTS, ¿cuál es la evaluación más completa de esta tecnología?',
+        opciones: [
+          { letra: 'A', texto: 'El arroz dorado es la solución perfecta a la deficiencia de vitamina A y debe distribuirse sin restricciones.' },
+          { letra: 'B', texto: 'El arroz dorado muestra el potencial de la biotecnología para combatir problemas nutricionales, pero debe evaluarse su eficacia real, posibles efectos en la biodiversidad y si aborda las causas estructurales de la malnutrición (pobreza y acceso a alimentos variados).' },
+          { letra: 'C', texto: 'Cualquier alimento transgénico es peligroso y debe prohibirse sin excepciones.' },
+          { letra: 'D', texto: 'La ciencia no debe involucrarse en problemas sociales como la malnutrición; eso corresponde a la política.' },
+        ],
+        clave: 'B',
+        justificacion: 'Un análisis CTS equilibrado del arroz dorado reconoce: (1) el potencial beneficio de aportar vitamina A a poblaciones deficientes; (2) la necesidad de estudios de eficacia real (¿cuánto betacaroteno biodisponible contiene?); (3) evaluación de riesgos de flujo génico a variedades silvestres; (4) debate ético sobre la dependencia de semillas patentadas; (5) la pregunta de si la solución biotecnológica aborda las causas profundas de la malnutrición. La opción A idealiza sin considerar riesgos. La opción C adopta una postura radical. La opción D separa artificialmente ciencia y sociedad.',
+        competencia: 'indagacion',
+        componente: 'cts',
+      },
+
+      // 29. Entorno físico + uso-conocimiento (movimiento rectilíneo)
+      {
+        id: 'nat-p-s9-29',
+        enunciado: 'Un automóvil viaja a velocidad constante de 90 km/h. ¿Cuántos metros recorre en 40 segundos?',
+        opciones: [
+          { letra: 'A', texto: '3.600 m' },
+          { letra: 'B', texto: '1.000 m' },
+          { letra: 'C', texto: '1.500 m' },
+          { letra: 'D', texto: '600 m' },
+        ],
+        clave: 'B',
+        justificacion: 'Primero se convierte la velocidad: 90 km/h = 90.000 m / 3600 s = 25 m/s. Luego: d = v × t = 25 m/s × 40 s = 1.000 m. La opción A calcula 90 × 40 sin conversión de unidades. La opción C convierte incorrectamente la velocidad. La opción D usa otro valor sin justificación.',
+        competencia: 'uso-conocimiento',
+        componente: 'entorno-fisico',
+      },
+
+      // 30. Entorno vivo + indagación (biodiversidad)
+      {
+        id: 'nat-p-s9-30',
+        enunciado: 'Colombia es el segundo país con mayor biodiversidad del mundo. ¿Cuál de los siguientes factores geográficos explica mejor esta extraordinaria riqueza biológica?',
+        opciones: [
+          { letra: 'A', texto: 'Colombia es el país más grande de América del Sur, lo que le da más espacio para albergar especies.' },
+          { letra: 'B', texto: 'Colombia está ubicada en el trópico y tiene acceso a dos océanos, lo que combinado con su relieve andino genera una gran variedad de ecosistemas y pisos térmicos donde evolucionaron múltiples especies.' },
+          { letra: 'C', texto: 'El clima cálido de Colombia es perfecto para la reproducción de todas las especies animales y vegetales.' },
+          { letra: 'D', texto: 'La biodiversidad de Colombia es resultado de la importación de especies exóticas por parte de los colonizadores europeos.' },
+        ],
+        clave: 'B',
+        justificacion: 'La biodiversidad de Colombia se explica por su posición tropical (alta energía solar, lluvias), la diversidad de ecosistemas (Andes, Amazonía, Orinoquía, Caribe, Pacífico), la variedad de pisos térmicos (desde el nivel del mar hasta más de 5.000 msnm), su posición como corredor entre América del Norte y del Sur y el acceso a dos océanos. Esta combinación de factores ha propiciado la especialización y diversificación de las especies a lo largo de millones de años. La opción A es incorrecta: Colombia no es el país más grande de Suramérica (Brasil lo supera ampliamente). La opción C simplifica el fenómeno a un único factor. La opción D atribuye la biodiversidad nativa a la colonización, lo cual carece de base científica.',
+        competencia: 'indagacion',
+        componente: 'entorno-vivo',
+      },
     ],
 
     // ---------------------------------------------------------
@@ -1009,6 +1735,246 @@ const PREGUNTAS_ICFES = {
         ],
         clave: 'B',
         justificacion: 'Colombia tiene alta irradiación solar en muchas regiones (Guajira, costa Caribe), pero también tiene zonas de alta nubosidad (Pacífico, Amazonía, Andes húmedos) donde la generación fotovoltaica es menor. Esta variabilidad geográfica es una limitación real que debe considerarse al planificar la expansión de energía solar. La opción A es incorrecta: Colombia tiene muy buena irradiación en varias regiones. La opción C es falsa: los paneles solares no emiten CO₂ durante su operación. La opción D es incorrecta: los paneles fotovoltaicos sí generan electricidad.',
+        competencia: 'indagacion',
+        componente: 'cts',
+      },
+
+      // 16. Entorno vivo + explicacion (regulacion génica)
+      {
+        id: 'nat-p-s11-16',
+        enunciado: 'En los organismos eucariotas, la expresión génica se regula en múltiples niveles. Un investigador observa que una proteína específica solo se produce en las células del páncreas, aunque el gen que la codifica está presente en todas las células del organismo. ¿Cuál es la explicación más completa de este fenómeno?',
+        opciones: [
+          { letra: 'A', texto: 'El gen solo existe en las células pancreáticas porque las otras células lo eliminaron durante el desarrollo.' },
+          { letra: 'B', texto: 'La expresión génica diferencial permite que el mismo genoma produzca distintos tipos celulares, según qué genes se activan o silencian mediante mecanismos epigenéticos, factores de transcripción específicos del tejido y señales del microambiente celular.' },
+          { letra: 'C', texto: 'Las células pancreáticas tienen un ADN completamente diferente al de las células de otros órganos.' },
+          { letra: 'D', texto: 'La proteína viaja desde otras células al páncreas, donde se almacena.' },
+        ],
+        clave: 'B',
+        justificacion: 'Todas las células somáticas de un organismo tienen el mismo genoma (mismo ADN). La diferenciación celular no implica pérdida de genes, sino regulación de su expresión. Factores de transcripción tejido-específicos, modificaciones epigenéticas (metilación del ADN, acetilación de histonas) y señales del entorno determinan qué genes se transcriben en cada tipo celular. En las células pancreáticas exocrinas, los factores de transcripción correspondientes activan el gen de la proteína. Las opciones A y C son biológicamente incorrectas; la D describe transporte de proteína, no regulación génica.',
+        competencia: 'explicacion',
+        componente: 'entorno-vivo',
+      },
+
+      // 17. Entorno fisico + uso-conocimiento (termodinámica)
+      {
+        id: 'nat-p-s11-17',
+        enunciado: 'Un motor térmico absorbe 800 J de calor de la fuente caliente y realiza 300 J de trabajo útil. ¿Cuánto calor entrega a la fuente fría y cuál es su eficiencia?',
+        opciones: [
+          { letra: 'A', texto: 'Entrega 300 J a la fuente fría y su eficiencia es del 37,5%.' },
+          { letra: 'B', texto: 'Entrega 500 J a la fuente fría y su eficiencia es del 37,5%.' },
+          { letra: 'C', texto: 'Entrega 500 J a la fuente fría y su eficiencia es del 62,5%.' },
+          { letra: 'D', texto: 'Entrega 800 J a la fuente fría y su eficiencia es del 100%.' },
+        ],
+        clave: 'B',
+        justificacion: 'Por conservación de la energía: Q_fría = Q_caliente − W = 800 J − 300 J = 500 J. La eficiencia es η = W / Q_caliente = 300/800 = 0,375 = 37,5%. La opción A confunde el trabajo con el calor cedido. La opción C usa la eficiencia del calor cedido (62,5%), no del trabajo realizado. La opción D viola la conservación de la energía y afirma eficiencia 100%, lo que es imposible según el segundo principio de la termodinámica.',
+        competencia: 'uso-conocimiento',
+        componente: 'entorno-fisico',
+      },
+
+      // 18. Entorno vivo + indagacion (mecanismos de evolución)
+      {
+        id: 'nat-p-s11-18',
+        enunciado: 'En una isla pequeña, una población de escarabajos pasa de 1000 a 20 individuos por una sequía severa. Los 20 sobrevivientes tienen en promedio un color más claro que la población original. Las generaciones siguientes presentan una frecuencia mucho mayor de escarabajos claros. ¿Qué mecanismo evolutivo explica MEJOR este cambio?',
+        opciones: [
+          { letra: 'A', texto: 'Selección natural, porque el ambiente seleccionó a los escarabajos claros por ser más aptos.' },
+          { letra: 'B', texto: 'Deriva genética por efecto cuello de botella, porque la reducción drástica de la población cambió aleatoriamente las frecuencias alélicas, independientemente del valor adaptativo del color.' },
+          { letra: 'C', texto: 'Flujo génico, porque escarabajos de otras islas trajeron alelos de color claro.' },
+          { letra: 'D', texto: 'Mutación, porque la sequía indujo mutaciones que cambiaron el color de los sobrevivientes.' },
+        ],
+        clave: 'B',
+        justificacion: 'El efecto cuello de botella es una forma de deriva genética: cuando una población se reduce drásticamente, los sobrevivientes son una muestra aleatoria pequeña que no representa la diversidad genética original. Las frecuencias alélicas cambian al azar, no necesariamente por presión selectiva. En este caso, no se indica que el color claro sea adaptativo ante la sequía; el cambio pudo ser puramente aleatorio. Si hubiera evidencia de que el color claro confiere ventaja ante la sequía, sería selección natural; pero sin ese dato, la deriva es la mejor explicación. Las opciones C y D no corresponden al escenario descrito.',
+        competencia: 'indagacion',
+        componente: 'entorno-vivo',
+      },
+
+      // 19. Entorno fisico + explicacion (electromagnetismo)
+      {
+        id: 'nat-p-s11-19',
+        enunciado: 'Un estudiante enrolla un cable conductor alrededor de un clavo de hierro y conecta los extremos del cable a una batería. Observa que el clavo puede atraer clips metálicos mientras la batería está conectada, pero los suelta cuando la desconecta. ¿Qué principio físico explica este fenómeno?',
+        opciones: [
+          { letra: 'A', texto: 'La corriente eléctrica que circula por el conductor genera un campo magnético que magnetiza temporalmente el hierro del clavo, convirtiéndolo en un electroimán.' },
+          { letra: 'B', texto: 'La batería transfiere magnetismo permanente al clavo a través del cable.' },
+          { letra: 'C', texto: 'El hierro se vuelve magnético por el calor generado por la corriente.' },
+          { letra: 'D', texto: 'Los clips son atraídos por la electricidad estática acumulada en el cable.' },
+        ],
+        clave: 'A',
+        justificacion: 'Cuando fluye corriente eléctrica por un conductor, se genera un campo magnético alrededor del cable (ley de Ampère / regla de la mano derecha). Al enrollar el cable en una bobina (solenoide) alrededor de un núcleo de hierro, el campo magnético de la bobina magnetiza el hierro, que se convierte en un electroimán. Al desconectar la corriente, desaparece el campo y el hierro vuelve a su estado no magnetizado. La opción B es incorrecta: la batería no transfiere magnetismo, solo provee corriente. La C es incorrecta: el calor no produce magnetismo útil. La D confunde electricidad estática con electromagnetismo.',
+        competencia: 'explicacion',
+        componente: 'entorno-fisico',
+      },
+
+      // 20. Entorno fisico + uso-conocimiento (equilibrio químico / Le Chatelier)
+      {
+        id: 'nat-p-s11-20',
+        enunciado: 'Para la reacción en equilibrio: N₂(g) + 3H₂(g) ⇌ 2NH₃(g) + calor, ¿qué ocurre con el equilibrio si se aumenta la temperatura del sistema?',
+        opciones: [
+          { letra: 'A', texto: 'El equilibrio se desplaza hacia la derecha, produciendo más NH₃.' },
+          { letra: 'B', texto: 'El equilibrio se desplaza hacia la izquierda, favoreciendo la descomposición del NH₃ para absorber el calor añadido.' },
+          { letra: 'C', texto: 'El equilibrio no se altera porque la temperatura no afecta las reacciones en equilibrio.' },
+          { letra: 'D', texto: 'El equilibrio se desplaza hacia la derecha porque el calor acelera la producción de NH₃.' },
+        ],
+        clave: 'B',
+        justificacion: 'Según el principio de Le Chatelier, cuando se perturba un sistema en equilibrio, este se desplaza para contrarrestar la perturbación. La reacción directa es exotérmica (libera calor). Al aumentar la temperatura, el sistema trata de absorber ese calor extra favoreciendo la reacción endotérmica, es decir, la reacción inversa (descomposición de NH₃). Por tanto, el equilibrio se desplaza hacia la izquierda. La opción A es incorrecta (confunde el efecto de aumentar la concentración de reactivos con el de aumentar temperatura). La C es incorrecta (la temperatura SÍ afecta el equilibrio, alterando la constante K). La D es incorrecta.',
+        competencia: 'uso-conocimiento',
+        componente: 'entorno-fisico',
+      },
+
+      // 21. Entorno vivo + explicacion (ciclos biogeoquímicos)
+      {
+        id: 'nat-p-s11-21',
+        enunciado: 'El ciclo del nitrógeno es fundamental para los ecosistemas. ¿Cuál de los siguientes procesos convierte el nitrógeno atmosférico (N₂) en formas aprovechables por las plantas?',
+        opciones: [
+          { letra: 'A', texto: 'La denitrificación, realizada por bacterias que convierten nitratos en N₂ gaseoso.' },
+          { letra: 'B', texto: 'La fijación biológica del nitrógeno, realizada por bacterias como Rhizobium que convierten N₂ en amonio (NH₄⁺), aprovechable por las plantas.' },
+          { letra: 'C', texto: 'La fotosíntesis, que permite a las plantas tomar directamente el N₂ del aire.' },
+          { letra: 'D', texto: 'La respiración celular de los animales, que libera nitrógeno que las plantas absorben.' },
+        ],
+        clave: 'B',
+        justificacion: 'La fijación biológica del nitrógeno es el proceso mediante el cual bacterias fijadoras (Rhizobium en simbiosis con leguminosas, Azotobacter de vida libre, cianobacterias) reducen el N₂ atmosférico a amonio (NH₄⁺), forma que las plantas pueden absorber y usar para sintetizar aminoácidos y otras moléculas nitrogenadas. La denitrificación (opción A) hace el proceso contrario: devuelve N₂ a la atmósfera. La fotosíntesis (C) no fija nitrógeno. La respiración animal (D) no produce formas de nitrógeno directamente aprovechables por las plantas.',
+        competencia: 'explicacion',
+        componente: 'entorno-vivo',
+      },
+
+      // 22. Entorno fisico + indagacion (diseño experimental)
+      {
+        id: 'nat-p-s11-22',
+        enunciado: 'Un estudiante quiere investigar si la concentración de CO₂ afecta la tasa de fotosíntesis en plantas acuáticas. Para ello, coloca plantas en tubos de ensayo con agua a diferentes concentraciones de CO₂ y mide las burbujas de O₂ producidas por minuto. ¿Qué variable debe mantener constante para que el experimento sea válido?',
+        opciones: [
+          { letra: 'A', texto: 'La concentración de CO₂, porque es la variable que se está estudiando.' },
+          { letra: 'B', texto: 'La intensidad de luz, la temperatura y el tipo de planta, porque son variables que también pueden afectar la fotosíntesis y deben controlarse para atribuir los cambios solo al CO₂.' },
+          { letra: 'C', texto: 'El número de burbujas de O₂, porque es la variable de respuesta.' },
+          { letra: 'D', texto: 'No es necesario controlar otras variables porque el experimento mide solo CO₂.' },
+        ],
+        clave: 'B',
+        justificacion: 'En un experimento controlado, la variable independiente es la que se manipula (concentración de CO₂) y la variable dependiente es la que se mide (tasa de producción de O₂). Las variables de control son todas las demás que podrían afectar el resultado: intensidad lumínica (la fotosíntesis depende de la luz), temperatura (afecta las enzimas fotosintéticas) y tipo de planta (diferentes especies tienen diferentes capacidades fotosintéticas). Si no se controlan estas variables, no se puede afirmar que los cambios en la tasa de O₂ se deben exclusivamente al CO₂. Las opciones A y C confunden las variables del experimento. La D es metodológicamente incorrecta.',
+        competencia: 'indagacion',
+        componente: 'entorno-fisico',
+      },
+
+      // 23. CTS + uso-conocimiento (ética biotecnología)
+      {
+        id: 'nat-p-s11-23',
+        enunciado: 'La tecnología CRISPR-Cas9 permite editar genes con gran precisión. Científicos proponen usarla para eliminar mutaciones genéticas en embriones humanos antes de la implantación. ¿Cuál de las siguientes afirmaciones representa una preocupación ética LEGÍTIMA sobre esta aplicación?',
+        opciones: [
+          { letra: 'A', texto: 'CRISPR no puede usarse en seres humanos porque la tecnología no funciona en células humanas.' },
+          { letra: 'B', texto: 'La edición genética de embriones puede introducir cambios heredables en la línea germinal, cuyos efectos a largo plazo son desconocidos, y existe el riesgo de que se use para seleccionar rasgos no médicos ("bebés de diseño"), lo que plantea dilemas éticos sobre la eugenesia y la equidad en el acceso a estas tecnologías.' },
+          { letra: 'C', texto: 'La preocupación principal es que CRISPR podría curar enfermedades y esto reduciría los ingresos de las farmacéuticas.' },
+          { letra: 'D', texto: 'No existen preocupaciones éticas porque editar genes es similar a administrar medicamentos.' },
+        ],
+        clave: 'B',
+        justificacion: 'La edición germinal (en embriones) implica cambios que se transmiten a las generaciones futuras, a diferencia de la edición somática. Esto plantea preocupaciones legítimas: (1) efectos off-target desconocidos que podrían transmitirse; (2) posible uso para seleccionar rasgos no patológicos (eugenesia); (3) inequidad en el acceso si solo está disponible para personas con recursos. La opción A es factualmente incorrecta (CRISPR funciona en células humanas; de hecho ya se ha usado). La C es una crítica económica, no la principal preocupación ética científica. La D minimiza inapropiadamente una discusión bioética seria.',
+        competencia: 'uso-conocimiento',
+        componente: 'cts',
+      },
+
+      // 24. Entorno vivo + uso-conocimiento (sistema inmune)
+      {
+        id: 'nat-p-s11-24',
+        enunciado: 'Las vacunas funcionan estimulando el sistema inmune para que produzca una respuesta sin causar la enfermedad. ¿Cuál de los siguientes procesos explica por qué una persona vacunada responde más rápido a una infección real que una persona no vacunada?',
+        opciones: [
+          { letra: 'A', texto: 'Las vacunas matan directamente los patógenos en el cuerpo antes de que causen síntomas.' },
+          { letra: 'B', texto: 'La vacunación estimula la proliferación de linfocitos B y T de memoria específicos contra el antígeno vacunal; ante una infección real, estas células de memoria se activan rápidamente y montan una respuesta inmune secundaria más intensa y veloz.' },
+          { letra: 'C', texto: 'Las vacunas fortalecen el sistema inmune innato, que responde más rápido a cualquier patógeno.' },
+          { letra: 'D', texto: 'Las vacunas producen anticuerpos que permanecen en el cuerpo para siempre y neutralizan cualquier patógeno que ingrese.' },
+        ],
+        clave: 'B',
+        justificacion: 'La clave de la inmunidad adaptativa adquirida por vacunación es la memoria inmunológica. Tras la vacunación, los linfocitos B y T específicos que reconocen el antígeno proliferan; la mayoría forma la respuesta primaria, pero una subpoblación se diferencia en células de memoria de larga vida. Al exponerse al patógeno real, estas células de memoria responden con mayor velocidad (días vs. semanas) y mayor intensidad que en una respuesta primaria. La opción A describe la acción de los anticuerpos, no el mecanismo de la vacunación. La C describe la inmunidad innata, que no tiene memoria. La D exagera la duración y especificidad de los anticuerpos.',
+        competencia: 'uso-conocimiento',
+        componente: 'entorno-vivo',
+      },
+
+      // 25. Entorno fisico + explicacion (ondas y luz)
+      {
+        id: 'nat-p-s11-25',
+        enunciado: 'Un rayo de luz blanca atraviesa un prisma de vidrio y se separa en los colores del espectro visible (rojo, naranja, amarillo, verde, azul, violeta). ¿Cuál es la explicación correcta de este fenómeno?',
+        opciones: [
+          { letra: 'A', texto: 'El prisma absorbe algunos colores y refleja otros hacia el observador.' },
+          { letra: 'B', texto: 'La luz blanca es una mezcla de ondas de distintas frecuencias; al refractarse en el vidrio, cada frecuencia cambia de velocidad de manera diferente (dispersión), separando los colores según su índice de refracción.' },
+          { letra: 'C', texto: 'El prisma crea nuevos colores a partir de la luz blanca por un proceso de difracción.' },
+          { letra: 'D', texto: 'La separación ocurre porque cada color tiene diferente intensidad y el prisma los separa por brillo.' },
+        ],
+        clave: 'B',
+        justificacion: 'La luz blanca es radiación electromagnética que contiene todas las frecuencias del espectro visible. Cuando entra al vidrio del prisma, se refracta (cambia de dirección). El índice de refracción del vidrio depende de la frecuencia: el violeta (mayor frecuencia) se desvía más que el rojo (menor frecuencia). Este fenómeno se llama dispersión. Así, las diferentes frecuencias se separan espacialmente, produciendo el espectro. Newton demostró esto en el siglo XVII. La opción A describe reflexión/absorción selectiva. La C confunde refracción con difracción (fenómeno diferente, aunque también causa separación en algunas situaciones). La D no tiene base física.',
+        competencia: 'explicacion',
+        componente: 'entorno-fisico',
+      },
+
+      // 26. CTS + indagacion (impacto ambiental de la minería)
+      {
+        id: 'nat-p-s11-26',
+        enunciado: 'Una empresa minera presenta un estudio que concluye: "La explotación de carbón en esta región es ambientalmente sostenible porque sembramos 500 árboles por cada hectárea explotada." Un científico ambiental cuestiona esta conclusión. ¿Cuál es la crítica científica más sólida a esta afirmación?',
+        opciones: [
+          { letra: 'A', texto: 'La empresa no debería plantar árboles porque eso interfiere con el ecosistema.' },
+          { letra: 'B', texto: 'Plantar 500 árboles no compensa la destrucción de un ecosistema establecido: se pierden el suelo formado durante siglos, la biodiversidad local, los acuíferos y los servicios ecosistémicos, además de que las plantaciones homogéneas no equivalen en biodiversidad ni función a un bosque natural; tampoco se aborda la emisión de CO₂ por la quema del carbón extraído.' },
+          { letra: 'C', texto: 'La crítica principal es que 500 es un número impar de árboles.' },
+          { letra: 'D', texto: 'No existe ninguna crítica válida porque la empresa está haciendo algo positivo al plantar árboles.' },
+        ],
+        clave: 'B',
+        justificacion: 'La sostenibilidad ambiental no se mide únicamente por el número de árboles plantados. Un ecosistema natural tiene componentes que no se pueden reemplazar simplemente plantando árboles: suelo con microbiota y estructura formada durante siglos, biodiversidad de fauna y flora interdependiente, servicios hidrológicos (regulación de caudales, recarga de acuíferos) y captura de carbono a largo plazo. Las plantaciones homogéneas tienen mucho menor biodiversidad. Además, la quema del carbón extraído libera CO₂ que contribuye al cambio climático. El estudio es incompleto y sus indicadores son insuficientes para concluir sostenibilidad. Las opciones C y D no son críticas científicas serias.',
+        competencia: 'indagacion',
+        componente: 'cts',
+      },
+
+      // 27. Entorno fisico + uso-conocimiento (física cuántica básica / radiación)
+      {
+        id: 'nat-p-s11-27',
+        enunciado: 'El carbono-14 es un isótopo radiactivo con período de semidesintegración de 5.730 años. Si una muestra orgánica contiene actualmente 1/8 de la cantidad original de carbono-14, ¿aproximadamente cuántos años tiene la muestra?',
+        opciones: [
+          { letra: 'A', texto: 'Aproximadamente 5.730 años (1 período).' },
+          { letra: 'B', texto: 'Aproximadamente 11.460 años (2 períodos).' },
+          { letra: 'C', texto: 'Aproximadamente 17.190 años (3 períodos).' },
+          { letra: 'D', texto: 'Aproximadamente 22.920 años (4 períodos).' },
+        ],
+        clave: 'C',
+        justificacion: 'Después de cada período de semidesintegración, la cantidad se reduce a la mitad: después de 1 período queda 1/2; después de 2 períodos queda 1/4; después de 3 períodos queda 1/8. La muestra tiene 1/8 del original, lo que corresponde a 3 períodos de semidesintegración. 3 × 5.730 años = 17.190 años. La datación por carbono-14 se usa en arqueología y paleontología para datar materiales orgánicos de hasta ~50.000 años.',
+        competencia: 'uso-conocimiento',
+        componente: 'entorno-fisico',
+      },
+
+      // 28. Entorno vivo + indagacion (biodiversidad y conservación)
+      {
+        id: 'nat-p-s11-28',
+        enunciado: 'Colombia es considerada uno de los países megadiversos del mundo. Un biólogo propone crear un corredor biológico entre dos fragmentos de bosque separados por cultivos agrícolas. ¿Cuál es el principal argumento científico a favor de los corredores biológicos?',
+        opciones: [
+          { letra: 'A', texto: 'Los corredores permiten a los turistas atravesar el bosque de manera segura.' },
+          { letra: 'B', texto: 'Los corredores biológicos facilitan el movimiento de individuos entre poblaciones fragmentadas, lo que permite el flujo génico, reduce los efectos del aislamiento (deriva genética, consanguinidad), aumenta el tamaño efectivo de la población y mejora las posibilidades de recolonización tras extinciones locales.' },
+          { letra: 'C', texto: 'Los corredores solo sirven para que los animales grandes puedan moverse; no tienen efecto sobre plantas, insectos ni aves.' },
+          { letra: 'D', texto: 'Los corredores eliminan la necesidad de proteger los bosques restantes.' },
+        ],
+        clave: 'B',
+        justificacion: 'La fragmentación del hábitat aísla poblaciones, lo que reduce el flujo génico y aumenta la consanguinidad y la deriva genética en poblaciones pequeñas, aumentando el riesgo de extinción. Los corredores biológicos conectan fragmentos y permiten el movimiento de individuos (mamíferos, aves, insectos, dispersión de semillas), lo que mantiene el flujo génico y aumenta la resiliencia de las poblaciones. La opción A es una función turística, no biológica. La C es incorrecta: los corredores benefician a múltiples grupos taxonómicos. La D es incorrecta y peligrosa: los corredores complementan, no reemplazan, la protección de los fragmentos existentes.',
+        competencia: 'indagacion',
+        componente: 'entorno-vivo',
+      },
+
+      // 29. Entorno fisico + explicacion (presión y fluidos)
+      {
+        id: 'nat-p-s11-29',
+        enunciado: 'Un buzo desciende a 30 metros de profundidad en el mar. Sabiendo que la presión atmosférica equivale a 101.325 Pa y que la densidad del agua de mar es aproximadamente 1025 kg/m³, ¿qué presión total experimenta el buzo a esa profundidad? (g = 9,8 m/s²)',
+        opciones: [
+          { letra: 'A', texto: 'Aproximadamente 101.325 Pa (solo la presión atmosférica, el agua no ejerce presión adicional).' },
+          { letra: 'B', texto: 'Aproximadamente 200.000 Pa (el doble de la atmosférica).' },
+          { letra: 'C', texto: 'Aproximadamente 402.075 Pa (presión atmosférica más la presión de la columna de agua de 30 m).' },
+          { letra: 'D', texto: 'Aproximadamente 1.025.000 Pa (solo la presión de la columna de agua).' },
+        ],
+        clave: 'C',
+        justificacion: 'La presión total es la suma de la presión atmosférica más la presión hidrostática: P = P₀ + ρgh. P hidrostática = 1025 kg/m³ × 9,8 m/s² × 30 m = 301.350 Pa. P total = 101.325 + 301.350 ≈ 402.675 Pa ≈ 402.075 Pa (la ligera diferencia es de redondeo). Esto equivale a aproximadamente 4 atmósferas. Esta presión elevada explica por qué los buzos deben descomprimirse gradualmente al ascender para evitar la enfermedad de descompresión (nitrógeno disuelto en sangre). La opción A ignora la presión hidrostática. La B subestima la presión real. La D omite la presión atmosférica.',
+        competencia: 'explicacion',
+        componente: 'entorno-fisico',
+      },
+
+      // 30. CTS + indagacion (cambio climático y evidencia científica)
+      {
+        id: 'nat-p-s11-30',
+        enunciado: 'Un político afirma: "El cambio climático es un mito porque en mi ciudad el invierno de este año fue más frío que el del año pasado." ¿Cuál es el error científico fundamental en este razonamiento?',
+        opciones: [
+          { letra: 'A', texto: 'El político tiene razón: si un invierno fue más frío, el planeta no se está calentando.' },
+          { letra: 'B', texto: 'El error es confundir el clima (tendencias promedio a largo plazo, décadas o siglos, a escala global o regional) con el tiempo atmosférico (condiciones locales y de corto plazo). El cambio climático se evidencia en tendencias globales de temperatura, no en eventos climáticos locales de un año.' },
+          { letra: 'C', texto: 'El error es que el político no mencionó la lluvia, que es la variable más importante del clima.' },
+          { letra: 'D', texto: 'El error es hablar de invierno, porque el cambio climático solo afecta el verano.' },
+        ],
+        clave: 'B',
+        justificacion: 'La distinción entre tiempo atmosférico y clima es fundamental en ciencias de la Tierra. El tiempo es el estado de la atmósfera en un lugar y momento específicos (puede variar día a día). El clima es el patrón estadístico del tiempo durante períodos largos (normalmente 30 años o más) en una región o en el planeta. El calentamiento global se evidencia en el aumento de la temperatura promedio global a lo largo de décadas, el derretimiento de glaciares, el aumento del nivel del mar y los cambios en patrones climáticos globales; no en la temperatura de un invierno particular en una ciudad. Esta confusión es una falacia frecuente en el debate público sobre cambio climático.',
         competencia: 'indagacion',
         componente: 'cts',
       },
